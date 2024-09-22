@@ -1,3 +1,5 @@
+import { Link } from "@inertiajs/react";
+
 function Navbar() {
     return (
         <nav className="navbar bg-base-100">
@@ -25,51 +27,27 @@ function Navbar() {
                     </div>
                     <ul
                         tabIndex={0}
-                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+                        className="menu menu-sm dropdown-content bg-white rounded-box z-[1] mt-3 w-52 p-2 shadow "
                     >
                         <li>
-                            <a>Item 1</a>
+                            <Link href="/siswa">SISWA</Link>
                         </li>
                         <li>
-                            <a>Parent</a>
-                            <ul className="p-2">
-                                <li>
-                                    <a>Submenu 1</a>
-                                </li>
-                                <li>
-                                    <a>Submenu 2</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a>Item 3</a>
+                            <Link href="/guru">GURU</Link>
                         </li>
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-xl">
+                <Link href="/" className="btn btn-ghost text-xl">
                     DISPENSASI | SMK NEGERI 1 KEBUMEN
-                </a>
+                </Link>
             </div>
             <div className="navbar-end hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
                     <li>
-                        <a>Item 1</a>
+                        <Link href="/siswa">SISWA</Link>
                     </li>
                     <li>
-                        <details>
-                            <summary>Parent</summary>
-                            <ul className="p-2">
-                                <li>
-                                    <a>Submenu 1</a>
-                                </li>
-                                <li>
-                                    <a>Submenu 2</a>
-                                </li>
-                            </ul>
-                        </details>
-                    </li>
-                    <li>
-                        <a>Item 3</a>
+                        <Link href="/guru">GURU</Link>
                     </li>
                 </ul>
             </div>
