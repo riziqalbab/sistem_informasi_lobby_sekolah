@@ -9,13 +9,13 @@ function Home() {
                 <div className="container p-5">
                     <div className="statistic-dispen w-full flex items-center justify-center flex-wrap gap-5">
                         <StatCard
-                            url="#"
+                            url="/keluar"
                             value={100}
-                            title="DISPENSASI MASUK"
-                            desc="JUMLAH SISWA TERLAMBAT | IZIN MASUK"
+                            title="DISPENSASI KELUAR"
+                            desc="JUMLAH SISWA IZIN | IZIN KELUAR"
                         />
                         <StatCard
-                            url="#"
+                            url="/masuk"
                             value={100}
                             title="DISPENSASI MASUK"
                             desc="JUMLAH SISWA TERLAMBAT | IZIN MASUK"

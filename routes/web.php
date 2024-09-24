@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KeluarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiswaController;
 use Illuminate\Foundation\Application;
@@ -11,6 +12,8 @@ use Inertia\Inertia;
 Route::get("/", HomeController::class);
 Route::get("/siswa", SiswaController::class);
 Route::get("/guru", GuruController::class);
+Route::get("/keluar", KeluarController::class);
+Route::get("/masuk", KeluarController::class);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
