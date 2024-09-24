@@ -10,10 +10,9 @@ return new class extends Migration
     {
 
         Schema::create('siswa', function (Blueprint $table) {
-            $table->string("nis")->primary();
+            $table->string("nis")->primary()->unique();
             $table->string("nama")->nullable();
             $table->string("kelas")->nullable();
-            $table->string("whatsapp")->nullable();
         });
     }
 

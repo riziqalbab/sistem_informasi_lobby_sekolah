@@ -14,6 +14,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_guru');
             $table->text('alasan');
             $table->text('deskripsi')->nullable();
+            $table->text('whatsapp')->nullable();
             $table->dateTime('waktu_awal');
             $table->dateTime('waktu_akhir')->nullable();
             $table->boolean('is_sampai_pulang')->default(true);
