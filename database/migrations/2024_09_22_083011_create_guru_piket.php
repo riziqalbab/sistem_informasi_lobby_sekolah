@@ -10,16 +10,11 @@ return new class extends Migration
     {
         Schema::create('guru_piket', function (Blueprint $table) {
             $table->bigIncrements("id_guru_piket");
-            $table->bigInteger("id_guru");
+            $table->unsignedBigInteger("id_guru");
             $table->date("tanggal");
             $table->foreign("id_guru")->references("id_guru")->on("guru");
         });
     }
-
-
-
-
-
 
     public function down(): void
     {

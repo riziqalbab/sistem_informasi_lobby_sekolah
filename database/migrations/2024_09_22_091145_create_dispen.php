@@ -9,7 +9,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('dispen', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id_dispen')->primary();
+            $table->unsignedBigInteger('id_guru_piket');
+            $table->unsignedBigInteger('id_guru');
+            $table->text('alasan');
+            $table->text('deskripsi')->nullable();
+            $table->dateTime('waktu_awal');
+            $table->dateTime('waktu_akhir')->nullable();
+            $table->boolean('is_sampai_pulang')->default(true);
+
+            $table->foreign('id_guru_piket')->references('id_guru_piket')->on('guru_piket');
+            $table->foreign('id_guru')->references('id_guru')->on('guru');
         });
     }
 
