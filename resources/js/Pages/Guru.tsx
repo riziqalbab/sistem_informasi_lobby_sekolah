@@ -17,17 +17,21 @@ import {
     TableHeader,
     TableRow,
 } from "@/Components/ui/table";
+import { RocketIcon } from "@radix-ui/react-icons";
+
 import { Button } from "@/Components/ui/button";
-import { PencilIcon } from "lucide-react";
+import { Delete, DeleteIcon, PencilIcon } from "lucide-react";
 import Navbar from "@/Components/Navbar";
+import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
 
 import { Dialog, DialogContent, DialogTrigger } from "@/Components/ui/dialog";
+import React, { useState } from "react";
+import { router, usePage } from "@inertiajs/react";
 
 interface Teacher {
     id: string;
     name: string;
     subject: string;
-    nip: string;
     whatsapp: string;
 }
 
@@ -36,12 +40,49 @@ interface ComponentProps {
     onEdit: (teacher: Teacher) => void;
 }
 
+interface GuruObject {
+    id_guru: number;
+    mapel: string;
+    nama: string;
+    whatsapp: string;
+}
+
+interface ValuesType {
+    nama: string;
+    mapel: string;
+    whatsapp: string;
+}
+
 export default function Guru({ teachers = [], onEdit }: ComponentProps) {
+    const { props }: any = usePage();
+
+    const { guru } = props;
+
+    const [values, setValues] = useState<ValuesType>({
+        nama: "",
+        mapel: "",
+        whatsapp: "",
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const key = e.target.id;
+        const value = e.target.value;
+        setValues((values) => ({
+            ...values,
+            [key]: value,
+        }));
+    };
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        router.post("/guru/store", { ...values });
+    };
+
     return (
         <>
             <Navbar />
             <main className="w-screen flex items-center justify-center flex-col ">
-                <div className="w-full container">
+                <div className="w-full container p-3">
                     <div className="flex items-center mb-10">
                         <Dialog>
                             <DialogTrigger>
@@ -49,52 +90,100 @@ export default function Guru({ teachers = [], onEdit }: ComponentProps) {
                             </DialogTrigger>
                             <DialogContent>
                                 <Card className="w-full max-w-md">
-                                    <CardHeader>
-                                        <CardTitle>Tambah Data Guru</CardTitle>
-                                        <CardDescription>
-                                            Isi form berikut untuk menambahkan
-                                            data guru baru.
-                                        </CardDescription>
-                                    </CardHeader>
-                                    <CardContent className="space-y-4">
-                                        <div className="space-y-2">
-                                            <Label htmlFor="name">Nama</Label>
-                                            <Input
-                                                id="name"
-                                                placeholder="Masukkan nama guru"
-                                            />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label htmlFor="subject">
-                                                Mata Pelajaran
-                                            </Label>
-                                            <Input
-                                                id="subject"
-                                                placeholder="Masukkan mata pelajaran yang diajar"
-                                            />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label htmlFor="nip">NIP</Label>
-                                            <Input
-                                                id="nip"
-                                                placeholder="Masukkan NIP guru"
-                                            />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label htmlFor="whatsapp">
-                                                Nomor WhatsApp
-                                            </Label>
-                                            <Input
-                                                id="whatsapp"
-                                                placeholder="Masukkan nomor WhatsApp guru"
-                                            />
-                                        </div>
-                                    </CardContent>
-                                    <CardFooter>
-                                        <Button className="w-full">
-                                            Simpan
-                                        </Button>
-                                    </CardFooter>
+                                    <form onSubmit={handleSubmit}>
+                                        <CardHeader>
+                                            <CardTitle>
+                                                Tambah Data Guru
+                                            </CardTitle>
+                                            <CardDescription>
+                                                Isi form berikut untuk
+                                                menambahkan data guru baru.
+                                            </CardDescription>
+                                        </CardHeader>
+                                        <CardContent className="space-y-4">
+                                            <div className="space-y-2">
+                                                <Label htmlFor="nama">
+                                                    Nama
+                                                </Label>
+                                                <Input
+                                                    name="nama"
+                                                    value={values.nama}
+                                                    onChange={handleChange}
+                                                    id="nama"
+                                                    placeholder="Masukkan nama guru"
+                                                />
+                                                {props.errors.nama && (
+                                                    <Alert variant="destructive">
+                                                        <AlertDescription>
+                                                            {props.errors.nama}
+                                                        </AlertDescription>
+                                                    </Alert>
+                                                )}
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label htmlFor="mapel">
+                                                    Mata Pelajaran
+                                                </Label>
+                                                <Input
+                                                    name="mapel"
+                                                    value={values.mapel}
+                                                    onChange={handleChange}
+                                                    id="mapel"
+                                                    placeholder="Masukkan mata pelajaran yang diajar"
+                                                />
+                                                {props.errors.mapel && (
+                                                    <Alert variant="destructive">
+                                                        <AlertDescription>
+                                                            {props.errors.mapel}
+                                                        </AlertDescription>
+                                                    </Alert>
+                                                )}
+                                            </div>
+
+                                            <div className="space-y-2">
+                                                <Label htmlFor="whatsapp">
+                                                    Nomor WhatsApp
+                                                </Label>
+                                                <Input
+                                                    name="whatsapp"
+                                                    value={values.whatsapp}
+                                                    onChange={handleChange}
+                                                    id="whatsapp"
+                                                    placeholder="Masukkan nomor WhatsApp guru"
+                                                />
+                                                {props.errors.whatsapp && (
+                                                    <Alert variant="destructive">
+                                                        <AlertDescription>
+                                                            {
+                                                                props.errors
+                                                                    .whatsapp
+                                                            }
+                                                        </AlertDescription>
+                                                    </Alert>
+                                                )}
+                                            </div>
+                                        </CardContent>
+                                        <CardFooter>
+                                            <Button
+                                                className="w-full"
+                                                type="submit"
+                                            >
+                                                Simpan
+                                            </Button>
+                                        </CardFooter>
+                                        {props.success && (
+                                            <Alert>
+                                                <RocketIcon className="h-4 w-4" />
+                                                <AlertTitle>
+                                                    Sukses!!
+                                                </AlertTitle>
+                                                <AlertDescription>
+                                                    Berhasil menambahkan data
+                                                    guru
+                                                </AlertDescription>
+                                            </Alert>
+                                        )}
+                                    </form>
                                 </Card>
                             </DialogContent>
                         </Dialog>
@@ -104,7 +193,6 @@ export default function Guru({ teachers = [], onEdit }: ComponentProps) {
                             <TableRow>
                                 <TableHead>Nama</TableHead>
                                 <TableHead>Mata Pelajaran</TableHead>
-                                <TableHead>NIP</TableHead>
                                 <TableHead>Nomor WhatsApp</TableHead>
                                 <TableHead className="text-right">
                                     Aksi
@@ -112,20 +200,17 @@ export default function Guru({ teachers = [], onEdit }: ComponentProps) {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {teachers.map((teacher) => (
-                                <TableRow key={teacher.id}>
-                                    <TableCell>{teacher.name}</TableCell>
-                                    <TableCell>{teacher.subject}</TableCell>
-                                    <TableCell>{teacher.nip}</TableCell>
+                            {guru.map((teacher: GuruObject) => (
+                                <TableRow key={teacher.id_guru}>
+                                    <TableCell>{teacher.nama}</TableCell>
+                                    <TableCell>{teacher.mapel}</TableCell>
                                     <TableCell>{teacher.whatsapp}</TableCell>
                                     <TableCell className="text-right">
                                         <Button
-                                            variant="ghost"
+                                            variant="destructive"
                                             size="icon"
-                                            onClick={() => onEdit(teacher)}
-                                            aria-label={`Edit ${teacher.name}`}
                                         >
-                                            <PencilIcon className="h-4 w-4" />
+                                            <DeleteIcon className="h-4 w-4" />
                                         </Button>
                                     </TableCell>
                                 </TableRow>

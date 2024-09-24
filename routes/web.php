@@ -18,6 +18,7 @@ Route::get("/masuk", KeluarController::class);
 
 // POST
 Route::post("/siswa/store", [SiswaController::class, "store"]);
+Route::post("/guru/store", [GuruController::class, "store"]);
 
 
 

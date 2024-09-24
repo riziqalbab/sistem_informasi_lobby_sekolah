@@ -6,15 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('guru', function (Blueprint $table) {
             $table->bigIncrements('id_guru')->primary();
             $table->string("nama")->nullable();
-            $table->string("mapel_ajar")->nullable();
+            $table->string("mapel")->nullable();
             $table->string("whatsapp");
         });
     }
