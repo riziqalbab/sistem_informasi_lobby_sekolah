@@ -28,10 +28,12 @@ function Keluar() {
             return item.nis == nis;
         });
 
-        siswa.splice(indexHapus, indexHapus);
-        const siswa2 = siswa;
+        const siswaHapus = siswa.splice(indexHapus, indexHapus);
 
-        setSiswa(siswa2);
+        setSiswa([
+            ...siswa.slice(0, indexHapus),
+            ...siswa.slice(indexHapus + 1),
+        ]);
     };
 
     const handleSearch = async () => {
@@ -55,7 +57,7 @@ function Keluar() {
             <Toaster />
             <Navbar />
             <main className="flex w-screen items-center justify-center">
-                <div className="container  px-5 flex flex-wrap items-center ">
+                <div className="container  px-5 flex flex-col items-center ">
                     <section className="flex gap-4 py-4 w-full max-w-2xl">
                         <Input
                             type="number"
