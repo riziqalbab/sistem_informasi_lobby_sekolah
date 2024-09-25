@@ -44,4 +44,13 @@ class GuruController extends Controller
         Guru::create($request->all());
         return redirect()->back()->with("success", true);
     }
+
+    public function delete(string $id_guru)
+    {
+        $guru = Guru::where(["id_guru" => $id_guru]);
+
+        $guru->delete();
+        // Log::info("guru = " . $guru[0] . "");
+
+    }
 }

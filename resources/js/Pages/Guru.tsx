@@ -18,6 +18,17 @@ import {
     TableRow,
 } from "@/Components/ui/table";
 import { RocketIcon } from "@radix-ui/react-icons";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/Components/ui/alert-dialog";
 
 import { Button } from "@/Components/ui/button";
 import { Delete, DeleteIcon, PencilIcon } from "lucide-react";
@@ -64,6 +75,8 @@ export default function Guru({ teachers = [], onEdit }: ComponentProps) {
         whatsapp: "",
     });
 
+    console.log(guru);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const key = e.target.id;
         const value = e.target.value;
@@ -76,6 +89,11 @@ export default function Guru({ teachers = [], onEdit }: ComponentProps) {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         router.post("/guru/store", { ...values });
+    };
+
+    const handleDelete = (id: number) => {
+        router.delete(`/guru/delete/${id}`);
+        // console.log(id);
     };
 
     return (
@@ -206,12 +224,42 @@ export default function Guru({ teachers = [], onEdit }: ComponentProps) {
                                     <TableCell>{teacher.mapel}</TableCell>
                                     <TableCell>{teacher.whatsapp}</TableCell>
                                     <TableCell className="text-right">
-                                        <Button
-                                            variant="destructive"
-                                            size="icon"
-                                        >
-                                            <DeleteIcon className="h-4 w-4" />
-                                        </Button>
+                                        <AlertDialog>
+                                            <AlertDialogTrigger asChild>
+                                                <Button variant="destructive">
+                                                    HAPUS
+                                                </Button>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                    <AlertDialogTitle>
+                                                        Are you absolutely sure?
+                                                    </AlertDialogTitle>
+                                                    <AlertDialogDescription>
+                                                        This action cannot be
+                                                        undone. This will
+                                                        permanently delete your
+                                                        account and remove your
+                                                        data from our servers.
+                                                    </AlertDialogDescription>
+                                                </AlertDialogHeader>
+                                                <AlertDialogFooter>
+                                                    <AlertDialogCancel>
+                                                        Cancel
+                                                    </AlertDialogCancel>
+
+                                                    <Button
+                                                        onClick={() => {
+                                                            handleDelete(
+                                                                teacher.id_guru
+                                                            );
+                                                        }}
+                                                    >
+                                                        HAPUS
+                                                    </Button>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
                                     </TableCell>
                                 </TableRow>
                             ))}

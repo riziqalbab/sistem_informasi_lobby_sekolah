@@ -18,7 +18,9 @@ Route::get("/masuk", KeluarController::class);
 
 // POST
 Route::post("/siswa/store", [SiswaController::class, "store"]);
+
 Route::post("/guru/store", [GuruController::class, "store"]);
+Route::delete("/guru/delete/{id_guru}", [GuruController::class, "delete"]);
 
 
 
