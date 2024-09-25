@@ -19,14 +19,13 @@ return new class extends Migration
             $table->dateTime('waktu_akhir')->nullable();
             $table->boolean('is_sampai_pulang')->default(true);
 
+
+
             $table->foreign('id_guru_piket')->references('id_guru_piket')->on('guru_piket');
             $table->foreign('id_guru')->references('id_guru')->on('guru');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('dispen');

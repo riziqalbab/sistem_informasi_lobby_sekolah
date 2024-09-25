@@ -11,6 +11,7 @@ use Inertia\Inertia;
 
 Route::get("/", HomeController::class);
 Route::get("/siswa", SiswaController::class)->name("Siswa");
+Route::get("/siswa/{nis}", [SiswaController::class, "getOne"]);
 Route::get("/guru", GuruController::class);
 Route::get("/keluar", KeluarController::class);
 Route::get("/masuk", KeluarController::class);
@@ -18,7 +19,6 @@ Route::get("/masuk", KeluarController::class);
 
 // POST
 Route::post("/siswa/store", [SiswaController::class, "store"]);
-
 Route::post("/guru/store", [GuruController::class, "store"]);
 Route::delete("/guru/delete/{id_guru}", [GuruController::class, "delete"]);
 

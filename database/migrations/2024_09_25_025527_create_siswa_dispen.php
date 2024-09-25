@@ -12,8 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('siswa_dispen', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->uuid('id_dispen')->nullable(false);
+            $table->string('nis')->nullable(false);
+
+
+            $table->primary(['id_dispen', 'nis']);
+            $table->foreign('id_dispen')->references('id_dispen')->on('dispen');
+            $table->foreign('nis')->references('nis')->on('siswa');
         });
     }
 
