@@ -51,13 +51,6 @@ declare global {
         whatsapp: string;
     }
 
-    const optionsAlasan: Array<object_option_alasan> = [
-        { value: "organisasi", label: "Organisasi" },
-        { value: "ekstra", label: "Ekstra Kurikuler" },
-        { value: "sekolah", label: "Tugas Sekolah" },
-        { value: "eksternal", label: "Tugas eksternal" },
-    ];
-
     var route: typeof ziggyRoute;
 }
 

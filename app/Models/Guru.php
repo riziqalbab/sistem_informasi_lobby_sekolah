@@ -11,4 +11,10 @@ class Guru extends Model
     protected $table = "guru";
     protected $fillable = ["nama", "mapel", "whatsapp"];
     public $timestamps = false;
+
+
+    public function piket()
+    {
+        return $this->belongsTo(Guru::class, "guru_id", "guru_id");
+    }
 }

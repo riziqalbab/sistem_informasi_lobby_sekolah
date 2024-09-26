@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import Navbar from "@/Components/Navbar";
 import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
 import { Button } from "@/Components/ui/button";
@@ -18,21 +20,28 @@ import {
 import { Label } from "@/Components/ui/label";
 import Creatable from "react-select/creatable";
 import { Textarea } from "@/Components/ui/textarea";
-import { usePage } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import Select from "react-select";
+
+const optionsAlasan: Array<object_option_alasan> = [
+    { value: "organisasi", label: "Organisasi" },
+    { value: "ekstra", label: "Ekstra Kurikuler" },
+    { value: "sekolah", label: "Tugas Sekolah" },
+    { value: "eksternal", label: "Tugas eksternal" },
+];
 
 function Keluar() {
     const [nis, setNis] = useState<number>();
     const [siswa, setSiswa] = useState<Array<object_nis_data>>([]);
+
+    const [alasan, setAlasan] = useState<string>();
+    const [deskripsi, setDeskripsi] = useState<string>();
+    const [guruChoice, setGuruChoice] = useState<string>();
+    const [mulai, setMulai] = useState<string>();
+    const [sampai, setSampai] = useState<string>();
     const { toast } = useToast();
     const { props } = usePage();
     const guru: object_guru[] = props.guru as object_guru[];
-
-    const [values, setValues] = useState();
-
-    useEffect(() => {
-        console.log(siswa);
-    }, [siswa]);
 
     const handleHapusSiswa = (nis: number) => {
         const indexHapus = siswa.findIndex((item, i) => {
@@ -70,6 +79,17 @@ function Keluar() {
 
     const handleSubmitDispen = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        const values = {
+            siswa,
+            alasan,
+            deskripsi,
+            guruChoice,
+            mulai,
+            sampai,
+        };
+
+        router.post("/keluar/store", { ...values });
     };
 
     return (
@@ -121,6 +141,9 @@ function Keluar() {
                                             </Label>
 
                                             <Creatable
+                                                onChange={(e) => {
+                                                    setAlasan(e?.value);
+                                                }}
                                                 id="name"
                                                 options={optionsAlasan}
                                                 placeholder="Alasan"
@@ -135,6 +158,11 @@ function Keluar() {
                                                 Deskripsi
                                             </Label>
                                             <Textarea
+                                                onChange={(e) => {
+                                                    setDeskripsi(
+                                                        e.target.value
+                                                    );
+                                                }}
                                                 id="deskripsi"
                                                 placeholder="Deskripsi"
                                                 className="col-span-3"
@@ -149,6 +177,9 @@ function Keluar() {
                                             </Label>
                                             <Select
                                                 id="guru"
+                                                onChange={(e) => {
+                                                    setGuruChoice(e?.value);
+                                                }}
                                                 placeholder="Guru"
                                                 options={optionGuru}
                                                 className="col-span-3"
@@ -162,6 +193,9 @@ function Keluar() {
                                                 Mulai
                                             </Label>
                                             <Input
+                                                onChange={(e) => {
+                                                    setMulai(e.target.value);
+                                                }}
                                                 id="guru"
                                                 type="datetime-local"
                                                 placeholder="Guru"
@@ -180,6 +214,9 @@ function Keluar() {
                                                 </span>
                                             </Label>
                                             <Input
+                                                onChange={(e) => {
+                                                    setSampai(e.target.value);
+                                                }}
                                                 id="guru"
                                                 type="datetime-local"
                                                 placeholder="Guru"

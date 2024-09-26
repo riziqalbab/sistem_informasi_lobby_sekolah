@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Guru;
+use App\Models\GuruPiket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -50,7 +51,13 @@ class GuruController extends Controller
         $guru = Guru::where(["id_guru" => $id_guru]);
 
         $guru->delete();
-        // Log::info("guru = " . $guru[0] . "");
+    }
 
+    public function piket(Request $request)
+    {
+
+        Log::info($request->post("guru"));
+
+        GuruPiket::create($request->all());
     }
 }

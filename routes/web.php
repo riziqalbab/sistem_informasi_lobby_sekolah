@@ -10,17 +10,19 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get("/", HomeController::class);
-Route::get("/siswa", SiswaController::class)->name("Siswa");
+
 Route::get("/siswa/{nis}", [SiswaController::class, "getOne"]);
-Route::get("/guru", GuruController::class);
-Route::get("/keluar", KeluarController::class);
-Route::get("/masuk", KeluarController::class);
-
-
-// POST
+Route::get("/siswa", SiswaController::class)->name("Siswa");
 Route::post("/siswa/store", [SiswaController::class, "store"]);
-Route::post("/guru/store", [GuruController::class, "store"]);
+
+Route::get("/keluar", KeluarController::class);
+Route::post("/keluar/store", [KeluarController::class, "store"]);
+
+
 Route::delete("/guru/delete/{id_guru}", [GuruController::class, "delete"]);
+Route::get("/guru", GuruController::class);
+Route::post("/guru/store", [GuruController::class, "store"]);
+Route::post("/guru/piket/store", [GuruController::class, "piket"]);
 
 
 
