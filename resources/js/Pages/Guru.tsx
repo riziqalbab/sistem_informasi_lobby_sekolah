@@ -39,31 +39,6 @@ import { Dialog, DialogContent, DialogTrigger } from "@/Components/ui/dialog";
 import React, { useState } from "react";
 import { router, usePage } from "@inertiajs/react";
 
-interface Teacher {
-    id: string;
-    name: string;
-    subject: string;
-    whatsapp: string;
-}
-
-interface ComponentProps {
-    teachers?: Teacher[];
-    onEdit: (teacher: Teacher) => void;
-}
-
-interface GuruObject {
-    id_guru: number;
-    mapel: string;
-    nama: string;
-    whatsapp: string;
-}
-
-interface ValuesType {
-    nama: string;
-    mapel: string;
-    whatsapp: string;
-}
-
 export default function Guru({ teachers = [], onEdit }: ComponentProps) {
     const { props }: any = usePage();
 

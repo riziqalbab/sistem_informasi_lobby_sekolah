@@ -35,6 +35,11 @@ function Navbar() {
                         <li>
                             <Link href="/guru">GURU</Link>
                         </li>
+                        <li>
+                            <Link href="/guru" className="text-red-500">
+                                ALASAN
+                            </Link>
+                        </li>
                     </ul>
                 </div>
                 <Link href="/" className="btn btn-ghost text-xl">
@@ -48,6 +53,11 @@ function Navbar() {
                     </li>
                     <li>
                         <Link href="/guru">GURU</Link>
+                    </li>
+                    <li>
+                        <Link href="/guru" className="text-red-500">
+                            ALASAN
+                        </Link>
                     </li>
                 </ul>
             </div>
