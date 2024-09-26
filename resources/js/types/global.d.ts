@@ -51,6 +51,13 @@ declare global {
         whatsapp: string;
     }
 
+    interface object_guru_piket {
+        id_guru: number;
+        mapel: strring;
+        nama: string;
+        whatsapp: string;
+    }
+
     var route: typeof ziggyRoute;
 }
 

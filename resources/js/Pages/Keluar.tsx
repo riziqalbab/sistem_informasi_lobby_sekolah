@@ -1,5 +1,6 @@
 // @ts-nocheck
 
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import Navbar from "@/Components/Navbar";
 import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
 import { Button } from "@/Components/ui/button";
@@ -37,10 +38,18 @@ function Keluar() {
     const [alasan, setAlasan] = useState<string>();
     const [deskripsi, setDeskripsi] = useState<string>();
     const [guruChoice, setGuruChoice] = useState<string>();
+    const [whatsapp, setWhatsapp] = useState<string>();
     const [mulai, setMulai] = useState<string>();
     const [sampai, setSampai] = useState<string>();
     const { toast } = useToast();
     const { props } = usePage();
+
+    const guru_piket = props.guru_piket as object_guru_piket;
+
+    console.log(props);
+
+    const nama_guru_piket: string = guru_piket?.nama;
+
     const guru: object_guru[] = props.guru as object_guru[];
 
     const handleHapusSiswa = (nis: number) => {
@@ -72,7 +81,7 @@ function Keluar() {
 
     const optionGuru = guru.map((e, index) => {
         return {
-            value: e.nama,
+            value: e.id_guru,
             label: e.nama,
         };
     });
@@ -82,11 +91,13 @@ function Keluar() {
 
         const values = {
             siswa,
+            id_guru_piket: guru_piket.id_guru,
             alasan,
             deskripsi,
-            guruChoice,
-            mulai,
-            sampai,
+            id_guru: guruChoice,
+            whatsapp,
+            waktu_awal: mulai,
+            waktu_akhir: sampai,
         };
 
         router.post("/keluar/store", { ...values });
@@ -117,6 +128,7 @@ function Keluar() {
                         {/* 
                         
                         */}
+
                         <Dialog>
                             <DialogTrigger asChild>
                                 <Button variant="default" className="w-full">
@@ -130,9 +142,19 @@ function Keluar() {
                                         Isi data berikut
                                     </DialogDescription>
                                 </DialogHeader>
+
+                                {props.errors.nis && (
+                                    <Alert variant="destructive">
+                                        <ExclamationTriangleIcon className="h-4 w-4" />
+                                        <AlertTitle>
+                                            {props.errors.nis}
+                                        </AlertTitle>
+                                    </Alert>
+                                )}
+
                                 <form onSubmit={handleSubmitDispen}>
                                     <div className="grid gap-4 py-4">
-                                        <div className="grid grid-cols-4 items-center gap-4">
+                                        <div className="">
                                             <Label
                                                 htmlFor="name"
                                                 className="text-right"
@@ -149,8 +171,19 @@ function Keluar() {
                                                 placeholder="Alasan"
                                                 className="col-span-3"
                                             />
+                                            {props.errors.alasan && (
+                                                <Alert
+                                                    variant="destructive"
+                                                    className="mt-2"
+                                                >
+                                                    <ExclamationTriangleIcon className="h-4 w-4" />
+                                                    <AlertTitle>
+                                                        {props.errors.alasan}
+                                                    </AlertTitle>
+                                                </Alert>
+                                            )}
                                         </div>
-                                        <div className="grid grid-cols-4 items-center gap-4">
+                                        <div className="">
                                             <Label
                                                 htmlFor="deskripsi"
                                                 className="text-right"
@@ -168,7 +201,7 @@ function Keluar() {
                                                 className="col-span-3"
                                             />
                                         </div>
-                                        <div className="grid grid-cols-4 items-center gap-4">
+                                        <div className="">
                                             <Label
                                                 htmlFor="deskripsi"
                                                 className="text-right"
@@ -184,8 +217,46 @@ function Keluar() {
                                                 options={optionGuru}
                                                 className="col-span-3"
                                             />
+                                            {props.errors.guru && (
+                                                <Alert
+                                                    variant="destructive"
+                                                    className="mt-2"
+                                                >
+                                                    <ExclamationTriangleIcon className="h-4 w-4" />
+                                                    <AlertTitle>
+                                                        {props.errors.guru}
+                                                    </AlertTitle>
+                                                </Alert>
+                                            )}
                                         </div>
-                                        <div className="grid grid-cols-4 items-center gap-4">
+                                        <div className="">
+                                            <Label
+                                                htmlFor="deskripsi"
+                                                className="text-right"
+                                            >
+                                                Whatsapp [082+++]
+                                            </Label>
+                                            <Input
+                                                onChange={(e) => {
+                                                    setWhatsapp(e.target.value);
+                                                }}
+                                                id="whatsapp"
+                                                placeholder="Whatsapp"
+                                                className="col-span-3"
+                                            />
+                                            {props.errors.whatsapp && (
+                                                <Alert
+                                                    variant="destructive"
+                                                    className="mt-2"
+                                                >
+                                                    <ExclamationTriangleIcon className="h-4 w-4" />
+                                                    <AlertTitle>
+                                                        {props.errors.whatsapp}
+                                                    </AlertTitle>
+                                                </Alert>
+                                            )}
+                                        </div>
+                                        <div className="">
                                             <Label
                                                 htmlFor="deskripsi"
                                                 className="text-right"
@@ -201,8 +272,22 @@ function Keluar() {
                                                 placeholder="Guru"
                                                 className="col-span-3"
                                             />
+                                            {props.errors.waktu_awal && (
+                                                <Alert
+                                                    variant="destructive"
+                                                    className="mt-2"
+                                                >
+                                                    <ExclamationTriangleIcon className="h-4 w-4" />
+                                                    <AlertTitle>
+                                                        {
+                                                            props.errors
+                                                                .waktu_awal
+                                                        }
+                                                    </AlertTitle>
+                                                </Alert>
+                                            )}
                                         </div>
-                                        <div className="grid grid-cols-4 items-center gap-4">
+                                        <div className="">
                                             <Label
                                                 htmlFor="deskripsi"
                                                 className="text-right"

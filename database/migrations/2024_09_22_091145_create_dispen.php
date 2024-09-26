@@ -21,7 +21,6 @@ return new class extends Migration
 
 
 
-            $table->foreign('id_guru_piket')->references('id_guru_piket')->on('guru_piket');
             $table->foreign('id_guru')->references('id_guru')->on('guru');
         });
     }

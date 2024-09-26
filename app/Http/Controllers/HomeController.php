@@ -16,20 +16,14 @@ class HomeController extends Controller
 
 
         $guru = Guru::all();
-
-
         $table_guru_piket = GuruPiket::query()->with("guru")->whereDate('tanggal', Carbon::today())->get()->toArray();
 
 
-        $guru_piket = $table_guru_piket[0];
-
-
-
-
-        // echo json_encode($id_guru_piket);
+        $guru_piket = count($table_guru_piket) > 0 ? $table_guru_piket[0]["guru"] : null;
         return Inertia::render("Home", [
             "guru" => $guru,
-            "guru_piket" => "sdsd"
+            "guru_piket" => $guru_piket,
+
         ]);
     }
 }

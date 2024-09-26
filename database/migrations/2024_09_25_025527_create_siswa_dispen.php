@@ -14,7 +14,10 @@ return new class extends Migration
         Schema::create('siswa_dispen', function (Blueprint $table) {
             $table->uuid('id_dispen')->nullable(false);
             $table->string('nis')->nullable(false);
-
+            $table->string('nama')->nullable(false);
+            $table->string('kelas')->nullable(false);
+            $table->string('tanggal')->nullable(false);
+            $table->string('alasan')->nullable(false);
 
             $table->primary(['id_dispen', 'nis']);
             $table->foreign('id_dispen')->references('id_dispen')->on('dispen');

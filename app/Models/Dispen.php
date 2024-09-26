@@ -26,6 +26,7 @@ class Dispen extends Model
         "waktu_akhir",
         "is_sampai_pulang"
     ];
+    public $timestamps = false;
 
     public function dispen_siswa(): BelongsToMany
     {
