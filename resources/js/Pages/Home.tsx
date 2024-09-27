@@ -17,7 +17,6 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
-
 import { StatCard } from "@/Components/StatCard";
 import Select from "react-select";
 import { useState } from "react";
@@ -110,16 +109,11 @@ function Home() {
                         </Card>
                         <StatCard
                             url="/keluar"
-                            value={100}
+                            value={props.total_dispen as number}
                             title="DISPENSASI KELUAR"
                             desc="JUMLAH SISWA IZIN | IZIN KELUAR"
                         />
-                        <StatCard
-                            url="/masuk"
-                            value={100}
-                            title="DISPENSASI MASUK"
-                            desc="JUMLAH SISWA TERLAMBAT | IZIN MASUK"
-                        />
+
                         <Card className="w-full max-w-lg">
                             <CardHeader className="-mb-3">
                                 <CardTitle>Total</CardTitle>

@@ -21,15 +21,13 @@ class HomeController extends Controller
         $guru = Guru::all();
         $table_guru_piket = GuruPiket::query()->with("guru")->whereDate('tanggal', Carbon::today())->get()->toArray();
 
-        $dispen = SiswaDispen::all()->count();
-
-        Log::info($dispen);
+        $dispen_total = SiswaDispen::all()->count();
 
         $guru_piket = count($table_guru_piket) > 0 ? $table_guru_piket[0]["guru"] : null;
         return Inertia::render("Home", [
             "guru" => $guru,
             "guru_piket" => $guru_piket,
-            "total_masuk"
+            "total_dispen" => $dispen_total
         ]);
     }
 }
