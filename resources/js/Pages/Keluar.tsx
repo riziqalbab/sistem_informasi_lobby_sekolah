@@ -41,13 +41,12 @@ function Keluar() {
     const [whatsapp, setWhatsapp] = useState<string>();
     const [mulai, setMulai] = useState<string>();
     const [sampai, setSampai] = useState<string>();
+    const [success, setSuccess] = useState<boolean>(false);
     const { toast } = useToast();
+    const [disableButton, setDisableButton] = useState(true);
     const { props } = usePage();
 
     const guru_piket = props.guru_piket as object_guru_piket;
-
-    console.log(props);
-
     const nama_guru_piket: string = guru_piket?.nama;
 
     const guru: object_guru[] = props.guru as object_guru[];
@@ -87,6 +86,7 @@ function Keluar() {
     });
 
     const handleSubmitDispen = (e: React.FormEvent<HTMLFormElement>) => {
+        setSuccess(props.success);
         e.preventDefault();
 
         const values = {
@@ -100,7 +100,19 @@ function Keluar() {
             waktu_akhir: sampai,
         };
 
-        router.post("/keluar/store", { ...values });
+        const post = router.post(
+            "/keluar/store",
+            { ...values },
+            {
+                onSuccess: () => {
+                    setDisableButton(false);
+                    toast({
+                        title: "Dispensasi sukes",
+                        description: "Sukses",
+                    });
+                },
+            }
+        );
     };
 
     return (
@@ -131,7 +143,13 @@ function Keluar() {
 
                         <Dialog>
                             <DialogTrigger asChild>
-                                <Button variant="default" className="w-full">
+                                <Button
+                                    variant="default"
+                                    className="w-full"
+                                    onClick={() => {
+                                        setDisableButton(true);
+                                    }}
+                                >
                                     DISPENSASI
                                 </Button>
                             </DialogTrigger>
@@ -310,7 +328,13 @@ function Keluar() {
                                         </div>
                                     </div>
                                     <DialogFooter>
-                                        <Button type="submit">KIRIM</Button>
+                                        {disableButton ? (
+                                            <Button type="submit">KIRIM</Button>
+                                        ) : (
+                                            <Button type="submit" disabled>
+                                                KIRIM
+                                            </Button>
+                                        )}
                                     </DialogFooter>
                                 </form>
                             </DialogContent>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DispensasiController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KeluarController;
@@ -24,6 +25,7 @@ Route::get("/guru", GuruController::class);
 Route::post("/guru/store", [GuruController::class, "store"]);
 Route::post("/guru/piket/store", [GuruController::class, "piket"]);
 
+Route::get("/dispensasi/{id_dispen}", [DispensasiController::class, "dispensasi"]);
 
 
 

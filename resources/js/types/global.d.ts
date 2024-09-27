@@ -51,6 +51,14 @@ declare global {
         whatsapp: string;
     }
 
+    interface object_dispensasi {
+        alasan: string;
+        deskripsi: string;
+        id_dispen: string;
+        waktu_awal: string;
+        waktu_akhir: string;
+    }
+
     interface object_guru_piket {
         id_guru: number;
         mapel: strring;

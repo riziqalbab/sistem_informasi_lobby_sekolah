@@ -83,6 +83,6 @@ class KeluarController extends Controller
         SiswaDispen::insert($siswa_dispen);
 
 
-        return redirect()->back()->with("success", "");
+        return redirect()->back()->with("success", true);
     }
 }

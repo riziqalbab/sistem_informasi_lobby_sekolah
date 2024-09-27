@@ -46,20 +46,20 @@ function Home() {
     return (
         <>
             <Navbar />
-            <main className="w-screen flex items-center justify-center">
-                <div className="container p-5">
-                    <div className="statistic-dispen w-full flex items-center justify-center flex-wrap gap-5 mb-10">
-                        {guru_piket == null ? (
-                            <Alert variant="destructive">
-                                <ExclamationTriangleIcon className="h-4 w-4" />
-                                <AlertTitle>
-                                    ATUR GURU PIKET UNTUK HARI INI
-                                </AlertTitle>
-                                <AlertDescription>
-                                    Hari ini guru piket belum diatur!
-                                </AlertDescription>
-                            </Alert>
-                        ) : null}
+            <main className="w-screen ">
+                <div className="w-full p-5">
+                    {guru_piket == null ? (
+                        <Alert variant="destructive" className="my-5">
+                            <ExclamationTriangleIcon className="h-4 w-4" />
+                            <AlertTitle>
+                                ATUR GURU PIKET UNTUK HARI INI
+                            </AlertTitle>
+                            <AlertDescription>
+                                Hari ini guru piket belum diatur!
+                            </AlertDescription>
+                        </Alert>
+                    ) : null}
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-8">
                         <Card className="w-full max-w-lg">
                             <CardHeader className="-mb-3">
                                 <CardTitle>GURU PIKET</CardTitle>
@@ -108,8 +108,6 @@ function Home() {
                                 </Dialog>
                             </CardFooter>
                         </Card>
-                    </div>
-                    <div className="statistic-dispen w-full flex items-center justify-center flex-wrap gap-5">
                         <StatCard
                             url="/keluar"
                             value={100}
@@ -122,7 +120,22 @@ function Home() {
                             title="DISPENSASI MASUK"
                             desc="JUMLAH SISWA TERLAMBAT | IZIN MASUK"
                         />
+                        <Card className="w-full max-w-lg">
+                            <CardHeader className="-mb-3">
+                                <CardTitle>Total</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="text-2xl font-bold">999</div>
+                                <p className="text-xs text-muted-foreground">
+                                    Total Keseluruhan
+                                </p>
+                            </CardContent>
+                        </Card>
                     </div>
+                </div>
+                <div className="container p-5">
+                    <div className="statistic-dispen w-full flex items-center justify-center flex-wrap gap-5 mb-10"></div>
+                    <div className="statistic-dispen w-full flex items-center justify-center flex-wrap gap-5"></div>
                 </div>
             </main>
         </>
