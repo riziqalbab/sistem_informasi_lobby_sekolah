@@ -331,7 +331,7 @@ function Keluar() {
                                         {disableButton ? (
                                             <Button type="submit">KIRIM</Button>
                                         ) : (
-                                            <Button type="submit" disabled>
+                                            <Button type="submit">
                                                 KIRIM
                                             </Button>
                                         )}
