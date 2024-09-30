@@ -37,6 +37,12 @@ class HandleInertiaRequests extends Middleware
             'success' => function () {
                 return session()->get('success');
             },
+            "id_dispensasi"=> function (){
+                return session()->get("id_dispensasi");
+            },
+            "site_url"=> function (){
+                return session()->get("site_url");
+            }
         ];
     }
 }

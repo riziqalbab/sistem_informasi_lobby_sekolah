@@ -24,18 +24,32 @@ class KeluarController extends Controller
     public function __invoke()
     {
 
+        $site_url = url("/");
+
+        Log::info($site_url);
+
         $table_guru_piket = GuruPiket::query()->with("guru")->whereDate('tanggal', Carbon::today())->get()->toArray();
         $guru_piket = count($table_guru_piket) > 0 ? $table_guru_piket[0]["guru"] : null;
 
         $guru = Guru::all();
         return Inertia::render("Keluar", [
             "guru" => $guru,
-            "guru_piket" => $guru_piket
+            "guru_piket" => $guru_piket,
+            "site_url" => $site_url
         ]);
     }
 
     public function store(Request $request)
     {
+
+
+        
+        $table_guru_piket = GuruPiket::query()->with("guru")->whereDate('tanggal', Carbon::today())->get()->toArray();
+        $guru_piket = count($table_guru_piket) > 0 ? $table_guru_piket[0]["guru"] : null;
+
+
+
+
 
         // Log::info($request->all());
         $validator = Validator::make($request->all(), [
@@ -119,6 +133,31 @@ Terima kasih,
 SMK Negeri 1 Kebumen";
 
 
+$message_piket = "
+*DISPENSASI DIGITAL SMK NEGERI 1 KEBUMEN*
+\n
+KEPADA YTH BPK/IBU GURU PIKET LOBBY,\n
+\n
+Kami informasikan bahwa siswa dengan data sebagai berikut telah diberikan dispensasi:
+\n";
+foreach ($request->post("siswa") as $key => $value) {
+    $message_piket .= "
+*Nama*  : " . $value["nama"] . "\n" .
+"*Kelas* : " . $value["kelas"] . "\n" .
+"*NIS*   : " . $value["nis"] . "\n\n";
+}
+$message_piket .= "
+Siswa tersebut telah diberikan dispensasi dengan alasan sebagai berikut:\n
+*Alasan* : {$request->alasan}\n
+*Deskripsi* : {$request->deskripsi}\n
+\n
+Mohon izin untuk memberikan akses kepada siswa yang bersangkutan. Terima kasih atas perhatian dan kerja samanya.
+\n
+Salam hormat,\n
+SMK Negeri 1 Kebumen
+";
+
+
 
 
 
@@ -148,11 +187,12 @@ SMK Negeri 1 Kebumen
 
 
 
-        // Log::info($message_guru);
-
         $result = $this->fonnteService->sendMessage($nomor_guru, $message_guru);
         $result_siswa = $this->fonnteService->sendMessage($request->post("whatsapp"), $message_siswa);
-
-        return redirect()->back()->with("success", true);
+        $result_guru_piket = $this->fonnteService->sendMessage($guru_piket["whatsapp"], $message_piket);
+        return redirect()->back()->with([
+            "success"=> true,
+            "id_dispensasi"=>$id_dispen
+        ]);
     }
 }

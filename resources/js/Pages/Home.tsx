@@ -35,7 +35,7 @@ function Home() {
         };
     });
 
-    console.log(guru_piket);
+    console.log(props);
 
     const handleSubmitGuruPiket = (e: React.FormEvent<HTMLFormElement>) => {
         router.post("/guru/piket/store", {
@@ -122,6 +122,17 @@ function Home() {
                                 <div className="text-2xl font-bold">{props.total_dispen as ReactNode}</div>
                                 <p className="text-xs text-muted-foreground">
                                     Total Keseluruhan
+                                </p>
+                            </CardContent>
+                        </Card>
+                        <Card className="w-full max-w-lg">
+                            <CardHeader className="-mb-3">
+                                <CardTitle>Total 2 Minggu</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="text-2xl font-bold">{props.two_weeks as ReactNode}</div>
+                                <p className="text-xs text-muted-foreground">
+                                    Data 2 minggu kebelakang
                                 </p>
                             </CardContent>
                         </Card>

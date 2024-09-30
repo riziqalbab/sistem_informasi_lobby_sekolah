@@ -22,7 +22,7 @@ class HomeController extends Controller
 
 
         $twoWeeksAgo = Carbon::now()->subWeeks(2);
-        $dataDispen2minggu = DB::table('dispen')->where('waktu_awal', '>=', $twoWeeksAgo)->get();
+        $dataDispen2minggu = DB::table('dispen')->where('waktu_awal', '>=', $twoWeeksAgo)->get()->count();
 
 
         $guru = Guru::all();
