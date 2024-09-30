@@ -18,6 +18,13 @@ class HomeController extends Controller
     {
 
 
+
+
+
+        $twoWeeksAgo = Carbon::now()->subWeeks(2);
+        $dataDispen2minggu = DB::table('dispen')->where('waktu_awal', '>=', $twoWeeksAgo)->get();
+
+
         $guru = Guru::all();
         $table_guru_piket = GuruPiket::query()->with("guru")->whereDate('tanggal', Carbon::today())->get()->toArray();
 
@@ -27,7 +34,8 @@ class HomeController extends Controller
         return Inertia::render("Home", [
             "guru" => $guru,
             "guru_piket" => $guru_piket,
-            "total_dispen" => $dispen_total
+            "total_dispen" => $dispen_total,
+            "two_weeks" => $dataDispen2minggu,
         ]);
     }
 }

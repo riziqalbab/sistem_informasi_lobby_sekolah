@@ -19,7 +19,7 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
 import { StatCard } from "@/Components/StatCard";
 import Select from "react-select";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { router, usePage } from "@inertiajs/react";
 
 function Home() {
@@ -119,7 +119,7 @@ function Home() {
                                 <CardTitle>Total</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">999</div>
+                                <div className="text-2xl font-bold">{props.total_dispen as ReactNode}</div>
                                 <p className="text-xs text-muted-foreground">
                                     Total Keseluruhan
                                 </p>

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Dispen;
 use App\Models\Guru;
 use App\Models\GuruPiket;
@@ -15,7 +14,6 @@ use Inertia\Inertia;
 
 class KeluarController extends Controller
 {
-
 
     protected $fonnteService;
 
@@ -100,30 +98,27 @@ class KeluarController extends Controller
         // Log::info($siswa_dispen);
         SiswaDispen::insert($siswa_dispen);
 
-        Log::info($request->post("siswa"));
-
 $site_url = url("/");
 
+        $message_siswa = "
+*PERMOHONAN DISPENSASI DIGITAL SMK NEGERI 1 KEBUMEN*
+\n
+Hai, {$request->nama_siswa},\n
+Permohonan dispensasi kamu telah berhasil diajukan. Berikut adalah detail pengajuan dispensasi:
+\n
+*Alasan*      : {$request->alasan}\n
+*Deskripsi*   : {$request->deskripsi}\n
+*Waktu*   : {$request->waktu_awal}\n
+\n
+Silakan pantau status pengajuan kamu dengan mengunjungi tautan berikut untuk detail lebih lanjut:
+\n
+Klik link berikut untuk melihat detail dispensasi yang akan diberikan ke gurumu => $site_url/dispensasi/$id_dispen
+\n
+Terima kasih,
+\n
+SMK Negeri 1 Kebumen";
 
-Log::info($site_url);
 
-//         $message_siswa = "
-// *PERMOHONAN DISPENSASI DIGITAL SMK NEGERI 1 KEBUMEN*
-// \n
-// Hai, {$request->nama_siswa},\n
-// Permohonan dispensasi kamu telah berhasil diajukan. Berikut adalah detail pengajuan dispensasi:
-// \n
-// *Alasan*      : {$request->alasan}\n
-// *Deskripsi*   : {$request->deskripsi}\n
-// *Waktu*   : {$request->waktu_awal}\n
-// \n
-// Silakan pantau status pengajuan kamu dengan mengunjungi tautan berikut untuk detail lebih lanjut:
-// \n
-// [Klik di sini untuk melihat detail dispensasi kamu](https://{$site_url}/dispensasi/{$request->id_dispensasi})
-// \n
-// Terima kasih,
-// \n
-// SMK Negeri 1 Kebumen";
 
 
 
@@ -153,10 +148,10 @@ SMK Negeri 1 Kebumen
 
 
 
-        Log::info($message_guru);
+        // Log::info($message_guru);
 
         $result = $this->fonnteService->sendMessage($nomor_guru, $message_guru);
-        // $result_siswa = $this->fonnteService->sendMessage($request->post("whatsapp"), $message_siswa);
+        $result_siswa = $this->fonnteService->sendMessage($request->post("whatsapp"), $message_siswa);
 
         return redirect()->back()->with("success", true);
     }
