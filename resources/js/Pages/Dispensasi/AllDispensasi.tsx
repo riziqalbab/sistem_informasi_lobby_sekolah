@@ -23,7 +23,6 @@ import { useState } from "react";
 
 export default function AllDispensasi() {
     const { props } = usePage();
-
     const [dateDispen, setDateDispen] = useState<string>(props.date as string);
 
     const paginator: Paginator<siswa_dispen> =
@@ -94,7 +93,6 @@ export default function AllDispensasi() {
                                     />
                                 </PaginationItem>
                             )}
-
                             {paginator.next_page_url != null && (
                                 <PaginationItem>
                                     <PaginationNext

@@ -21,6 +21,7 @@ import { StatCard } from "@/Components/StatCard";
 import Select from "react-select";
 import { ReactNode, useState } from "react";
 import { router, usePage } from "@inertiajs/react";
+import { Chart } from "@/Components/Chart";
 
 function Home() {
     const [guruChoice, setGuruChoice] = useState<number>();
@@ -35,7 +36,7 @@ function Home() {
         };
     });
 
-    console.log(props);
+    console.log(props.two_weeks);
 
     const handleSubmitGuruPiket = (e: React.FormEvent<HTMLFormElement>) => {
         router.post("/guru/piket/store", {
@@ -130,7 +131,7 @@ function Home() {
                                 <CardTitle>Total 2 Minggu</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">{props.two_weeks as ReactNode}</div>
+                                <div className="text-2xl font-bold">{props.two_weeks_count as ReactNode}</div>
                                 <p className="text-xs text-muted-foreground">
                                     Data 2 minggu kebelakang
                                 </p>
@@ -139,8 +140,10 @@ function Home() {
                     </div>
                 </div>
                 <div className="container p-5">
-                    <div className="statistic-dispen w-full flex items-center justify-center flex-wrap gap-5 mb-10"></div>
-                    <div className="statistic-dispen w-full flex items-center justify-center flex-wrap gap-5"></div>
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2 mb-8">
+                        <Chart data={props.two_weeks as any} description="Grafik 2 minggu terkahir" keyX="label" keyY="count" title="2 Minggu" />
+                    </div>
+                   
                 </div>
             </main>
         </>

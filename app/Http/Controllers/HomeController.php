@@ -18,11 +18,25 @@ class HomeController extends Controller
     {
 
 
+        date_default_timezone_set("Asia/Jakarta");
 
+        $dataCount2Minggu = [];
+       
+        for ($i = 0; $i <= 14; $i++) {
+            $date = date('Y-m-d', strtotime('-' . $i . ' days'));
+            $count = Dispen::where('waktu_awal', 'like', '%' . $date . '%')->count();
+            $label2Minggu[] = date('d M', strtotime($date));
+            $dataCount2Minggu[] = [
+                "count"=> $count,
+                "label"=>date('d M', strtotime($date))
+            ];
+        }
+
+        Log::info(json_encode($dataCount2Minggu));
 
 
         $twoWeeksAgo = Carbon::now()->subWeeks(2);
-        $dataDispen2minggu = DB::table('dispen')->where('waktu_awal', '>=', $twoWeeksAgo)->get()->count();
+        $dataDispen2minggu = DB::table('dispen')->where('waktu_awal', '>=', $twoWeeksAgo)->get();
 
 
         $guru = Guru::all();
@@ -35,7 +49,8 @@ class HomeController extends Controller
             "guru" => $guru,
             "guru_piket" => $guru_piket,
             "total_dispen" => $dispen_total,
-            "two_weeks" => $dataDispen2minggu,
+            "two_weeks_count" => $dataDispen2minggu->count(),
+            "two_weeks" => $dataCount2Minggu
         ]);
     }
 }
