@@ -30,6 +30,9 @@ function Navbar() {
                         className="menu menu-sm dropdown-content bg-white rounded-box z-[1] mt-3 w-52 p-2 shadow "
                     >
                         <li>
+                            <Link href="/dispensasi">DISPENSASI</Link>
+                        </li>
+                        <li>
                             <Link href="/siswa">SISWA</Link>
                         </li>
                         <li>
@@ -48,6 +51,9 @@ function Navbar() {
             </div>
             <div className="navbar-end hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
+                    <li>
+                        <Link href="/dispensasi">DISPENSASI</Link>
+                    </li>
                     <li>
                         <Link href="/siswa">SISWA</Link>
                     </li>

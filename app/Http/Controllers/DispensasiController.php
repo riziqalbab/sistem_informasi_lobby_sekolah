@@ -7,7 +7,6 @@ use App\Models\Guru;
 use App\Models\SiswaDispen;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
