@@ -26,6 +26,7 @@ Route::post("/guru/store", [GuruController::class, "store"]);
 Route::post("/guru/piket/store", [GuruController::class, "piket"]);
 
 Route::get("/dispensasi/{id_dispen}", [DispensasiController::class, "dispensasi"]);
+Route::get("/dispensasi", DispensasiController::class);
 
 
 

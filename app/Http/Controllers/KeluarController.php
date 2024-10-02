@@ -42,15 +42,8 @@ class KeluarController extends Controller
     public function store(Request $request)
     {
 
-
-        
         $table_guru_piket = GuruPiket::query()->with("guru")->whereDate('tanggal', Carbon::today())->get()->toArray();
         $guru_piket = count($table_guru_piket) > 0 ? $table_guru_piket[0]["guru"] : null;
-
-
-
-
-
         // Log::info($request->all());
         $validator = Validator::make($request->all(), [
             "siswa" => "required",
@@ -85,15 +78,9 @@ class KeluarController extends Controller
             "waktu_akhir" => $request->post("sampai"),
             "is_sampai_pulang" => $is_sampai_pulang,
         ]);
-
-
-
-
         $guru = Guru::where("id_guru", $request->post("id_guru"))->firstOrFail()->toArray();
         $nama_guru = $guru["nama"];
         $nomor_guru = $guru["whatsapp"];
-
-
 
         $id_dispen = $dispen_created->id_dispen;
 

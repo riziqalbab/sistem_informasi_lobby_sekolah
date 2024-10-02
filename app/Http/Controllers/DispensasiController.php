@@ -13,6 +13,14 @@ use Inertia\Inertia;
 
 class DispensasiController extends Controller
 {
+
+
+
+    public function __invoke(){
+        return Inertia::render("Dispensasi/AllDispensasi");
+    }
+
+
     public function dispensasi(string $id_dispen)
     {
 
@@ -49,7 +57,7 @@ class DispensasiController extends Controller
             $nama_guru = $guru["nama"];
             $nama_guru_piket = $guru_piket["nama"];
 
-            return Inertia::render("Dispensasi", [
+            return Inertia::render("Dispensasi/Dispensasi", [
                 "dispensasi" => [
                     "guruPiket" => $nama_guru_piket,
                     "guruPengajar" => $nama_guru,

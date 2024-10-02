@@ -32,8 +32,7 @@ export default function NotFoundDispen() {
                             <li>ID dispensasi yang dimasukkan tidak valid</li>
                         </ul>
                         <p className="text-muted-foreground">
-                            Silakan periksa ID dispensasi dan coba lagi, atau
-                            kembali ke halaman utama dispensasi.
+                            Silakan periksa ID dispensasi dan coba lagi
                         </p>
                     </CardContent>
                 </Card>
