@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Dispen;  
+use App\Models\Dispen;
 use App\Models\Guru;
 use App\Models\SiswaDispen;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -14,12 +15,17 @@ use Inertia\Inertia;
 class DispensasiController extends Controller
 {
 
-    public function __invoke(){
-        $dispens = SiswaDispen::all()->toArray();
+    public function __invoke(Request $request)
+    {
+
         $site_url = url("/");
+
+        $date = $request->get("date") != null ? $request->get("date") : Carbon::now()->toDateString() ;
         return Inertia::render("Dispensasi/AllDispensasi", [
-            "dispens"=> DB::table("siswa_dispen")->paginate(10),
-            "site_url" => $site_url
+            "dispens" =>  DB::table("siswa_dispen")
+            ->whereDate("tanggal", $date)->paginate(10),
+            "site_url" => $site_url,
+            "date"=>$date
         ]);
     }
 
@@ -29,11 +35,12 @@ class DispensasiController extends Controller
 
 
 
+
+
+
         try {
-            // Attempt to find the dispensasi record
             $dispensasi = Dispen::findOrFail($id_dispen)->toArray();
 
-            // Fetch related records only if the dispensasi is found
             $siswa = SiswaDispen::where("id_dispen", $id_dispen)->get()->toArray();
 
             $guru = Guru::where("id_guru", $dispensasi["id_guru"])->firstOrFail()->toArray();
@@ -55,7 +62,6 @@ class DispensasiController extends Controller
                 ]
             ]);
         } catch (ModelNotFoundException $e) {
-            // Handle the case where dispensasi or related records are not found
             return Inertia::render("NotFoundDispen");
         }
     }

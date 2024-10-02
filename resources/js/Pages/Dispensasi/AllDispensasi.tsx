@@ -23,19 +23,15 @@ import { useState } from "react";
 
 export default function AllDispensasi() {
     const { props } = usePage();
-    const [date, setDate] = useState<string>()
 
+    const [dateDispen, setDateDispen] = useState<string>(props.date as string)
+    
     const paginator: Paginator<siswa_dispen> =
-        props.dispens as Paginator<siswa_dispen>;
+    props.dispens as Paginator<siswa_dispen>;
     const dataDispen: Array<siswa_dispen> = (
         props.dispens as { data: Array<siswa_dispen> }
     ).data;
     const site_url: string = props.site_url as string;
-
-
-    const onSubmitDate = (e: React.FormEvent<HTMLFormElement>)=>{
-       
-    }
 
 
     return (
@@ -43,14 +39,10 @@ export default function AllDispensasi() {
             <Navbar />
             <main className="w-screen flex pt-5 items-center justify-center ">
                 <div className="container ">
-                    <form action="" className="flex gap-2">
-                        <Input type="date" className="w-64" onChange={(e)=>{
-                            setDate(e.target.value)
+                    <form action="" method="get" className="flex gap-2">
+                        <Input type="date" name="date" className="w-64" value={dateDispen} onChange={(e)=>{
+                            setDateDispen(e.target.value)
                         }}/>
-
-
-
-
                         <Button>KIRIM</Button>
                     </form>
                     <Table>
