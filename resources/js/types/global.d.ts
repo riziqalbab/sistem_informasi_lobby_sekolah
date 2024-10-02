@@ -51,6 +51,35 @@ declare global {
         whatsapp: string;
     }
 
+    export interface Paginator<T> {
+        current_page: number;
+        data: T[];
+        first_page_url: string;
+        from: number | null;
+        last_page: number;
+        last_page_url: string;
+        next_page_url: string | null;
+        path: string;
+        per_page: number;
+        prev_page_url: string | null;
+        to: number | null;
+        total: number;
+        links: Array<{
+                active: boolean
+                label: string
+                url: string
+        }>
+      }
+
+    interface siswa_dispen{
+        alasan: string
+        id_dispen: string
+        kelas: string
+        nama: string
+        nis: number
+        tanggal: string
+    }
+
     interface object_dispensasi {
         alasan: string;
         deskripsi: string;
@@ -65,6 +94,8 @@ declare global {
         nama: string;
         whatsapp: string;
     }
+
+    
 
     var route: typeof ziggyRoute;
 }

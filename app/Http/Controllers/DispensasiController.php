@@ -2,45 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Dispen;
+use App\Models\Dispen;  
 use App\Models\Guru;
 use App\Models\SiswaDispen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class DispensasiController extends Controller
 {
 
-
-
     public function __invoke(){
-        return Inertia::render("Dispensasi/AllDispensasi");
+        $dispens = SiswaDispen::all()->toArray();
+        $site_url = url("/");
+        return Inertia::render("Dispensasi/AllDispensasi", [
+            "dispens"=> DB::table("siswa_dispen")->paginate(10),
+            "site_url" => $site_url
+        ]);
     }
-
 
     public function dispensasi(string $id_dispen)
     {
 
-
-
-
-        // interface DispensasiInfo {
-        //     guruPiket: string;
-        //     guruPengajar: string;
-        //     nomorWhatsapp: string;
-        //     waktuDispen: string;
-        //     waktuDispenAkhir: string;
-        //     alasan: string;
-        //     deskripsi: string;
-        //     siswa: {
-        //         nama: string;
-        //         kelas: string;
-        //         avatar: string;
-        //     }[];
-        // }
 
 
 
