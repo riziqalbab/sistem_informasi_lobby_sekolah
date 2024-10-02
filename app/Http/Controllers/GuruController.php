@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Guru;
 use App\Models\GuruPiket;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -56,7 +57,9 @@ class GuruController extends Controller
     public function piket(Request $request)
     {
 
-        Log::info($request->post("guru"));
+        $date = Carbon::now()->toDateString();
+
+        $guruPiketNow = GuruPiket::
 
         GuruPiket::create($request->all());
     }

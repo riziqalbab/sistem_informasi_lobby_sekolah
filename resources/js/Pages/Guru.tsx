@@ -35,7 +35,7 @@ import { Delete, DeleteIcon, PencilIcon } from "lucide-react";
 import Navbar from "@/Components/Navbar";
 import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
 
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/Components/ui/dialog";
 import React, { useState } from "react";
 import { router, usePage } from "@inertiajs/react";
 

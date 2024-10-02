@@ -40,11 +40,11 @@ class HomeController extends Controller
 
 
         $guru = Guru::all();
-        $table_guru_piket = GuruPiket::query()->with("guru")->whereDate('tanggal', Carbon::today())->get()->toArray();
+        $table_guru_piket = GuruPiket::query()->with("guru")->whereDate('tanggal', Carbon::today())->get()->first()->toArray();
 
         $dispen_total = SiswaDispen::all()->count();
 
-        $guru_piket = count($table_guru_piket) > 0 ? $table_guru_piket[0]["guru"] : null;
+        $guru_piket = count($table_guru_piket) > 0 ? $table_guru_piket["guru"] : null;
         return Inertia::render("Home", [
             "guru" => $guru,
             "guru_piket" => $guru_piket,

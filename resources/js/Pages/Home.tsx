@@ -15,7 +15,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/Components/ui/dialog";
 import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
 import { StatCard } from "@/Components/StatCard";
 import Select from "react-select";
@@ -35,9 +35,6 @@ function Home() {
             label: e.nama,
         };
     });
-
-    console.log(props.two_weeks);
-
     const handleSubmitGuruPiket = (e: React.FormEvent<HTMLFormElement>) => {
         router.post("/guru/piket/store", {
             id_guru: guruChoice,
@@ -141,7 +138,7 @@ function Home() {
                 </div>
                 <div className="container p-5">
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2 mb-8">
-                        <Chart data={props.two_weeks as any} description="Grafik 2 minggu terkahir" keyX="label" keyY="count" title="2 Minggu" />
+                        <Chart data={props.two_weeks as any} description="Grafik dispensasi 2 minggu terkahir" keyX="label" keyY="count" title="2 MINGGU DISPENSASI" />
                     </div>
                    
                 </div>
