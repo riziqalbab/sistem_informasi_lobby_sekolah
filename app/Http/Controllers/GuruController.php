@@ -50,17 +50,22 @@ class GuruController extends Controller
     public function delete(string $id_guru)
     {
         $guru = Guru::where(["id_guru" => $id_guru]);
-
         $guru->delete();
     }
 
     public function piket(Request $request)
     {
-
         $date = Carbon::now()->toDateString();
+        $piket_now = GuruPiket::where("tanggal", $date)->first();
 
-        $guruPiketNow = GuruPiket::
+        Log::info($piket_now);
 
-        GuruPiket::create($request->all());
+
+        // GuruPiket::insert([
+        //     [
+        //         "id_guru_piket" => $request->post("id_guru_piket"),
+        //         "tanggal" => $date
+        //     ]
+        // ]);
     }
 }

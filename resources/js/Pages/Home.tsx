@@ -37,7 +37,7 @@ function Home() {
     });
     const handleSubmitGuruPiket = (e: React.FormEvent<HTMLFormElement>) => {
         router.post("/guru/piket/store", {
-            id_guru: guruChoice,
+            id_guru_piket: guruChoice,
         });
     };
     return (
