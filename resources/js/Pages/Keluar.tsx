@@ -58,6 +58,7 @@ function Keluar() {
     const guru_piket = props.guru_piket as object_guru_piket;
     const nama_guru_piket: string = guru_piket?.nama;
     const guru: object_guru[] = props.guru as object_guru[];
+    const id_guru_piket = guru_piket.guru
 
     const handleHapusSiswa = (nis: number) => {
         const indexHapus = siswa.findIndex((item, i) => {

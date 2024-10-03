@@ -58,7 +58,7 @@ export function Chart({
                         />
                         <Bar
                             dataKey={keyY}
-                            fill="#ffff"
+                            fill="#6b26ff"
                             radius={8}
                         />
                     </BarChart>

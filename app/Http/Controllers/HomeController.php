@@ -18,14 +18,11 @@ class HomeController extends Controller
     {
 
         $date_now = Carbon::now()->toDateString();
-
-
         $dataCount2Minggu = [];
        
-        for ($i = 0; $i <= 14; $i++) {
+        for ($i = 0; $i <= 50; $i++) {
             $date = date('Y-m-d', strtotime('-' . $i . ' days'));
             $count = Dispen::where('waktu_awal', 'like', '%' . $date . '%')->count();
-            $label2Minggu[] = date('d M', strtotime($date));
             $dataCount2Minggu[] = [
                 "count"=> $count,
                 "label"=>date('d M', strtotime($date))
@@ -36,22 +33,16 @@ class HomeController extends Controller
         $dataDispen2minggu = DB::table('dispen')->where('waktu_awal', '>=', $twoWeeksAgo)->get();
 
 
-        $guru = Guru::all();
-        $table_guru_piket = GuruPiket::query()->with("guru")->whereDate('tanggal', Carbon::today())->get()->toArray();
 
+        $guru = Guru::all();
 
         
         $piket = GuruPiket::where('tanggal', $date_now)
             ->with('guru')  
             ->get()->first();
 
-            Log::info($piket);
-            Log::info($date_now);
-
 
         $dispen_total = SiswaDispen::all()->count();
-
-        $guru_piket = count($table_guru_piket) > 0 ? $table_guru_piket[0]["guru"] : null;
         return Inertia::render("Home", [
             "guru" => $guru,
             "guru_piket" => $piket,

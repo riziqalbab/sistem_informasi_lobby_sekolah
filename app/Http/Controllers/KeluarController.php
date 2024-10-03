@@ -42,8 +42,13 @@ class KeluarController extends Controller
     public function store(Request $request)
     {
 
-        $table_guru_piket = GuruPiket::query()->with("guru")->whereDate('tanggal', Carbon::today())->get()->toArray();
-        $guru_piket = count($table_guru_piket) > 0 ? $table_guru_piket[0]["guru"] : null;
+        
+        $date_now = Carbon::now()->toDateString();
+
+        $piket = GuruPiket::where('tanggal', $date_now)
+            ->with('guru')  
+            ->get()->first();
+
         // Log::info($request->all());
         $validator = Validator::make($request->all(), [
             "siswa" => "required",
@@ -174,9 +179,9 @@ SMK Negeri 1 Kebumen
 
 
 
-        $result = $this->fonnteService->sendMessage($nomor_guru, $message_guru);
-        $result_siswa = $this->fonnteService->sendMessage($request->post("whatsapp"), $message_siswa);
-        $result_guru_piket = $this->fonnteService->sendMessage($guru_piket["whatsapp"], $message_piket);
+        // $result = $this->fonnteService->sendMessage($nomor_guru, $message_guru);
+        // $result_siswa = $this->fonnteService->sendMessage($request->post("whatsapp"), $message_siswa);
+        // $result_guru_piket = $this->fonnteService->sendMessage($piket["guru"]["whatsapp"], $message_piket);
         return redirect()->back()->with([
             "success"=> true,
             "id_dispensasi"=>$id_dispen
