@@ -89,10 +89,15 @@ declare global {
     }
 
     interface object_guru_piket {
-        id_guru: number;
-        mapel: strring;
-        nama: string;
-        whatsapp: string;
+        id: number;
+        id_guru: number
+        tanggal: string
+        guru:{
+            id_guru: number
+            mapel: string
+            nama: string
+            whatsapp: string
+        }
     }
 
     

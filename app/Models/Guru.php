@@ -13,8 +13,8 @@ class Guru extends Model
     public $timestamps = false;
 
 
-    public function piket()
+    public function pikets()
     {
-        return $this->belongsTo(Guru::class, "guru_id", "guru_id");
+        return $this->hasMany(GuruPiket::class, 'id_guru', 'id_guru');
     }
 }

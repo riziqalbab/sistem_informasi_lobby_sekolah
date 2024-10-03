@@ -14,7 +14,6 @@ class GuruController extends Controller
 {
     public function __invoke()
     {
-
         $guru = Guru::all();
 
         return Inertia::render("Guru", [
@@ -58,14 +57,20 @@ class GuruController extends Controller
         $date = Carbon::now()->toDateString();
         $piket_now = GuruPiket::where("tanggal", $date)->first();
 
-        Log::info($piket_now);
 
+        if(isset($piket_now)) {
+            GuruPiket::where("tanggal", $date)->update([
+                "id_guru" => $request->post("id_guru"),
+            ]);
+        } 
 
-        // GuruPiket::insert([
-        //     [
-        //         "id_guru_piket" => $request->post("id_guru_piket"),
-        //         "tanggal" => $date
-        //     ]
-        // ]);
+        if(!isset($piket_now)) {    
+            GuruPiket::insert([
+                [
+                    "id_guru" => $request->post("id_guru"),
+                    "tanggal" => $date
+                ]
+            ]);
+        }
     }
 }

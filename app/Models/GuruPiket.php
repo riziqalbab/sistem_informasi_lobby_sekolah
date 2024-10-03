@@ -22,6 +22,6 @@ class GuruPiket extends Model
 
     public function guru()
     {
-        return $this->hasOne(Guru::class, "id_guru", "id_guru");
+        return $this->belongsTo(Guru::class, 'id_guru', 'id_guru');
     }
 }

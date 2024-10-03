@@ -17,8 +17,8 @@ class HomeController extends Controller
     public function __invoke()
     {
 
+        $date_now = Carbon::now()->toDateString();
 
-        date_default_timezone_set("Asia/Jakarta");
 
         $dataCount2Minggu = [];
        
@@ -32,9 +32,6 @@ class HomeController extends Controller
             ];
         }
 
-        Log::info(json_encode($dataCount2Minggu));
-
-
         $twoWeeksAgo = Carbon::now()->subWeeks(2);
         $dataDispen2minggu = DB::table('dispen')->where('waktu_awal', '>=', $twoWeeksAgo)->get();
 
@@ -42,12 +39,22 @@ class HomeController extends Controller
         $guru = Guru::all();
         $table_guru_piket = GuruPiket::query()->with("guru")->whereDate('tanggal', Carbon::today())->get()->toArray();
 
+
+        
+        $piket = GuruPiket::where('tanggal', $date_now)
+            ->with('guru')  
+            ->get()->first();
+
+            Log::info($piket);
+            Log::info($date_now);
+
+
         $dispen_total = SiswaDispen::all()->count();
 
         $guru_piket = count($table_guru_piket) > 0 ? $table_guru_piket[0]["guru"] : null;
         return Inertia::render("Home", [
             "guru" => $guru,
-            "guru_piket" => $guru_piket,
+            "guru_piket" => $piket,
             "total_dispen" => $dispen_total,
             "two_weeks_count" => $dataDispen2minggu->count(),
             "two_weeks" => $dataCount2Minggu

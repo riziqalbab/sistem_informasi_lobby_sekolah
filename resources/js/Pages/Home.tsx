@@ -26,9 +26,15 @@ import { Chart } from "@/Components/Chart";
 function Home() {
     const [guruChoice, setGuruChoice] = useState<number>();
     const { props } = usePage();
+
+    console.log(props);
+    
+
     const guru: object_guru[] = props.guru as object_guru[];
     const guru_piket = props.guru_piket as object_guru_piket;
-    const nama_guru_piket: string = guru_piket?.nama;
+
+
+    const nama_guru_piket: string = guru_piket?.guru.nama;
     const optionGuru = guru.map((e, index) => {
         return {
             value: e.id_guru,
@@ -37,7 +43,7 @@ function Home() {
     });
     const handleSubmitGuruPiket = (e: React.FormEvent<HTMLFormElement>) => {
         router.post("/guru/piket/store", {
-            id_guru_piket: guruChoice,
+            id_guru: guruChoice,
         });
     };
     return (
