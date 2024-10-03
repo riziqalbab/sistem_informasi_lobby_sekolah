@@ -4,6 +4,7 @@ use App\Http\Controllers\DispensasiController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KeluarController;
+use App\Http\Controllers\MasukController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiswaController;
 use Illuminate\Foundation\Application;
@@ -18,6 +19,8 @@ Route::post("/siswa/store", [SiswaController::class, "store"]);
 
 Route::get("/keluar", KeluarController::class);
 Route::post("/keluar/store", [KeluarController::class, "store"]);
+
+Route::get("/masuk", MasukController::class);
 
 
 Route::delete("/guru/delete/{id_guru}", [GuruController::class, "delete"]);

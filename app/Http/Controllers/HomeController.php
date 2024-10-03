@@ -7,7 +7,6 @@ use App\Models\Guru;
 use App\Models\GuruPiket;
 use App\Models\SiswaDispen;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -28,11 +27,8 @@ class HomeController extends Controller
                 "label"=>date('d M', strtotime($date))
             ];
         }
-
         $twoWeeksAgo = Carbon::now()->subWeeks(2);
         $dataDispen2minggu = DB::table('dispen')->where('waktu_awal', '>=', $twoWeeksAgo)->get();
-
-
 
         $guru = Guru::all();
 
@@ -48,7 +44,7 @@ class HomeController extends Controller
             "guru_piket" => $piket,
             "total_dispen" => $dispen_total,
             "two_weeks_count" => $dataDispen2minggu->count(),
-            "two_weeks" => $dataCount2Minggu
+            "two_weeks" => array_reverse($dataCount2Minggu)
         ]);
     }
 }

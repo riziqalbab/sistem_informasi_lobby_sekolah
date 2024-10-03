@@ -72,12 +72,13 @@ export default function AllDispensasi() {
                                     <TableCell>
                                         <Link
                                             href={`${site_url}/dispensasi/${dispensi.id_dispen}`}
-                                            className="flex items-center gap-1 border rounded-lg border-black p-1 px-2"
+
                                         >
-                                            <Eye className="mr-2 h-4 w-4" />
-                                            <span className="w-14">
+                                            <Button>
+
                                                 Lihat Detail
-                                            </span>
+                                            </Button>
+                                            
                                         </Link>
                                     </TableCell>
                                 </TableRow>

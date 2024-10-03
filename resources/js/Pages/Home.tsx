@@ -26,6 +26,7 @@ import { Chart } from "@/Components/Chart";
 function Home() {
     const [guruChoice, setGuruChoice] = useState<number>();
     const { props } = usePage();
+    const two_weeks: Array<any> = props.two_weeks as unknown as Array<any>
     const guru: object_guru[] = props.guru as object_guru[];
     const guru_piket = props.guru_piket as object_guru_piket;
 
@@ -45,7 +46,10 @@ function Home() {
         <>
             <Navbar />
             <main className="w-screen ">
-                <div className="w-full p-5">
+            <div className="w-full h-96 object-cover rounded-lg bg-[url(https://sman1lacirebon.sch.id/media_library/posts/post-image-1658300899785.jpg)] bg-left bg-cover flex items-center justify-center">
+                <h1 className="font-black text-slate-900 text-3xl">LOBBY SMK NEGERI 1 KALIGENDING</h1>
+            </div>
+                <div className="w-full p-5 relative mt-16 z-50">
                     {guru_piket == null ? (
                         <Alert variant="destructive" className="my-5">
                             <ExclamationTriangleIcon className="h-4 w-4" />
@@ -107,6 +111,24 @@ function Home() {
                             </CardFooter>
                         </Card>
                         <StatCard
+                            url="/tamu/tambah"
+                            value={99}
+                            title="BUKU TAMU"
+                            desc="JUMLAH BUKU TAMU"
+                        />
+                        <StatCard
+                            url="/masuk"
+                            value={99}
+                            title="DISPENSASI MASUK"
+                            desc="JUMLAH SISWA TERLAMBAT | IZIN MASUK"
+                        />
+                        <StatCard
+                            url="/keluar"
+                            value={props.total_dispen as number}
+                            title="DISPENSASI KELUAR"
+                            desc="JUMLAH SISWA IZIN | IZIN KELUAR"
+                        />
+                        <StatCard
                             url="/keluar"
                             value={props.total_dispen as number}
                             title="DISPENSASI KELUAR"
@@ -139,7 +161,7 @@ function Home() {
                 </div>
                 <div className="container p-5">
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2 mb-8">
-                        <Chart data={props.two_weeks as any} description="Grafik dispensasi 2 minggu terkahir" keyX="label" keyY="count" title="2 MINGGU DISPENSASI" />
+                        <Chart data={two_weeks } description="Grafik dispensasi 2 minggu terkahir" keyX="label" keyY="count" title="2 MINGGU DISPENSASI" />
                     </div>
                    
                 </div>
