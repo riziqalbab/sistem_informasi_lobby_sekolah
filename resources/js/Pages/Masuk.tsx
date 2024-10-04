@@ -12,14 +12,19 @@ import {
     CardTitle,
 } from "@/Components/ui/card";
 import Select from "react-select";
-import { usePage } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "@/hooks/use-toast";
+import { Toaster } from "@/Components/ui/toaster";
 
 function Masuk() {
     const { props } = usePage();
-    const [nis, setNis] = useState<number>();
-    const [siswa, setSiswa] = useState<Array<object_siswa_masuk>>([]);
+    const guru_piket = props.guru_piket as object_guru_piket;
+    const [nis, setNis] = useState<string>();
+    const [guruChoice, setGuruChoice] = useState<string>();
+    
+    const [siswa, setSiswa] = useState<Array<any>>([]);
+
 
     const updateAlasan = useCallback((index: number, alasan: string) => {
         setSiswa((prev) =>
@@ -62,8 +67,19 @@ function Masuk() {
         };
     });
 
+    const handleSubmit = () => {
+        const values = {
+            id_guru_piket: guru_piket.id_guru,
+            id_guru: guruChoice,
+            siswa
+        };
+
+        router.post("/masuk/store", {...values});
+    };
+
     return (
         <>
+        <Toaster/>
             <Navbar />
             <main className="w-screen flex items-center justify-center">
                 <Card className="w-full max-w-2xl mx-auto">
@@ -82,7 +98,7 @@ function Masuk() {
                                         id="nis"
                                         type="number"
                                         onChange={(e) => {
-                                            setNis(e.target.valueAsNumber);
+                                            setNis(e.target.value);
                                         }}
                                         placeholder="Masukkan NIS"
                                     />
@@ -95,9 +111,12 @@ function Masuk() {
                                 <div className="flex-grow">
                                     <Label htmlFor="guru">GURU PENGAJAR</Label>
                                     <Select
+                                        onChange={(e) => {
+                                            setGuruChoice(e?.value);
+                                        }}
                                         options={optionGuru}
                                         id="guru"
-                                        placeholder="Masukkan NIS"
+                                        placeholder="Masukkan Guru"
                                     />
                                 </div>
                             </div>
@@ -115,8 +134,8 @@ function Masuk() {
                                             <Button
                                                 variant="destructive"
                                                 size="sm"
-                                                onClick={()=>{
-                                                    handleHapusSiswa(data.nis)
+                                                onClick={() => {
+                                                    handleHapusSiswa(data.nis);
                                                 }}
                                             >
                                                 Hapus
@@ -137,7 +156,7 @@ function Masuk() {
                         </div>
                     </CardContent>
                     <CardFooter>
-                        <Button>Kirim Izin</Button>
+                        <Button onClick={handleSubmit}>Kirim Izin</Button>
                     </CardFooter>
                 </Card>
             </main>

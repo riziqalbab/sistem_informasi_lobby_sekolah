@@ -51,7 +51,7 @@ declare global {
     }
 
     interface object_guru {
-        id_guru: number;
+        id_guru: string;
         mapel: string;
         nama: string;
         whatsapp: string;
