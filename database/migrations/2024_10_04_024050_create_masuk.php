@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id_masuk')->primary();
             $table->unsignedBigInteger('id_guru_piket');
             $table->unsignedBigInteger('id_guru');
-            $table->dateTime('tanggal');
+            $table->date('tanggal');
 
             $table->foreign('id_guru_piket')->references('id')->on('guru_piket');
             $table->foreign('id_guru')->references('id_guru')->on('guru');
