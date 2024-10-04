@@ -38,6 +38,12 @@ declare global {
         nama: string;
         nis: number;
     }
+    interface object_siswa_masuk {
+        kelas: string;
+        nama: string;
+        nis: number;
+        alasan: string;
+    }
 
     interface object_option_alasan {
         value: string;
@@ -65,19 +71,19 @@ declare global {
         to: number | null;
         total: number;
         links: Array<{
-                active: boolean
-                label: string
-                url: string
-        }>
-      }
+            active: boolean;
+            label: string;
+            url: string;
+        }>;
+    }
 
-    interface siswa_dispen{
-        alasan: string
-        id_dispen: string
-        kelas: string
-        nama: string
-        nis: number
-        tanggal: string
+    interface siswa_dispen {
+        alasan: string;
+        id_dispen: string;
+        kelas: string;
+        nama: string;
+        nis: number;
+        tanggal: string;
     }
 
     interface object_dispensasi {
@@ -90,17 +96,15 @@ declare global {
 
     interface object_guru_piket {
         id: number;
-        id_guru: number
-        tanggal: string
-        guru:{
-            id_guru: number
-            mapel: string
-            nama: string
-            whatsapp: string
-        }
+        id_guru: number;
+        tanggal: string;
+        guru: {
+            id_guru: number;
+            mapel: string;
+            nama: string;
+            whatsapp: string;
+        };
     }
-
-    
 
     var route: typeof ziggyRoute;
 }
