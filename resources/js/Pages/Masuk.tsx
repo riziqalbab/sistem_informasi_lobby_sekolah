@@ -27,10 +27,6 @@ function Masuk() {
         );
     }, []);
 
-    useEffect(() => {
-        console.log(siswa);
-    }, [siswa]);
-
     const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
@@ -47,6 +43,16 @@ function Masuk() {
             });
         }
     };
+
+    const handleHapusSiswa = (nisIndex: number) => {
+        const indexHapus = siswa.findIndex((item) => item.nis == nisIndex);
+
+        setSiswa([
+            ...siswa.slice(0, indexHapus),
+            ...siswa.slice(indexHapus + 1),
+        ]);
+    };
+
     const guru: object_guru[] = props.guru as object_guru[];
 
     const optionGuru = guru.map((e, index) => {
@@ -109,6 +115,9 @@ function Masuk() {
                                             <Button
                                                 variant="destructive"
                                                 size="sm"
+                                                onClick={()=>{
+                                                    handleHapusSiswa(data.nis)
+                                                }}
                                             >
                                                 Hapus
                                             </Button>

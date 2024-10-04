@@ -16,4 +16,8 @@ class MasukController extends Controller
             "guru"=> $guru
         ]);
     }
+
+    public function store(Request $request){
+        // 
+    }
 }
