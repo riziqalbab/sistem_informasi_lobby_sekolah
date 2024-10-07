@@ -116,12 +116,12 @@ function Home() {
                                 </Dialog>
                             </CardFooter>
                         </Card>
-                        {/* <StatCard
+                        <StatCard
                             url="/tamu/tambah"
-                            value={99}
+                            value={38}
                             title="BUKU TAMU"
                             desc="JUMLAH BUKU TAMU"
-                        /> */}
+                        />
                         <StatCard
                             url="/masuk"
                             value={props.total_terlambat as number}
@@ -135,7 +135,7 @@ function Home() {
                             desc="JUMLAH SISWA IZIN | IZIN KELUAR"
                         />
 
-                        <Card className="w-full max-w-lg">
+                        {/* <Card className="w-full max-w-lg">
                             <CardHeader className="-mb-3">
                                 <CardTitle>Total</CardTitle>
                             </CardHeader>
@@ -156,7 +156,7 @@ function Home() {
                                     Data 2 minggu kebelakang
                                 </p>
                             </CardContent>
-                        </Card>
+                        </Card> */}
                         <Card className="w-full max-w-lg">
                             <CardHeader className="-mb-3">
                                 <CardTitle>Total 2 Minggu Siswa Terlambat</CardTitle>
