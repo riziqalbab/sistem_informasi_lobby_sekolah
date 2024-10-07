@@ -28,12 +28,14 @@ class MasukController extends Controller
 
     public function store(Request $request)
     {
-
         $date_now = Carbon::now()->toDateString();
 
         $validator = Validator::make($request->all(), [
             "id_guru" => ["required"],
             "id_guru_piket" => ["required"],
+        ], [
+            "id_guru"=> "Guru Wajib Diisi",
+            "id_guru_piket"=> "Guru piket belum diatur",
         ]);
 
         if ($validator->fails()) {

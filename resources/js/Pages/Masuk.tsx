@@ -3,6 +3,8 @@ import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
 import { Textarea } from "@/Components/ui/textarea";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+
 import {
     Card,
     CardContent,
@@ -16,15 +18,14 @@ import { router, usePage } from "@inertiajs/react";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "@/hooks/use-toast";
 import { Toaster } from "@/Components/ui/toaster";
+import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
 
 function Masuk() {
     const { props } = usePage();
     const guru_piket = props.guru_piket as object_guru_piket;
     const [nis, setNis] = useState<string>();
     const [guruChoice, setGuruChoice] = useState<string>();
-    
     const [siswa, setSiswa] = useState<Array<any>>([]);
-
 
     const updateAlasan = useCallback((index: number, alasan: string) => {
         setSiswa((prev) =>
@@ -71,18 +72,26 @@ function Masuk() {
         const values = {
             id_guru_piket: guru_piket.id_guru,
             id_guru: guruChoice,
-            siswa
+            siswa,
         };
 
-        router.post("/masuk/store", {...values});
+        router.post("/masuk/store", { ...values });
     };
 
     return (
         <>
-        <Toaster/>
+            <Toaster />
             <Navbar />
             <main className="w-screen flex items-center justify-center">
                 <Card className="w-full max-w-2xl mx-auto">
+                    {props.errors.id_guru_piket && (
+                        <Alert variant="destructive">
+                            <ExclamationTriangleIcon className="h-4 w-4" />
+                            <AlertDescription>
+                                {props.errors.id_guru_piket}
+                            </AlertDescription>
+                        </Alert>
+                    )}
                     <CardHeader>
                         <CardTitle>IZIN MASUK | TERLAMBAT</CardTitle>
                     </CardHeader>
@@ -118,6 +127,17 @@ function Masuk() {
                                         id="guru"
                                         placeholder="Masukkan Guru"
                                     />
+                                    {props.errors.id_guru && (
+                                        <Alert
+                                            variant="destructive"
+                                            className="mt-2"
+                                        >
+                                            <ExclamationTriangleIcon className="h-4 w-4" />
+                                            <AlertDescription>
+                                                {props.errors.id_guru}
+                                            </AlertDescription>
+                                        </Alert>
+                                    )}
                                 </div>
                             </div>
 

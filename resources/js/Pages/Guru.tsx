@@ -68,11 +68,11 @@ export default function Guru({ teachers = [], onEdit }: ComponentProps) {
 
     const handleDelete = (id: number) => {
         router.delete(`/guru/delete/${id}`);
-        // console.log(id);
+
     };
 
     return (
-        <>
+        <div className="w-screen h-screen flex items-start justify-center">
             <Navbar />
             <main className="w-screen flex items-center justify-center flex-col ">
                 <div className="w-full container p-3">
@@ -242,6 +242,6 @@ export default function Guru({ teachers = [], onEdit }: ComponentProps) {
                     </Table>
                 </div>
             </main>
-        </>
+        </div>
     );
 }
