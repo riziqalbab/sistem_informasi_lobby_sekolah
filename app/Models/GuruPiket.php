@@ -11,7 +11,7 @@ class GuruPiket extends Model
 
 
     protected $table = 'guru_piket';
-    protected $primaryKey = 'id_guru_piket';
+    protected $primaryKey = 'id';
 
     public $timestamps = false;
     protected $fillable = [

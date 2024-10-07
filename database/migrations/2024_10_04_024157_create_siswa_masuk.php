@@ -12,16 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('siswa_masuk', function (Blueprint $table) {
-            $table->uuid('id_masuk')->nullable(false);
-            $table->string('nis')->nullable(false);
-            $table->string('nama')->nullable(false);
-            $table->string('kelas')->nullable(false);
-            $table->string('tanggal')->nullable(false);
-            $table->string('alasan')->nullable(false);
-
+            $table->uuid('id_masuk');
+            $table->string('nis');
+            $table->string('nama');
+            $table->string('kelas');
+            $table->date('tanggal'); 
+            $table->string('alasan');
+        
             $table->primary(['id_masuk', 'nis']);
-            $table->foreign('id_masuk')->references('id_masuk')->on('masuk');
-            $table->foreign('nis')->references('nis')->on('siswa');
+            $table->foreign('id_masuk')->references('id_masuk')->on('masuk')->onDelete('cascade');
+            $table->foreign('nis')->references('nis')->on('siswa')->onDelete('cascade');
+        
         });
     }
 

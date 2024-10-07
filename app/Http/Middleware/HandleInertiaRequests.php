@@ -42,6 +42,9 @@ class HandleInertiaRequests extends Middleware
             },
             "site_url"=> function (){
                 return session()->get("site_url");
+            },
+            "id_masuk"=> function (){
+                return session()->get("id_masuk");
             }
         ];
     }

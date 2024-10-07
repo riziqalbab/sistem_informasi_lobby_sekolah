@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Masuk extends Model
 {
@@ -21,5 +22,8 @@ class Masuk extends Model
     ];
     public $timestamps = false;
     
-
+    public function dispen_siswa(): BelongsToMany
+    {
+        return $this->belongsToMany(Siswa::class, "siswa_masuk", "id_masuk", "nis");
+    }
 }

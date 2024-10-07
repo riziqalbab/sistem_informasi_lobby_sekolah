@@ -8,7 +8,6 @@ use App\Models\SiswaDispen;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Services\FonnteService;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
@@ -25,8 +24,6 @@ class KeluarController extends Controller
     {
 
         $site_url = url("/");
-
-        Log::info($site_url);
 
         $table_guru_piket = GuruPiket::query()->with("guru")->whereDate('tanggal', Carbon::today())->get()->toArray();
         $guru_piket = count($table_guru_piket) > 0 ? $table_guru_piket[0]["guru"] : null;
@@ -49,7 +46,6 @@ class KeluarController extends Controller
             ->with('guru')  
             ->get()->first();
 
-        // Log::info($request->all());
         $validator = Validator::make($request->all(), [
             "siswa" => "required",
             "alasan" => "required",

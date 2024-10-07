@@ -20,4 +20,9 @@ class Siswa extends Model
     {
         return $this->belongsToMany(Dispen::class, "siswa_dispen", "nis", "id_dispen");
     }
+    
+    public function masuk(): BelongsToMany{
+        
+        return $this->belongsToMany(Masuk::class, "siswa_masuk", "nis", "id_masuk");
+    }
 }

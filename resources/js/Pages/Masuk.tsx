@@ -4,6 +4,15 @@ import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
 import { Textarea } from "@/Components/ui/textarea";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/Components/ui/dialog";
 
 import {
     Card,
@@ -13,12 +22,14 @@ import {
     CardHeader,
     CardTitle,
 } from "@/Components/ui/card";
+import { Skeleton } from "@/Components/ui/skeleton";
 import Select from "react-select";
 import { router, usePage } from "@inertiajs/react";
 import { useCallback, useEffect, useState } from "react";
-import { toast } from "@/hooks/use-toast";
+import { toast, useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/Components/ui/toaster";
 import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
+import QRCode from "react-qr-code";
 
 function Masuk() {
     const { props } = usePage();
@@ -26,12 +37,21 @@ function Masuk() {
     const [nis, setNis] = useState<string>();
     const [guruChoice, setGuruChoice] = useState<string>();
     const [siswa, setSiswa] = useState<Array<any>>([]);
+    const [loading, setLoading] = useState(false);
+
+    const [valueQr, setValueQr] = useState(
+        `${props.site_url}/terlambat/${props.id_masuk}`
+    );
 
     const updateAlasan = useCallback((index: number, alasan: string) => {
         setSiswa((prev) =>
             prev.map((data, i) => (i === index ? { ...data, alasan } : data))
         );
     }, []);
+
+    useEffect(() => {
+        setValueQr(`${props.site_url}/terlambat/${props.id_masuk}`);
+    }, [props]);
 
     const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -70,13 +90,28 @@ function Masuk() {
 
     const handleSubmit = () => {
         const values = {
-            id_guru_piket: guru_piket.id_guru,
+            id_guru_piket: guru_piket.id,
             id_guru: guruChoice,
             siswa,
         };
 
-        router.post("/masuk/store", { ...values });
+        router.post(
+            "/masuk/store",
+            { ...values },
+            {
+                onStart: () => {
+                    setLoading(true);
+                },
+
+                onSuccess: () => {
+                    setLoading(false);
+                },
+            }
+        );
     };
+
+    console.log(props);
+    
 
     return (
         <>
@@ -176,7 +211,46 @@ function Masuk() {
                         </div>
                     </CardContent>
                     <CardFooter>
-                        <Button onClick={handleSubmit}>Kirim Izin</Button>
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button
+                                    onClick={handleSubmit}
+                                >
+                                    KIRIM
+                                </Button>
+                            </DialogTrigger>
+
+                            <DialogContent className="sm:max-w-[425px]">
+                                <DialogHeader>
+                                    <DialogTitle className="text-center">
+                                        SIMPAN KODE QR BERIKUT
+                                    </DialogTitle>
+                                    <DialogDescription className="text-center"></DialogDescription>
+                                    <br />
+                                </DialogHeader>
+                                {loading ? (
+                                    <>
+                                        <div className="space-y-2">
+                                            <Skeleton className="h-10 w-full" />
+                                            <Skeleton className="h-10 w-full" />
+                                            <Skeleton className="h-10 w-full" />
+                                            <Skeleton className="h-10 w-full" />
+                                        </div>
+                                    </>
+                                ) : (
+                                    <QRCode
+                                        size={256}
+                                        style={{
+                                            height: "auto",
+                                            maxWidth: "100%",
+                                            width: "100%",
+                                        }}
+                                        value={valueQr}
+                                        viewBox={`0 0 256 256`}
+                                    />
+                                )}
+                            </DialogContent>
+                        </Dialog>
                     </CardFooter>
                 </Card>
             </main>

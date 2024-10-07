@@ -50,8 +50,6 @@ export default function Guru({ teachers = [], onEdit }: ComponentProps) {
         whatsapp: "",
     });
 
-    console.log(guru);
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const key = e.target.id;
         const value = e.target.value;
@@ -68,180 +66,191 @@ export default function Guru({ teachers = [], onEdit }: ComponentProps) {
 
     const handleDelete = (id: number) => {
         router.delete(`/guru/delete/${id}`);
-
     };
 
     return (
-        <div className="w-screen h-screen flex items-start justify-center">
+        <>
             <Navbar />
-            <main className="w-screen flex items-center justify-center flex-col ">
-                <div className="w-full container p-3">
-                    <div className="flex items-center mb-10">
-                        <Dialog>
-                            <DialogTrigger>
-                                <Button>TAMBAH</Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                                <Card className="w-full max-w-md">
-                                    <form onSubmit={handleSubmit}>
-                                        <CardHeader>
-                                            <CardTitle>
-                                                Tambah Data Guru
-                                            </CardTitle>
-                                            <CardDescription>
-                                                Isi form berikut untuk
-                                                menambahkan data guru baru.
-                                            </CardDescription>
-                                        </CardHeader>
-                                        <CardContent className="space-y-4">
-                                            <div className="space-y-2">
-                                                <Label htmlFor="nama">
-                                                    Nama
-                                                </Label>
-                                                <Input
-                                                    name="nama"
-                                                    value={values.nama}
-                                                    onChange={handleChange}
-                                                    id="nama"
-                                                    placeholder="Masukkan nama guru"
-                                                />
-                                                {props.errors.nama && (
-                                                    <Alert variant="destructive">
-                                                        <AlertDescription>
-                                                            {props.errors.nama}
-                                                        </AlertDescription>
-                                                    </Alert>
-                                                )}
-                                            </div>
-                                            <div className="space-y-2">
-                                                <Label htmlFor="mapel">
-                                                    Mata Pelajaran
-                                                </Label>
-                                                <Input
-                                                    name="mapel"
-                                                    value={values.mapel}
-                                                    onChange={handleChange}
-                                                    id="mapel"
-                                                    placeholder="Masukkan mata pelajaran yang diajar"
-                                                />
-                                                {props.errors.mapel && (
-                                                    <Alert variant="destructive">
-                                                        <AlertDescription>
-                                                            {props.errors.mapel}
-                                                        </AlertDescription>
-                                                    </Alert>
-                                                )}
-                                            </div>
+            <div className="w-screen h-screen flex items-start justify-center">
+                <main className="w-screen flex items-center justify-center flex-col ">
+                    <div className="w-full container p-3">
+                        <div className="flex items-center mb-10">
+                            <Dialog>
+                                <DialogTrigger>
+                                    <Button>TAMBAH</Button>
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <Card className="w-full max-w-md">
+                                        <form onSubmit={handleSubmit}>
+                                            <CardHeader>
+                                                <CardTitle>
+                                                    Tambah Data Guru
+                                                </CardTitle>
+                                                <CardDescription>
+                                                    Isi form berikut untuk
+                                                    menambahkan data guru baru.
+                                                </CardDescription>
+                                            </CardHeader>
+                                            <CardContent className="space-y-4">
+                                                <div className="space-y-2">
+                                                    <Label htmlFor="nama">
+                                                        Nama
+                                                    </Label>
+                                                    <Input
+                                                        name="nama"
+                                                        value={values.nama}
+                                                        onChange={handleChange}
+                                                        id="nama"
+                                                        placeholder="Masukkan nama guru"
+                                                    />
+                                                    {props.errors.nama && (
+                                                        <Alert variant="destructive">
+                                                            <AlertDescription>
+                                                                {
+                                                                    props.errors
+                                                                        .nama
+                                                                }
+                                                            </AlertDescription>
+                                                        </Alert>
+                                                    )}
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <Label htmlFor="mapel">
+                                                        Mata Pelajaran
+                                                    </Label>
+                                                    <Input
+                                                        name="mapel"
+                                                        value={values.mapel}
+                                                        onChange={handleChange}
+                                                        id="mapel"
+                                                        placeholder="Masukkan mata pelajaran yang diajar"
+                                                    />
+                                                    {props.errors.mapel && (
+                                                        <Alert variant="destructive">
+                                                            <AlertDescription>
+                                                                {
+                                                                    props.errors
+                                                                        .mapel
+                                                                }
+                                                            </AlertDescription>
+                                                        </Alert>
+                                                    )}
+                                                </div>
 
-                                            <div className="space-y-2">
-                                                <Label htmlFor="whatsapp">
-                                                    Nomor WhatsApp
-                                                </Label>
-                                                <Input
-                                                    name="whatsapp"
-                                                    value={values.whatsapp}
-                                                    onChange={handleChange}
-                                                    id="whatsapp"
-                                                    placeholder="Masukkan nomor WhatsApp guru"
-                                                />
-                                                {props.errors.whatsapp && (
-                                                    <Alert variant="destructive">
-                                                        <AlertDescription>
-                                                            {
-                                                                props.errors
-                                                                    .whatsapp
-                                                            }
-                                                        </AlertDescription>
-                                                    </Alert>
-                                                )}
-                                            </div>
-                                        </CardContent>
-                                        <CardFooter>
-                                            <Button
-                                                className="w-full"
-                                                type="submit"
-                                            >
-                                                Simpan
-                                            </Button>
-                                        </CardFooter>
-                                        {props.success && (
-                                            <Alert>
-                                                <RocketIcon className="h-4 w-4" />
-                                                <AlertTitle>
-                                                    Sukses!!
-                                                </AlertTitle>
-                                                <AlertDescription>
-                                                    Berhasil menambahkan data
-                                                    guru
-                                                </AlertDescription>
-                                            </Alert>
-                                        )}
-                                    </form>
-                                </Card>
-                            </DialogContent>
-                        </Dialog>
-                    </div>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Nama</TableHead>
-                                <TableHead>Mata Pelajaran</TableHead>
-                                <TableHead>Nomor WhatsApp</TableHead>
-                                <TableHead className="text-right">
-                                    Aksi
-                                </TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {guru.map((teacher: GuruObject) => (
-                                <TableRow key={teacher.id_guru}>
-                                    <TableCell>{teacher.nama}</TableCell>
-                                    <TableCell>{teacher.mapel}</TableCell>
-                                    <TableCell>{teacher.whatsapp}</TableCell>
-                                    <TableCell className="text-right">
-                                        <AlertDialog>
-                                            <AlertDialogTrigger asChild>
-                                                <Button variant="destructive">
-                                                    HAPUS
+                                                <div className="space-y-2">
+                                                    <Label htmlFor="whatsapp">
+                                                        Nomor WhatsApp
+                                                    </Label>
+                                                    <Input
+                                                        name="whatsapp"
+                                                        value={values.whatsapp}
+                                                        onChange={handleChange}
+                                                        id="whatsapp"
+                                                        placeholder="Masukkan nomor WhatsApp guru"
+                                                    />
+                                                    {props.errors.whatsapp && (
+                                                        <Alert variant="destructive">
+                                                            <AlertDescription>
+                                                                {
+                                                                    props.errors
+                                                                        .whatsapp
+                                                                }
+                                                            </AlertDescription>
+                                                        </Alert>
+                                                    )}
+                                                </div>
+                                            </CardContent>
+                                            <CardFooter>
+                                                <Button
+                                                    className="w-full"
+                                                    type="submit"
+                                                >
+                                                    Simpan
                                                 </Button>
-                                            </AlertDialogTrigger>
-                                            <AlertDialogContent>
-                                                <AlertDialogHeader>
-                                                    <AlertDialogTitle>
-                                                        Are you absolutely sure?
-                                                    </AlertDialogTitle>
-                                                    <AlertDialogDescription>
-                                                        This action cannot be
-                                                        undone. This will
-                                                        permanently delete your
-                                                        account and remove your
-                                                        data from our servers.
-                                                    </AlertDialogDescription>
-                                                </AlertDialogHeader>
-                                                <AlertDialogFooter>
-                                                    <AlertDialogCancel>
-                                                        Cancel
-                                                    </AlertDialogCancel>
-
-                                                    <Button
-                                                        onClick={() => {
-                                                            handleDelete(
-                                                                teacher.id_guru
-                                                            );
-                                                        }}
-                                                    >
+                                            </CardFooter>
+                                            {props.success && (
+                                                <Alert>
+                                                    <RocketIcon className="h-4 w-4" />
+                                                    <AlertTitle>
+                                                        Sukses!!
+                                                    </AlertTitle>
+                                                    <AlertDescription>
+                                                        Berhasil menambahkan
+                                                        data guru
+                                                    </AlertDescription>
+                                                </Alert>
+                                            )}
+                                        </form>
+                                    </Card>
+                                </DialogContent>
+                            </Dialog>
+                        </div>
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Nama</TableHead>
+                                    <TableHead>Mata Pelajaran</TableHead>
+                                    <TableHead>Nomor WhatsApp</TableHead>
+                                    <TableHead className="text-right">
+                                        Aksi
+                                    </TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {guru.map((teacher: GuruObject) => (
+                                    <TableRow key={teacher.id_guru}>
+                                        <TableCell>{teacher.nama}</TableCell>
+                                        <TableCell>{teacher.mapel}</TableCell>
+                                        <TableCell>
+                                            {teacher.whatsapp}
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                            <AlertDialog>
+                                                <AlertDialogTrigger asChild>
+                                                    <Button variant="destructive">
                                                         HAPUS
                                                     </Button>
-                                                </AlertDialogFooter>
-                                            </AlertDialogContent>
-                                        </AlertDialog>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </div>
-            </main>
-        </div>
+                                                </AlertDialogTrigger>
+                                                <AlertDialogContent>
+                                                    <AlertDialogHeader>
+                                                        <AlertDialogTitle>
+                                                            Are you absolutely
+                                                            sure?
+                                                        </AlertDialogTitle>
+                                                        <AlertDialogDescription>
+                                                            This action cannot
+                                                            be undone. This will
+                                                            permanently delete
+                                                            your account and
+                                                            remove your data
+                                                            from our servers.
+                                                        </AlertDialogDescription>
+                                                    </AlertDialogHeader>
+                                                    <AlertDialogFooter>
+                                                        <AlertDialogCancel>
+                                                            Cancel
+                                                        </AlertDialogCancel>
+
+                                                        <Button
+                                                            onClick={() => {
+                                                                handleDelete(
+                                                                    teacher.id_guru
+                                                                );
+                                                            }}
+                                                        >
+                                                            HAPUS
+                                                        </Button>
+                                                    </AlertDialogFooter>
+                                                </AlertDialogContent>
+                                            </AlertDialog>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
+                </main>
+            </div>
+        </>
     );
 }

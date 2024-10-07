@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import Navbar from "@/Components/Navbar";
 import { Button } from "@/Components/ui/button";
@@ -42,6 +44,10 @@ function Home() {
             id_guru: guruChoice,
         });
     };
+
+    console.log(props);
+    
+    
     return (
         <>
             <Navbar />
@@ -93,7 +99,7 @@ function Home() {
                                                         id="guru"
                                                         onChange={(e) => {
                                                             setGuruChoice(
-                                                                e?.value
+                                                                e?.value 
                                                             );
                                                         }}
                                                         placeholder="Guru"
@@ -110,23 +116,17 @@ function Home() {
                                 </Dialog>
                             </CardFooter>
                         </Card>
-                        <StatCard
+                        {/* <StatCard
                             url="/tamu/tambah"
                             value={99}
                             title="BUKU TAMU"
                             desc="JUMLAH BUKU TAMU"
-                        />
+                        /> */}
                         <StatCard
                             url="/masuk"
-                            value={99}
+                            value={props.total_terlambat as number}
                             title="DISPENSASI MASUK"
                             desc="JUMLAH SISWA TERLAMBAT | IZIN MASUK"
-                        />
-                        <StatCard
-                            url="/keluar"
-                            value={props.total_dispen as number}
-                            title="DISPENSASI KELUAR"
-                            desc="JUMLAH SISWA IZIN | IZIN KELUAR"
                         />
                         <StatCard
                             url="/keluar"
@@ -148,10 +148,21 @@ function Home() {
                         </Card>
                         <Card className="w-full max-w-lg">
                             <CardHeader className="-mb-3">
-                                <CardTitle>Total 2 Minggu</CardTitle>
+                                <CardTitle>Total 2 Minggu Dispensasi Keluar</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <div className="text-2xl font-bold">{props.two_weeks_count as ReactNode}</div>
+                                <p className="text-xs text-muted-foreground">
+                                    Data 2 minggu kebelakang
+                                </p>
+                            </CardContent>
+                        </Card>
+                        <Card className="w-full max-w-lg">
+                            <CardHeader className="-mb-3">
+                                <CardTitle>Total 2 Minggu Siswa Terlambat</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="text-2xl font-bold">{props.two_weeks_count_terlambat as ReactNode}</div>
                                 <p className="text-xs text-muted-foreground">
                                     Data 2 minggu kebelakang
                                 </p>
