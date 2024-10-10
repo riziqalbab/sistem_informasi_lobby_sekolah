@@ -71,7 +71,7 @@ export default function AllDispensasi() {
                                     <TableCell>{dispensi.tanggal}</TableCell>
                                     <TableCell>
                                         <Link
-                                            href={`${site_url}/dispensasi/${dispensi.id_dispen}`}
+                                            href={`${site_url}/keluar/${dispensi.id_dispen}`}
 
                                         >
                                             <Button>

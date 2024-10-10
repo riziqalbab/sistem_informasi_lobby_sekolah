@@ -7,8 +7,8 @@ use App\Http\Controllers\KeluarController;
 use App\Http\Controllers\MasukController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\TamuController;
 use App\Http\Controllers\Terlambat;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -18,11 +18,22 @@ Route::get("/siswa/{nis}", [SiswaController::class, "getOne"]);
 Route::get("/siswa", SiswaController::class)->name("Siswa");
 Route::post("/siswa/store", [SiswaController::class, "store"]);
 
-Route::get("/keluar", KeluarController::class);
+
+Route::get("/keluar/{id_dispen}", [DispensasiController::class, "dispensasi"]);
+Route::get("/keluar", DispensasiController::class);
+Route::get("/keluar/tambah", KeluarController::class);
 Route::post("/keluar/store", [KeluarController::class, "store"]);
 
 Route::get("/masuk", MasukController::class);
 Route::post("/masuk/store", [MasukController::class, "store"]);
+
+
+
+
+
+
+Route::get("/tamu/tambah", [TamuController::class, 'tambah']);
+Route::post("/tamu/store", [TamuController::class, 'store']);
 
 
 
@@ -32,8 +43,6 @@ Route::get("/guru", GuruController::class);
 Route::post("/guru/store", [GuruController::class, "store"]);
 Route::post("/guru/piket/store", [GuruController::class, "piket"]);
 
-Route::get("/dispensasi/{id_dispen}", [DispensasiController::class, "dispensasi"]);
-Route::get("/dispensasi", DispensasiController::class);
 
 
 Route::get("/terlambat/{id_masuk}", [Terlambat::class, "detail"]);
