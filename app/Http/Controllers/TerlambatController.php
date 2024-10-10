@@ -6,24 +6,27 @@ use App\Models\Guru;
 use App\Models\GuruPiket;
 use App\Models\Masuk;
 use App\Models\SiswaMasuk;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
+
 
 class TerlambatController extends Controller
 {
 
 
     public function __invoke(Request $request){
-        
-        $date = $request->query("get");
-
+    
+        $date = $request->get("date") != null ? $request->get("date") : Carbon::now()->toDateString();
         $siswa_terlambat = SiswaMasuk::all();
 
-
+        $terlambat = DB::table("siswa_dispen")->whereDate("tanggal", $date)->paginate(10);
         return Inertia::render("Masuk/AllMasuk", [
-            "terlambat"=>$siswa_terlambat
+            "terlambat"=>$terlambat,
+            "date"=> $date
         ]);
     }
     public function detail(string $id_masuk)

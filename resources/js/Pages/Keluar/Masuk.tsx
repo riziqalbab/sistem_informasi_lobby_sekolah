@@ -111,7 +111,6 @@ function Masuk() {
     };
 
     console.log(props);
-    
 
     return (
         <>
@@ -213,11 +212,7 @@ function Masuk() {
                     <CardFooter>
                         <Dialog>
                             <DialogTrigger asChild>
-                                <Button
-                                    onClick={handleSubmit}
-                                >
-                                    KIRIM
-                                </Button>
+                                <Button onClick={handleSubmit}>KIRIM</Button>
                             </DialogTrigger>
 
                             <DialogContent className="sm:max-w-[425px]">

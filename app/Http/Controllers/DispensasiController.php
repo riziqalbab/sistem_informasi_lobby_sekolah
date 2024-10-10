@@ -18,7 +18,6 @@ class DispensasiController extends Controller
     {
 
         $site_url = url("/");
-
         $date = $request->get("date") != null ? $request->get("date") : Carbon::now()->toDateString();
         return Inertia::render("Dispensasi/AllDispensasi", [
             "dispens" =>  DB::table("siswa_dispen")
