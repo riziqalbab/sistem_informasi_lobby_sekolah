@@ -11,8 +11,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
-class Terlambat extends Controller
+class TerlambatController extends Controller
 {
+
+
+    public function __invoke(Request $request){
+        
+        $date = $request->query("get");
+
+        $siswa_terlambat = SiswaMasuk::all();
+
+
+        return Inertia::render("Masuk/AllMasuk", [
+            "terlambat"=>$siswa_terlambat
+        ]);
+    }
     public function detail(string $id_masuk)
     {
 

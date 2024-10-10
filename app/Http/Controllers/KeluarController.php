@@ -29,7 +29,7 @@ class KeluarController extends Controller
         $guru_piket = count($table_guru_piket) > 0 ? $table_guru_piket[0]["guru"] : null;
 
         $guru = Guru::all();
-        return Inertia::render("Keluar", [
+        return Inertia::render("Keluar/Keluar", [
             "guru" => $guru,
             "guru_piket" => $guru_piket,
             "site_url" => $site_url

@@ -25,19 +25,18 @@ export default function AllDispensasi() {
     const { props } = usePage();
     const [dateDispen, setDateDispen] = useState<string>(props.date as string);
 
-    const paginator: Paginator<siswa_dispen> =
-        props.dispens as Paginator<siswa_dispen>;
-    const dataDispen: Array<siswa_dispen> = (
-        props.dispens as { data: Array<siswa_dispen> }
-    ).data;
+    // const paginator: Paginator<siswa_dispen> = props.dispens as Paginator<siswa_dispen>;
+    const dataTerlambat: Array<siswa_dispen> = props.terlambat as  Array<siswa_dispen>
     const site_url: string = props.site_url as string;
 
+
+    
     return (
         <div className="overflow-x-hidden">
             <Navbar />
-                <h1 className="font-bold text-center text-lg">DAFTAR SISWA MELAKUKAN DISPENSASI</h1>
             <main className="w-screen flex pt-5 items-center justify-center ">
-                <div className="container ">
+                <div className="container">
+                <h1 className="text-center font-bold text-xl">DATA SISWA TERLAMBAT</h1>
                     <form action="" method="get" className="flex gap-2">
                         <Input
                             type="date"
@@ -64,7 +63,7 @@ export default function AllDispensasi() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {dataDispen.map((dispensi) => (
+                            {dataTerlambat.map((dispensi) => (
                                 <TableRow>
                                     <TableCell>{dispensi.nis}</TableCell>
                                     <TableCell>{dispensi.nama}</TableCell>
@@ -87,7 +86,7 @@ export default function AllDispensasi() {
                         </TableBody>
                     </Table>
                     <Pagination>
-                        <PaginationContent>
+                        {/* <PaginationContent>
                             {paginator.next_page_url != null && (
                                 <PaginationItem>
                                     <PaginationPrevious
@@ -102,7 +101,7 @@ export default function AllDispensasi() {
                                     />
                                 </PaginationItem>
                             )}
-                        </PaginationContent>
+                        </PaginationContent> */}
                     </Pagination>
                 </div>
             </main>

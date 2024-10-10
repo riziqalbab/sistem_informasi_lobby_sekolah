@@ -8,7 +8,7 @@ use App\Http\Controllers\MasukController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TamuController;
-use App\Http\Controllers\Terlambat;
+use App\Http\Controllers\TerlambatController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -24,7 +24,7 @@ Route::get("/keluar", DispensasiController::class);
 Route::get("/keluar/tambah", KeluarController::class);
 Route::post("/keluar/store", [KeluarController::class, "store"]);
 
-Route::get("/masuk", MasukController::class);
+Route::get("/masuk", TerlambatController::class);
 Route::post("/masuk/store", [MasukController::class, "store"]);
 
 
@@ -45,7 +45,7 @@ Route::post("/guru/piket/store", [GuruController::class, "piket"]);
 
 
 
-Route::get("/terlambat/{id_masuk}", [Terlambat::class, "detail"]);
+Route::get("/terlambat/{id_masuk}", [TerlambatController::class, "detail"]);
 
 
 Route::get('/dashboard', function () {
