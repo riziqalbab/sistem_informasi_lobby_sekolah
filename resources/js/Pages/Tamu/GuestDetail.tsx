@@ -67,15 +67,7 @@ export default function DetailTamu() {
                         <h3 className="text-xl font-semibold">
                             {tamu.nama}
                         </h3>
-                        <Badge
-                            variant={
-                                tamu.isActive
-                                    ? "default"
-                                    : "secondary"
-                            }
-                        >
-                            Aktif
-                        </Badge>
+                        
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div className="flex items-center space-x-2">
@@ -104,39 +96,10 @@ export default function DetailTamu() {
                         <p>{tamu.keterangan}</p>
                     </div>
                 </CardContent>
-                <CardFooter className="flex justify-between">
-                    <Button variant="outline" onClick={handleStatusChange}>
-                        {bukuTamu.status === "Aktif"
-                            ? "Tandai Selesai"
-                            : "Aktifkan Kembali"}
-                    </Button>
-                </CardFooter>
+               
             </Card>
 
-            <Card className="mt-6">
-                <CardHeader>
-                    <CardTitle>Kirim Pesan ke Tamu</CardTitle>
-                    <CardDescription>
-                        Sampaikan informasi tambahan kepada tamu
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="space-y-2">
-                        <Label htmlFor="pesan">Pesan</Label>
-                        <Textarea
-                            id="pesan"
-                            placeholder="Tulis pesan Anda di sini..."
-                            value={pesan}
-                            onChange={handlePesanChange}
-                        />
-                    </div>
-                </CardContent>
-                <CardFooter>
-                    <Button onClick={handleKirimPesan} disabled={!pesan.trim()}>
-                        <MessageSquare className="mr-2 h-4 w-4" /> Kirim Pesan
-                    </Button>
-                </CardFooter>
-            </Card>
+         
         </div>
     );
 }

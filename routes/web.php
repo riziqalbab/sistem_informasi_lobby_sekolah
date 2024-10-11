@@ -36,7 +36,8 @@ Route::post("/masuk/store", [TerlambatController::class, "store"]);
 Route::get("/tamu", [TamuController::class, 'tamu']);
 Route::get("/tamu/tambah", [TamuController::class, 'tambah']);
 Route::post("/tamu/store", [TamuController::class, 'store']);
-Route::post("/tamu/{id_tamu}", [TamuController::class, 'store']);
+Route::get("/buku/{id_tamu}", [TamuController::class, 'detail']);
+Route::get("/tamu/{id_tamu}", [TamuController::class, 'guestDetail']);
 
 
 

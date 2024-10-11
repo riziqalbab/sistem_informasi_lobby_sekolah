@@ -118,7 +118,7 @@ function Home() {
                         </Card>
                         <StatCard
                             url="/tamu/tambah"
-                            value={38}
+                            value={props.tamu_count}
                             title="BUKU TAMU"
                             desc="JUMLAH BUKU TAMU"
                         />

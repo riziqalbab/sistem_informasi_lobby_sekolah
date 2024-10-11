@@ -34,8 +34,6 @@ class TerlambatController extends Controller
     {
 
         $site_url = url("/");
-
-
         $guru = Guru::all();
         $table_guru_piket = GuruPiket::query()->with("guru")->whereDate('tanggal', Carbon::today())->get()->toArray();
         $guru_piket = count($table_guru_piket) > 0 ? $table_guru_piket[0] : null;

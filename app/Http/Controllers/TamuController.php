@@ -6,6 +6,7 @@ use App\Models\Guru;
 use App\Models\GuruPiket;
 use App\Models\Tamu;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -20,6 +21,7 @@ class TamuController extends Controller
     {
         $guru = Guru::all();
         $date_now = Carbon::now()->toDateString();
+        $site_url = url("/");
 
         $piket = GuruPiket::where('tanggal', $date_now)
             ->with('guru')
@@ -28,7 +30,8 @@ class TamuController extends Controller
 
         return Inertia::render("Tamu/CreateTamu", [
             "guru" => $guru,
-            "guru_piket" => $piket
+            "guru_piket" => $piket,
+            "site_url"=> $site_url
         ]);
     }
 
@@ -44,6 +47,32 @@ class TamuController extends Controller
             "tamu" => $tamu
         ]);
     }
+
+
+    public function detail($id_tamu)
+    {
+        try {
+            $tamu = Tamu::findOrFail($id_tamu);
+            return Inertia::render("Tamu/DetailTamu", [
+                "tamu"=> $tamu
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return Inertia::render("NotFoundDispen");
+        }
+    }
+    public function guestDetail($id_tamu)
+    {
+        try {
+            $tamu = Tamu::findOrFail($id_tamu);
+            return Inertia::render("Tamu/GuestDetail", [
+                "tamu"=> $tamu
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return Inertia::render("NotFoundDispen");
+        }
+    }
+
+
     public function store(Request $request)
     {
 
@@ -77,5 +106,31 @@ class TamuController extends Controller
             "success" => true,
             "id_tamu" => $id_tamu_created
         ]);
+    }
+    public function dispensasi(string $id_dispen)
+    {
+
+        try {
+            $dispensasi = Tamu::findOrFail($id_dispen)->toArray();
+            $guru = Guru::where("id_guru", $dispensasi["id_guru"])->firstOrFail()->toArray();
+            $guru_piket = Guru::where("id_guru", $dispensasi["id_guru_piket"])->firstOrFail()->toArray();
+
+            $nama_guru = $guru["nama"];
+            $nama_guru_piket = $guru_piket["nama"];
+
+            return Inertia::render("Dispensasi/Dispensasi", [
+                "dispensasi" => [
+                    "guruPiket" => $nama_guru_piket,
+                    "guruPengajar" => $nama_guru,
+                    "nomorWhatsapp" => $dispensasi["whatsapp"],
+                    "waktuDispen" => $dispensasi["waktu_awal"],
+                    "waktuDispenAkhir" => $dispensasi["waktu_akhir"],
+                    "alasan" => $dispensasi["alasan"],
+                    "deskripsi" => $dispensasi["deskripsi"],
+                ]
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return Inertia::render("NotFoundDispen");
+        }
     }
 }

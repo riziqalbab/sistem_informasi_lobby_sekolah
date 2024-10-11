@@ -30,6 +30,9 @@ function Navbar() {
                         className="menu menu-sm dropdown-content bg-white rounded-box z-[1] mt-3 w-52 p-2 shadow "
                     >
                         <li>
+                            <Link href="/tamu">TAMU</Link>
+                        </li>
+                        <li>
                             <Link href="/keluar">DISPENSASI</Link>
                         </li>
                         <li>
@@ -40,7 +43,7 @@ function Navbar() {
                         </li>
                         <li>
                             <Link href="/guru" className="text-red-500">
-                                ALASAN
+                                MASTER DATA
                             </Link>
                         </li>
                     </ul>
@@ -51,6 +54,9 @@ function Navbar() {
             </div>
             <div className="navbar-end hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
+                    <li>
+                        <Link href="/tamu">TAMU</Link>
+                    </li>
                     <li>
                         <Link href="/keluar">DISPENSASI</Link>
                     </li>
@@ -65,7 +71,7 @@ function Navbar() {
                     </li>
                     <li>
                         <Link href="/guru" className="text-red-500">
-                            ALASAN
+                            MASTER DATA
                         </Link>
                     </li>
                 </ul>
