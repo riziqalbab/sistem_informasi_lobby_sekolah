@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
 import { Textarea } from "@/Components/ui/textarea";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+
+import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
+
 import Select from "react-select";
 
 import {
@@ -14,10 +18,14 @@ import {
     CardTitle,
 } from "@/Components/ui/card";
 import Navbar from "@/Components/Navbar";
-import { usePage } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
+import { Toaster } from "@/Components/ui/toaster";
+import { useToast } from "@/hooks/use-toast";
 
 export default function CreateTamu() {
     const { props } = usePage();
+
+    const guru_piket = props.guru_piket as object_guru_piket;
 
     const [nama, setNama] = useState<string>();
     const [instansi, setInstansi] = useState<string>();
@@ -34,15 +42,45 @@ export default function CreateTamu() {
         };
     });
 
-    console.log(optionGuru);
+    const { toast } = useToast();
+
+    useEffect(()=>{
+        if (!guru_piket) {
+            toast({
+                title: "Guru piket belum diatur",
+                description: "Silakan untuk mengatur guru piket",
+                variant: "destructive"
+            })
+        }
+    }, [])
 
     const handleSubmit = (e: React.FormEvent) => {
-        alert("Terima kasih telah mengisi buku tamu!");
+        e.preventDefault();
+
+        const values = {
+            id_guru_piket: guru_piket.id ? guru_piket.id : null,
+            id_guru: stafTujuan,
+            nama,
+            instansi,
+            whatsapp,
+            tujuan,
+            keterangan: ketTambahan,
+        };
+        router.post("/tamu/store", values);
     };
 
     return (
         <>
+        <Toaster/>
             <Navbar />
+            {props.errors.id_guru_piket && (
+                <div className="p-5">
+                    <Alert variant="destructive">
+                        <ExclamationTriangleIcon className="h-4 w-4" />
+                        <AlertTitle>{props.errors.id_guru_piket}</AlertTitle>
+                    </Alert>
+                </div>
+            )}
             <Card className="w-full max-w-md mx-auto">
                 <CardHeader>
                     <CardTitle>Buku Tamu</CardTitle>
@@ -50,6 +88,7 @@ export default function CreateTamu() {
                         Silakan isi form buku tamu sekolah kami
                     </CardDescription>
                 </CardHeader>
+
                 <CardContent>
                     <form onSubmit={handleSubmit}>
                         <div className="grid w-full items-center gap-4">
@@ -63,6 +102,14 @@ export default function CreateTamu() {
                                         setNama(e.target.value);
                                     }}
                                 />
+                                {props.errors.nama && (
+                                    <Alert variant="destructive">
+                                        <ExclamationTriangleIcon className="h-4 w-4" />
+                                        <AlertTitle>
+                                            {props.errors.nama}
+                                        </AlertTitle>
+                                    </Alert>
+                                )}
                             </div>
                             <div className="flex flex-col space-y-1.5">
                                 <Label htmlFor="instansi">
@@ -89,9 +136,31 @@ export default function CreateTamu() {
                                         setWhatsapp(e.target.value);
                                     }}
                                 />
+                                {props.errors.whatsapp && (
+                                    <Alert variant="destructive">
+                                        <ExclamationTriangleIcon className="h-4 w-4" />
+                                        <AlertTitle>
+                                            {props.errors.whatsapp}
+                                        </AlertTitle>
+                                    </Alert>
+                                )}
                             </div>
                             <div className="flex flex-col space-y-1.5">
                                 <Label htmlFor="tujuan">Tujuan Kunjungan</Label>
+                                <Input
+                                    onChange={(e) => setTujuan(e?.target.value)}
+                                    id="tujuan"
+                                    placeholder="Tujuan"
+                                    className="col-span-3"
+                                />
+                                {props.errors.tujuan && (
+                                    <Alert variant="destructive">
+                                        <ExclamationTriangleIcon className="h-4 w-4" />
+                                        <AlertTitle>
+                                            {props.errors.tujuan}
+                                        </AlertTitle>
+                                    </Alert>
+                                )}
                             </div>
                             <div className="flex flex-col space-y-1.5">
                                 <Label htmlFor="tujuan">
@@ -116,6 +185,14 @@ export default function CreateTamu() {
                                         setKetTambahan(e.target.value);
                                     }}
                                 />
+                                {props.errors.ket_tambahan && (
+                                    <Alert variant="destructive">
+                                        <ExclamationTriangleIcon className="h-4 w-4" />
+                                        <AlertTitle>
+                                            {props.errors.ket_tambahan}
+                                        </AlertTitle>
+                                    </Alert>
+                                )}
                             </div>
                         </div>
                     </form>
