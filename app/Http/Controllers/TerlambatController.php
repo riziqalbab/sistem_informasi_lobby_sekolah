@@ -57,14 +57,12 @@ class TerlambatController extends Controller
             $piket = GuruPiket::find($dispensasi["id_guru_piket"])->with('guru')->get()->first();
             $guru = Guru::where("id_guru", $dispensasi["id_guru"])->firstOrFail()->toArray();
             
-            $nama_guru = $guru["nama"];
-
             $siswa = SiswaMasuk::where("id_masuk", $id_masuk)->get()->toArray();
 
             Log::info($guru);
 
 
-            return Inertia::render("TerlambatDetail", [
+            return Inertia::render("Masuk/TerlambatDetail", [
                 "guru_piket"=> $piket,
                 "guru"=> $guru,
                 "siswa" => $siswa,
@@ -73,9 +71,10 @@ class TerlambatController extends Controller
         } catch (ModelNotFoundException $e) {
             return Inertia::render("NotFoundDispen");
         }
-
-
     }
+
+
+
 
     public function store(Request $request)
     {
@@ -112,8 +111,6 @@ class TerlambatController extends Controller
         }, $request->post("siswa"));
 
         SiswaMasuk::insert($value_siswa_keluar);
-
-
         return redirect()->back()->with([
             "success" => true,
             "id_masuk" => $id_masuk

@@ -24,6 +24,6 @@ class Tamu extends Model
         "tujuan",
         "keterangan"
     ];
-    public $timestamps = false;
+    public $timestamps = true;
 
 }

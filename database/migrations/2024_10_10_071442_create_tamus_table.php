@@ -8,7 +8,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('tamus', function (Blueprint $table) {
-            $table->uuid("id_tamu");
+            $table->uuid("id_tamu")->primary();
             $table->unsignedBigInteger("id_guru")->nullable();
             $table->unsignedBigInteger("id_guru_piket")->nullable();
             $table->string("nama");
