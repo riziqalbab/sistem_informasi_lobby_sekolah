@@ -244,6 +244,12 @@ function Masuk() {
                                         viewBox={`0 0 256 256`}
                                     />
                                 )}
+                                <DialogTrigger asChild>
+                                    <Button onClick={()=>{
+                                        setGuruChoice("")
+                                        setSiswa([]);
+                                    }}>SELESAI</Button>
+                                </DialogTrigger>
                             </DialogContent>
                         </Dialog>
                     </CardFooter>

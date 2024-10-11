@@ -24,7 +24,7 @@ class TerlambatController extends Controller
         $date = $request->get("date") != null ? $request->get("date") : Carbon::now()->toDateString();
         $siswa_terlambat = SiswaMasuk::all();
 
-        $terlambat = DB::table("siswa_dispen")->whereDate("tanggal", $date)->paginate(10);
+        $terlambat = DB::table("siswa_masuk")->whereDate("tanggal", $date)->paginate(10);
         return Inertia::render("Masuk/IndexMasuk", [
             "terlambat"=>$terlambat,
             "date"=> $date
