@@ -19,13 +19,14 @@ Route::get("/siswa", SiswaController::class)->name("Siswa");
 Route::post("/siswa/store", [SiswaController::class, "store"]);
 
 
-Route::get("/keluar/{id_dispen}", [DispensasiController::class, "dispensasi"]);
 Route::get("/keluar", DispensasiController::class);
 Route::get("/keluar/tambah", KeluarController::class);
 Route::post("/keluar/store", [KeluarController::class, "store"]);
+Route::get("/keluar/{id_dispen}", [DispensasiController::class, "dispensasi"]);
 
 Route::get("/masuk", TerlambatController::class);
-Route::post("/masuk/store", [MasukController::class, "store"]);
+Route::get("/masuk/tambah", [TerlambatController::class, "tambah"]);
+Route::post("/masuk/store", [TerlambatController::class, "store"]);
 
 
 

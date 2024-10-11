@@ -123,13 +123,13 @@ function Home() {
                             desc="JUMLAH BUKU TAMU"
                         />
                         <StatCard
-                            url="/masuk"
+                            url="/masuk/tambah"
                             value={props.total_terlambat as number}
                             title="DISPENSASI MASUK"
                             desc="JUMLAH SISWA TERLAMBAT | IZIN MASUK"
                         />
                         <StatCard
-                            url="/keluar"
+                            url="/keluar/tambah"
                             value={props.total_dispen as number}
                             title="DISPENSASI KELUAR"
                             desc="JUMLAH SISWA IZIN | IZIN KELUAR"

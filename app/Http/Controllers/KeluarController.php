@@ -42,9 +42,6 @@ class KeluarController extends Controller
         
         $date_now = Carbon::now()->toDateString();
 
-        $piket = GuruPiket::where('tanggal', $date_now)
-            ->with('guru')  
-            ->get()->first();
 
         $validator = Validator::make($request->all(), [
             "siswa" => "required",
