@@ -24,10 +24,13 @@ class TerlambatController extends Controller
         $date = $request->get("date") != null ? $request->get("date") : Carbon::now()->toDateString();
         $siswa_terlambat = SiswaMasuk::all();
 
+        $site_url = url("/");
+
         $terlambat = DB::table("siswa_masuk")->whereDate("tanggal", $date)->paginate(10);
         return Inertia::render("Masuk/IndexMasuk", [
             "terlambat"=>$terlambat,
-            "date"=> $date
+            "date"=> $date,
+            "site_url"=> $site_url
         ]);
     }
     public function tambah()
