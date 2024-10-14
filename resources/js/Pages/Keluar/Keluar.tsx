@@ -50,7 +50,7 @@ function Keluar() {
 
     // const [valueQr, setValueQr] = useState(null);
     const { props } = usePage();
-    const valueQr = `${props.site_url}/dispensasi/${props.id_dispensasi}`;
+    const valueQr = `${props.site_url}/keluar/${props.id_dispensasi}`;
 
     
     
