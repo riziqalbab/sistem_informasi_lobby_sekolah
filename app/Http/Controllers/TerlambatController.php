@@ -13,14 +13,22 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
+use App\Services\FonnteService;
 
 
 class TerlambatController extends Controller
 {
 
+    protected $fonnteService;
 
-    public function __invoke(Request $request){
-    
+    public function __construct(FonnteService $fonnteService)
+    {
+        $this->fonnteService = $fonnteService;
+    }
+
+    public function __invoke(Request $request)
+    {
+
         $date = $request->get("date") != null ? $request->get("date") : Carbon::now()->toDateString();
         $siswa_terlambat = SiswaMasuk::all();
 
@@ -28,9 +36,9 @@ class TerlambatController extends Controller
 
         $terlambat = DB::table("siswa_masuk")->whereDate("tanggal", $date)->paginate(10);
         return Inertia::render("Masuk/IndexMasuk", [
-            "terlambat"=>$terlambat,
-            "date"=> $date,
-            "site_url"=> $site_url
+            "terlambat" => $terlambat,
+            "date" => $date,
+            "site_url" => $site_url
         ]);
     }
     public function tambah()
@@ -54,20 +62,20 @@ class TerlambatController extends Controller
 
         try {
             $dispensasi = Masuk::findOrFail($id_masuk)->toArray();
-            
+
             $piket = GuruPiket::find($dispensasi["id_guru_piket"])->with('guru')->get()->first();
             $guru = Guru::where("id_guru", $dispensasi["id_guru"])->firstOrFail()->toArray();
-            
+
             $siswa = SiswaMasuk::where("id_masuk", $id_masuk)->get()->toArray();
 
             Log::info($guru);
 
 
             return Inertia::render("Masuk/TerlambatDetail", [
-                "guru_piket"=> $piket,
-                "guru"=> $guru,
+                "guru_piket" => $piket,
+                "guru" => $guru,
                 "siswa" => $siswa,
-                
+
             ]);
         } catch (ModelNotFoundException $e) {
             return Inertia::render("NotFoundDispen");
@@ -100,6 +108,9 @@ class TerlambatController extends Controller
         $masuk_created = Masuk::create($values_dispen);
         $id_masuk = $masuk_created->id_masuk;
 
+
+        
+        
         $value_siswa_keluar = array_map(function ($item) use ($id_masuk, $date_now) {
             return [
                 "id_masuk" => $id_masuk,
@@ -110,8 +121,23 @@ class TerlambatController extends Controller
                 "tanggal" => $date_now
             ];
         }, $request->post("siswa"));
-
+        
         SiswaMasuk::insert($value_siswa_keluar);
+        
+        
+        
+        $dispensasi = Masuk::findOrFail($id_masuk)->toArray();
+        
+        $piket = GuruPiket::find($dispensasi["id_guru_piket"])->with('guru')->get()->first();
+        $guru = Guru::where("id_guru", $dispensasi["id_guru"])->firstOrFail()->toArray();
+
+        $whatsapp_piket = $piket->guru->whatsapp;
+        $whatsapp_guru = $guru["whatsapp"];
+
+
+        
+
+
         return redirect()->back()->with([
             "success" => true,
             "id_masuk" => $id_masuk

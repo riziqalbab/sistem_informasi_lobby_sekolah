@@ -49,7 +49,7 @@ function Navbar() {
                     </ul>
                 </div>
                 <Link href="/" className="btn btn-ghost text-xl">
-                    LOBBY | SMK NEGERI 1 KALIGENDING
+                    LOBBY | SMK NEGERI 1 KEBUMEN
                 </Link>
             </div>
             <div className="navbar-end hidden lg:flex">
