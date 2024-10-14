@@ -38,8 +38,6 @@ class TamuController extends Controller
 
     public function tamu(Request $request)
     {
-
-
         $date = $request->get("date") != null ? $request->get("date") : Carbon::now()->toDateString();
         $tamu = DB::table("tamus")->whereDate("created_at", $date)->paginate(10);
         return Inertia::render("Tamu/IndexTamu", [

@@ -85,14 +85,6 @@ declare global {
         nis: number;
         tanggal: string;
     }
-    interface siswa_masuk {
-        id_masuk: string;
-        alasan: string;
-        kelas: string;
-        nama: string;
-        nis: number;
-        tanggal: string;
-    }
 
     interface tamu {
         id_tamu: string;

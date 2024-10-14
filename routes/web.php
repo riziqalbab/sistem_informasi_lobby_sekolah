@@ -27,7 +27,6 @@ Route::get("/keluar/{id_dispen}", [DispensasiController::class, "dispensasi"]);
 Route::get("/masuk", TerlambatController::class);
 Route::get("/masuk/tambah", [TerlambatController::class, "tambah"]);
 Route::post("/masuk/store", [TerlambatController::class, "store"]);
-Route::get("/terlambat/{id_masuk}", [TerlambatController::class, "detail"]);
 
 
 
@@ -50,6 +49,7 @@ Route::post("/guru/piket/store", [GuruController::class, "piket"]);
 
 
 
+Route::get("/terlambat/{id_masuk}", [TerlambatController::class, "detail"]);
 
 
 Route::get('/dashboard', function () {

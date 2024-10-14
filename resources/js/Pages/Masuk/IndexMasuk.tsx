@@ -26,16 +26,12 @@ export default function IndexMasuk() {
     const [dateDispen, setDateDispen] = useState<string>(props.date as string);
 
     console.log(props);
-
-    const dataTerlambat: Array<siswa_masuk> = (props.terlambat as { data: Array<siswa_masuk> }).data
+    
+    // const paginator: Paginator<siswa_dispen> = props.dispens as Paginator<siswa_dispen>;
+    const dataTerlambat: Array<siswa_dispen> = (props.terlambat as { data: Array<siswa_dispen> }).data
     const site_url: string = props.site_url as string;
 
 
-
-    console.log(site_url);
-    
-    console.log(dataTerlambat);
-    
     
     return (
         <div className="overflow-x-hidden">
@@ -69,15 +65,15 @@ export default function IndexMasuk() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {dataTerlambat.map((dispensasi) => (
+                            {dataTerlambat.map((dispensi) => (
                                 <TableRow>
-                                    <TableCell>{dispensasi.nis}</TableCell>
-                                    <TableCell>{dispensasi.nama}</TableCell>
-                                    <TableCell>{dispensasi.kelas}</TableCell>
-                                    <TableCell>{dispensasi.tanggal}</TableCell>
+                                    <TableCell>{dispensi.nis}</TableCell>
+                                    <TableCell>{dispensi.nama}</TableCell>
+                                    <TableCell>{dispensi.kelas}</TableCell>
+                                    <TableCell>{dispensi.tanggal}</TableCell>
                                     <TableCell>
                                         <Link
-                                            href={`${site_url}/terlambat/${dispensasi.id_masuk}`}
+                                            href={`${site_url}/keluar/${dispensi.id_dispen}`}
 
                                         >
                                             <Button>
