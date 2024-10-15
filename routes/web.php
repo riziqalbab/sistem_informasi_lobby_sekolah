@@ -51,10 +51,11 @@ Route::get("/tamu/{id_tamu}", [TamuController::class, 'guestDetail']);
 
 
 
+Route::get("/guru", [MasterController::class, "guru"]);
+Route::post("/guru/store", [MasterController::class, "storeGuru"]);
+Route::post("/guru/edit", [MasterController::class, "editGuru"]);
+Route::post("/guru/piket/store", [MasterController::class, "guruPiket"]);
 Route::delete("/guru/delete/{id_guru}", [GuruController::class, "delete"]);
-Route::get("/guru", GuruController::class);
-Route::post("/guru/store", [GuruController::class, "store"]);
-Route::post("/guru/piket/store", [GuruController::class, "piket"]);
 
 
 

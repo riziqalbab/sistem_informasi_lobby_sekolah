@@ -27,7 +27,7 @@ declare global {
         whatsapp: string;
     }
 
-    interface ValuesType {
+    interface guru {
         nama: string;
         mapel: string;
         whatsapp: string;
@@ -51,7 +51,7 @@ declare global {
     }
 
     interface object_guru {
-        id_guru: string;
+        id_guru: number;
         mapel: string;
         nama: string;
         whatsapp: string;
