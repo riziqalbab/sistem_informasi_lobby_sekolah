@@ -19,6 +19,8 @@ Route::get("/", HomeController::class);
 
 
 Route::get("/master/kelas", [MasterController::class, "kelas"]);
+Route::post("/master/kelas", [MasterController::class, "storeKelas"]);
+Route::post("/master/kelas/edit", [MasterController::class, "editKelas"]);
 
 
 Route::get("/siswa/{nis}", [SiswaController::class, "getOne"]);
