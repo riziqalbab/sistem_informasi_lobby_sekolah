@@ -63,7 +63,7 @@ export default function Guru() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        router.post("/guru/store", { ...values });
+        router.post("/master/guru/store", { ...values });
     };
 
     const handleSubmitEdit = () => {
@@ -75,16 +75,14 @@ export default function Guru() {
             whatsapp_edit: whatsappEdit,
         };
 
-        router.post("/guru/edit", values, {
+        router.post("/master/guru/edit", values, {
             onSuccess: ()=>{
                 setIsDialogOpen(!isDialogOpen)
             }
         });
     };
 
-    const handleDelete = (id: number) => {
-        router.delete(`/guru/delete/${id}`);
-    };
+
 
     const handleClickEdit = (item: object_guru) => {
         setIdGuruEdit(item.id_guru)

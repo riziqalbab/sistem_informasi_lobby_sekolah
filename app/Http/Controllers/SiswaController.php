@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kelas;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,7 +15,10 @@ class SiswaController extends Controller
     public function __invoke()
     {
 
-        return Inertia::render("Siswa", []);
+        $kelas = Kelas::all();
+        return Inertia::render("Siswa", [
+            "kelas"=> $kelas
+        ]);
     }
 
 

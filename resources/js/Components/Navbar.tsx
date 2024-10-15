@@ -39,10 +39,7 @@ function Navbar() {
                             <Link href="/masuk">TERLAMBAT</Link>
                         </li>
                         <li>
-                            <Link href="/guru">GURU</Link>
-                        </li>
-                        <li>
-                            <Link href="/guru" className="text-red-500">
+                            <Link href="/master" className="text-red-500">
                                 MASTER DATA
                             </Link>
                         </li>
@@ -67,10 +64,7 @@ function Navbar() {
                         <Link href="/siswa">SISWA</Link>
                     </li>
                     <li>
-                        <Link href="/guru">GURU</Link>
-                    </li>
-                    <li>
-                        <Link href="/guru" className="text-red-500">
+                        <Link href="/master" className="text-red-500">
                             MASTER DATA
                         </Link>
                     </li>

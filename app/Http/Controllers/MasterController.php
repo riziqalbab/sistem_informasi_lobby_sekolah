@@ -13,6 +13,10 @@ use Inertia\Inertia;
 
 class MasterController extends Controller
 {
+
+    public function __invoke(){
+        return Inertia::render("Master/IndexMaster");
+    }
     public function kelas(){
         $kelas = Kelas::all();
         return Inertia::render("Master/Kelas", [

@@ -37,11 +37,13 @@ export default function ClassManagement() {
 
     const { props } = usePage();
 
-
     console.log(props);
     
 
     const kelas: Array<object_kelas> = props.kelas as Array<object_kelas>;
+
+    console.log(kelas);
+    
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
