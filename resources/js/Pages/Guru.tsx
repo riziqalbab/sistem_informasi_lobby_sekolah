@@ -35,7 +35,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
 import React, { useState } from "react";
 import { router, usePage } from "@inertiajs/react";
 
-export default function Guru({ teachers = [], onEdit }: ComponentProps) {
+export default function Guru() {
     const { props }: any = usePage();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -50,6 +50,7 @@ export default function Guru({ teachers = [], onEdit }: ComponentProps) {
     const [namaEdit, setNamaEdit] = useState<string>();
     const [mapelEdit, setMapelEdit] = useState<string>();
     const [whatsappEdit, setWhatsappEdit] = useState<string>();
+    const [idGuruEdit, setIdGuruEdit] = useState(0);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const key = e.target.id;
@@ -65,18 +66,20 @@ export default function Guru({ teachers = [], onEdit }: ComponentProps) {
         router.post("/guru/store", { ...values });
     };
 
-    const handleSubmitEdit = (id_guru: number) => {
-
-        console.log(id_guru);
-        
-
+    const handleSubmitEdit = () => {
+    
         const values = {
-            id_guru,
+            id_guru: idGuruEdit,
             nama_edit: namaEdit,
             mapel_edit: mapelEdit,
             whatsapp_edit: whatsappEdit,
         };
-        router.post("/guru/edit", values);
+
+        router.post("/guru/edit", values, {
+            onSuccess: ()=>{
+                setIsDialogOpen(!isDialogOpen)
+            }
+        });
     };
 
     const handleDelete = (id: number) => {
@@ -84,12 +87,7 @@ export default function Guru({ teachers = [], onEdit }: ComponentProps) {
     };
 
     const handleClickEdit = (item: object_guru) => {
-
-
-        console.log(item);
-        
-
-
+        setIdGuruEdit(item.id_guru)
         setWhatsappEdit(item.whatsapp);
         setNamaEdit(item.nama);
         setMapelEdit(item.mapel);
@@ -227,7 +225,6 @@ export default function Guru({ teachers = [], onEdit }: ComponentProps) {
                                 {guru.map((teacher: object_guru) => (
 
                                     <TableRow key={teacher.id_guru}>
-                                        <h1>{teacher.id_guru}</h1>
                                         <TableCell>{teacher.nama}</TableCell>
                                         <TableCell>{teacher.mapel}</TableCell>
                                         <TableCell>
@@ -373,9 +370,9 @@ export default function Guru({ teachers = [], onEdit }: ComponentProps) {
                                                                     className="w-full"
                                                                     type="button"
                                                                     onClick={() => {
-                                                                        handleSubmitEdit(
-                                                                            teacher.id_guru
-                                                                        );
+                                                                        handleSubmitEdit();
+                                                                        
+                                                                        setIdGuruEdit(teacher.id_guru)
                                                                     }}
                                                                 >
                                                                     Simpan

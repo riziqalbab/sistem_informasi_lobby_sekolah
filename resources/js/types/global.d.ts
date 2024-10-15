@@ -15,10 +15,7 @@ declare global {
         whatsapp: string;
     }
 
-    interface ComponentProps {
-        teachers?: Teacher[];
-        onEdit: (teacher: Teacher) => void;
-    }
+    
 
     interface GuruObject {
         id_guru: number;

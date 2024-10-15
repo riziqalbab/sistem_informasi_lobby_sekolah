@@ -114,19 +114,22 @@ class MasterController extends Controller
         $validator = Validator::make($request->all(), [
             "nama_edit" => "required",
             "mapel_edit" => "required",
-            "whatsapp_edit" => "required|unique:guru,whatsapp",
+            "whatsapp_edit" => "required",
         ], [
             "nama_edit" => "Nama harus diisi",
             "mapel_edit" => "Mata pelajaran harus diisi",
             "whatsapp_edit" => [
                 "required" => "Nomor Whatsapp harus dii",
-                "unique" => "Nomor Whatsapp sudah digunakan"
             ]
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator);
         }
+
+
+        
+
 
         Guru::where("id_guru", $request->post("id_guru"))->update([
             "nama"=> $request->post("nama_edit"),
