@@ -57,6 +57,11 @@ declare global {
         whatsapp: string;
     }
 
+    interface object_kelas{
+        id_kelas: number
+        nama: string
+    }
+
     export interface Paginator<T> {
         current_page: number;
         data: T[];

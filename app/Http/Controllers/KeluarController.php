@@ -41,8 +41,7 @@ class KeluarController extends Controller
 
         
         $date_now = Carbon::now()->toDateString();
-
-
+        
         $validator = Validator::make($request->all(), [
             "siswa" => "required",
             "alasan" => "required",

@@ -4,6 +4,7 @@ use App\Http\Controllers\DispensasiController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KeluarController;
+use App\Http\Controllers\MasterController;
 use App\Http\Controllers\MasukController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiswaController;
@@ -13,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get("/", HomeController::class);
+
+
+
+
+Route::get("/master/kelas", [MasterController::class, "kelas"]);
+
 
 Route::get("/siswa/{nis}", [SiswaController::class, "getOne"]);
 Route::get("/siswa", SiswaController::class)->name("Siswa");

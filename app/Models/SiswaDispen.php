@@ -10,6 +10,6 @@ class SiswaDispen extends Model
     use HasFactory;
 
     protected $table = "siswa_dispen";
-    protected $fillable = ["id_dispen", "nis", "nama", "kelas", "tanggal", "alasan"];
+    protected $fillable = ["id_dispen","id_kelas", "nis", "nama", "kelas", "tanggal", "alasan"];
     public $timestamps = false;
 }

@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('siswa_dispen', function (Blueprint $table) {
             $table->uuid('id_dispen')->nullable(false);
             $table->string('nis')->nullable(false);
-            $table->unsignedBigInteger('id_kelas');
+            $table->unsignedBigInteger('id_kelas')->nullable(false);
             $table->string('nama')->nullable(false);
             $table->string('kelas')->nullable(false);
             $table->string('tanggal')->nullable(false);
@@ -24,9 +24,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('siswa_dispen');
