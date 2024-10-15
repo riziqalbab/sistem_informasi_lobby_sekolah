@@ -13,29 +13,38 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
+use App\Services\FonnteService;
 
 
 class TerlambatController extends Controller
 {
 
+    protected $fonnteService;
 
-    public function __invoke(Request $request){
-    
+    public function __construct(FonnteService $fonnteService)
+    {
+        $this->fonnteService = $fonnteService;
+    }
+
+    public function __invoke(Request $request)
+    {
+
+        $site_url = url("/"); 
+
         $date = $request->get("date") != null ? $request->get("date") : Carbon::now()->toDateString();
         $siswa_terlambat = SiswaMasuk::all();
 
-        $terlambat = DB::table("siswa_dispen")->whereDate("tanggal", $date)->paginate(10);
+        $terlambat = DB::table("siswa_masuk")->whereDate("tanggal", $date)->paginate(10);
         return Inertia::render("Masuk/IndexMasuk", [
-            "terlambat"=>$terlambat,
-            "date"=> $date
+            "terlambat" => $terlambat,
+            "date" => $date,
+            "site_url" => $site_url
         ]);
     }
     public function tambah()
     {
 
         $site_url = url("/");
-
-
         $guru = Guru::all();
         $table_guru_piket = GuruPiket::query()->with("guru")->whereDate('tanggal', Carbon::today())->get()->toArray();
         $guru_piket = count($table_guru_piket) > 0 ? $table_guru_piket[0] : null;
@@ -53,29 +62,28 @@ class TerlambatController extends Controller
 
         try {
             $dispensasi = Masuk::findOrFail($id_masuk)->toArray();
-            
+
             $piket = GuruPiket::find($dispensasi["id_guru_piket"])->with('guru')->get()->first();
             $guru = Guru::where("id_guru", $dispensasi["id_guru"])->firstOrFail()->toArray();
-            
-            $nama_guru = $guru["nama"];
 
             $siswa = SiswaMasuk::where("id_masuk", $id_masuk)->get()->toArray();
 
             Log::info($guru);
 
 
-            return Inertia::render("TerlambatDetail", [
-                "guru_piket"=> $piket,
-                "guru"=> $guru,
+            return Inertia::render("Masuk/TerlambatDetail", [
+                "guru_piket" => $piket,
+                "guru" => $guru,
                 "siswa" => $siswa,
-                
+
             ]);
         } catch (ModelNotFoundException $e) {
             return Inertia::render("NotFoundDispen");
         }
-
-
     }
+
+
+
 
     public function store(Request $request)
     {
@@ -100,6 +108,9 @@ class TerlambatController extends Controller
         $masuk_created = Masuk::create($values_dispen);
         $id_masuk = $masuk_created->id_masuk;
 
+
+        
+        
         $value_siswa_keluar = array_map(function ($item) use ($id_masuk, $date_now) {
             return [
                 "id_masuk" => $id_masuk,
@@ -111,7 +122,70 @@ class TerlambatController extends Controller
             ];
         }, $request->post("siswa"));
 
-        SiswaMasuk::insert($value_siswa_keluar);
+
+             
+        $dispensasi = Masuk::findOrFail($id_masuk)->toArray();
+        
+        $piket = GuruPiket::find($dispensasi["id_guru_piket"])->with('guru')->get()->first();
+        $guru = Guru::where("id_guru", $dispensasi["id_guru"])->firstOrFail()->toArray();
+
+        $whatsapp_piket = $piket->guru->whatsapp;
+        $whatsapp_guru = $guru["whatsapp"];
+        $nama_guru = $guru["nama"];
+
+
+        
+$message_guru = "
+*DISPENSASI DIGITAL SMK NEGERI 1 KEBUMEN*
+\n
+KEPADA YTH BPK/IBU {$nama_guru},\n
+\n
+Dengan ini kami sampaikan bahwa siswa dengan data sebagai berikut telah melakan keterlambatan masuk:
+\n";
+foreach ($value_siswa_keluar as $key => $value) {
+    $message_guru .= "
+*Nama*  : " . $value["nama"] . "\n" .
+"*Kelas* : " . $value["kelas"] . "\n" .
+"*NIS*   : " . $value["nis"] . "\n\n".
+"*ALASAN*: " . $value["alasan"] . "\n\n";
+
+}
+$message_guru .= "
+Terima kasih atas perhatiannya.
+\n
+Salam hormat,\n
+SMK Negeri 1 Kebumen
+";
+
+
+$message_piket = "
+*DISPENSASI DIGITAL SMK NEGERI 1 KEBUMEN*
+\n
+KEPADA YTH BPK/IBU GURU PIKET LOBBY,\n
+\n
+Kami informasikan bahwa siswa dengan data sebagai berikut telah melakukan keterlambatan:
+\n";
+foreach ($value_siswa_keluar as $key => $value) {
+    $message_piket .= "
+*Nama*  : " . $value["nama"] . "\n" .
+"*Kelas* : " . $value["kelas"] . "\n" .
+"*NIS*   : " . $value["nis"] . "\n".
+"*ALASAN*: " . $value["alasan"] . "\n\n";
+}
+$message_piket .= "
+Mohon izin untuk memberikan akses kepada siswa yang bersangkutan. Terima kasih atas perhatian dan kerja samanya.
+\n
+Salam hormat,\n
+SMK Negeri 1 Kebumen
+";
+
+
+
+
+$result = $this->fonnteService->sendMessage($whatsapp_guru, $message_guru);
+$result = $this->fonnteService->sendMessage($whatsapp_piket, $message_piket);
+
+Log::info($message_guru);
 
 
         return redirect()->back()->with([

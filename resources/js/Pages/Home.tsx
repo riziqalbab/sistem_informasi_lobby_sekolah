@@ -52,8 +52,8 @@ function Home() {
         <>
             <Navbar />
             <main className="w-screen ">
-            <div className="w-full h-96 object-cover rounded-lg bg-[url(https://sman1lacirebon.sch.id/media_library/posts/post-image-1658300899785.jpg)] bg-left bg-cover flex items-center justify-center">
-                <h1 className="font-black text-slate-900 text-3xl">LOBBY SMK NEGERI 1 KALIGENDING</h1>
+            <div className="w-full h-96 object-cover rounded-lg bg-[url(https://raw.githubusercontent.com/Eathen0/Web-Pilkosis/refs/heads/main/frontend_refractor/pilkosis/src/assets/images/login-bg.png)] bg-left bg-cover flex items-center justify-center">
+                <h1 className="font-black text-slate-900 text-3xl">LOBBY SMK NEGERI 1 KEBUMEN</h1>
             </div>
                 <div className="w-full p-5 relative mt-16 z-50">
                     {guru_piket == null ? (
@@ -118,7 +118,7 @@ function Home() {
                         </Card>
                         <StatCard
                             url="/tamu/tambah"
-                            value={38}
+                            value={props.tamu_count}
                             title="BUKU TAMU"
                             desc="JUMLAH BUKU TAMU"
                         />

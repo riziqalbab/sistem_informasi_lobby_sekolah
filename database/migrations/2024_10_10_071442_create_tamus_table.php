@@ -8,14 +8,15 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('tamus', function (Blueprint $table) {
-            $table->uuid("id_tamu");
+            $table->uuid("id_tamu")->primary();
             $table->unsignedBigInteger("id_guru")->nullable();
             $table->unsignedBigInteger("id_guru_piket")->nullable();
             $table->string("nama");
-            $table->string("instansi");
+            $table->string("instansi")->nullable();
             $table->string('whatsapp');
             $table->string('tujuan');
             $table->string("keterangan");
+            $table->boolean("isActive")->default(true);
             $table->timestamps();
 
 

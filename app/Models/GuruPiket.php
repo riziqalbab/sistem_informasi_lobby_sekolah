@@ -24,4 +24,5 @@ class GuruPiket extends Model
     {
         return $this->belongsTo(Guru::class, 'id_guru', 'id_guru');
     }
+    
 }

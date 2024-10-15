@@ -5,6 +5,17 @@ import { Label } from "@/Components/ui/label";
 import { Textarea } from "@/Components/ui/textarea";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 
+import { Skeleton } from "@/Components/ui/skeleton";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/Components/ui/dialog";
+
 import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
 
 import Select from "react-select";
@@ -21,18 +32,23 @@ import Navbar from "@/Components/Navbar";
 import { router, usePage } from "@inertiajs/react";
 import { Toaster } from "@/Components/ui/toaster";
 import { useToast } from "@/hooks/use-toast";
+import QRCode from "react-qr-code";
 
 export default function CreateTamu() {
     const { props } = usePage();
 
     const guru_piket = props.guru_piket as object_guru_piket;
 
+    const [loading, setLoading] = useState(false);
     const [nama, setNama] = useState<string>();
     const [instansi, setInstansi] = useState<string>();
     const [whatsapp, setWhatsapp] = useState<string>();
     const [tujuan, setTujuan] = useState<string>();
     const [stafTujuan, setStafTujuan] = useState<string>();
     const [ketTambahan, setKetTambahan] = useState<string>();
+    const [valueQr, setValueQr] = useState(
+        `${props.site_url}/tamu/${props.id_tamu}`
+    );
 
     const guru: object_guru[] = props.guru as object_guru[];
     const optionGuru = guru.map((e, index) => {
@@ -44,19 +60,21 @@ export default function CreateTamu() {
 
     const { toast } = useToast();
 
-    useEffect(()=>{
+    useEffect(() => {
         if (!guru_piket) {
             toast({
                 title: "Guru piket belum diatur",
                 description: "Silakan untuk mengatur guru piket",
-                variant: "destructive"
-            })
+                variant: "destructive",
+            });
         }
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        setValueQr(`${props.site_url}/tamu/${props.id_tamu}`);
+    }, [props]);
 
     const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-
         const values = {
             id_guru_piket: guru_piket.id ? guru_piket.id : null,
             id_guru: stafTujuan,
@@ -66,12 +84,22 @@ export default function CreateTamu() {
             tujuan,
             keterangan: ketTambahan,
         };
-        router.post("/tamu/store", values);
+        router.post("/tamu/store", values, {
+            onStart: () => {
+                setLoading(true);
+            },
+
+            onSuccess: () => {
+                setLoading(false);
+            },
+        });
     };
 
+    console.log(props);
+    
     return (
         <>
-        <Toaster/>
+            <Toaster />
             <Navbar />
             {props.errors.id_guru_piket && (
                 <div className="p-5">
@@ -185,11 +213,11 @@ export default function CreateTamu() {
                                         setKetTambahan(e.target.value);
                                     }}
                                 />
-                                {props.errors.ket_tambahan && (
+                                {props.errors.keterangan && (
                                     <Alert variant="destructive">
                                         <ExclamationTriangleIcon className="h-4 w-4" />
                                         <AlertTitle>
-                                            {props.errors.ket_tambahan}
+                                            {props.errors.keterangan}
                                         </AlertTitle>
                                     </Alert>
                                 )}
@@ -198,10 +226,52 @@ export default function CreateTamu() {
                     </form>
                 </CardContent>
                 <CardFooter className="flex justify-between">
-                    <Button variant="outline">Reset</Button>
-                    <Button type="submit" onClick={handleSubmit}>
-                        Kirim
-                    </Button>
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button onClick={handleSubmit}>KIRIM</Button>
+                        </DialogTrigger>
+
+                        <DialogContent className="sm:max-w-[425px]">
+                            <DialogHeader>
+                                <DialogTitle className="text-center">
+                                    SIMPAN KODE QR BERIKUT
+                                </DialogTitle>
+                                <DialogDescription className="text-center"></DialogDescription>
+                                <br />
+                            </DialogHeader>
+                            {loading ? (
+                                <>
+                                    {props.errors && (
+                                        <Alert variant="destructive">
+                                            <ExclamationTriangleIcon className="h-4 w-4" />
+                                            <AlertTitle>DATA BELUM LENGKAP</AlertTitle>
+                                            <AlertDescription>
+                                                Lengkapi data yang wajib diisi
+                                            </AlertDescription>
+                                        </Alert>
+                                    )}
+
+                                    <div className="space-y-2">
+                                        <Skeleton className="h-10 w-full" />
+                                        <Skeleton className="h-10 w-full" />
+                                        <Skeleton className="h-10 w-full" />
+                                        <Skeleton className="h-10 w-full" />
+                                    </div>
+                                </>
+                            ) : (
+                                <QRCode
+                                    size={256}
+                                    style={{
+                                        height: "auto",
+                                        maxWidth: "100%",
+                                        width: "100%",
+                                    }}
+                                    value={valueQr}
+                                    viewBox={`0 0 256 256`}
+                                />
+                            )}
+                        </DialogContent>
+                    </Dialog>
                 </CardFooter>
             </Card>
         </>

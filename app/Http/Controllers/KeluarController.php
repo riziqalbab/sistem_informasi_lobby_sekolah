@@ -118,6 +118,7 @@ Terima kasih,
 SMK Negeri 1 Kebumen";
 
 
+
 $message_piket = "
 *DISPENSASI DIGITAL SMK NEGERI 1 KEBUMEN*
 \n
@@ -135,6 +136,7 @@ $message_piket .= "
 Siswa tersebut telah diberikan dispensasi dengan alasan sebagai berikut:\n
 *Alasan* : {$request->alasan}\n
 *Deskripsi* : {$request->deskripsi}\n
+*Nomor Whatsapp* : {$request->whatsapp}\n
 \n
 Mohon izin untuk memberikan akses kepada siswa yang bersangkutan. Terima kasih atas perhatian dan kerja samanya.
 \n
@@ -163,6 +165,8 @@ $message_guru .= "
 Dengan alasan sebagai berikut:\n
 *Alasan* : {$request->alasan}\n
 *Deskripsi* : {$request->deskripsi}\n
+
+
 \n
 Terima kasih atas perhatiannya.
 \n
@@ -171,10 +175,16 @@ SMK Negeri 1 Kebumen
 ";
 
 
+$piket = GuruPiket::where('tanggal', $date_now)
+->with('guru')  
+->get()->first();
 
-        // $result = $this->fonnteService->sendMessage($nomor_guru, $message_guru);
-        // $result_siswa = $this->fonnteService->sendMessage($request->post("whatsapp"), $message_siswa);
-        // $result_guru_piket = $this->fonnteService->sendMessage($piket["guru"]["whatsapp"], $message_piket);
+
+
+
+        $result = $this->fonnteService->sendMessage($nomor_guru, $message_guru);
+        $result_siswa = $this->fonnteService->sendMessage($request->post("whatsapp"), $message_siswa);
+        $result_guru_piket = $this->fonnteService->sendMessage($piket["guru"]["whatsapp"], $message_piket);
         return redirect()->back()->with([
             "success"=> true,
             "id_dispensasi"=>$id_dispen

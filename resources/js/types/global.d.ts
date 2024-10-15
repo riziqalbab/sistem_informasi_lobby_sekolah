@@ -86,6 +86,32 @@ declare global {
         tanggal: string;
     }
 
+    interface tamu {
+        id_tamu: string;
+        id_guru?: number;
+        id_guru_piket: number;
+        nama: string;
+        instansi?: string;
+        whatsapp: string;
+        tujuan: string;
+        isActive: boolean;
+        guru?: {
+            id_guru: number;
+            mapel: string;
+            nama: string;
+        };
+        guru_piket: {
+            id_guru_piket: number;
+            guru: {
+                id_guru: number;
+                nama: string;
+                whatsapp: string;
+            };
+        };
+        keterangan: string;
+        created_at: string;
+    }
+
     interface object_dispensasi {
         alasan: string;
         deskripsi: string;

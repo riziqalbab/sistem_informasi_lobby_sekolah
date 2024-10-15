@@ -24,6 +24,19 @@ class Tamu extends Model
         "tujuan",
         "keterangan"
     ];
-    public $timestamps = false;
+    public $timestamps = true;
+
+
+    public function guru()
+    {
+        return $this->belongsTo(Guru::class, 'id_guru', 'id_guru');
+    }
+
+    public function guruPiket()
+    {
+        return $this->belongsTo(GuruPiket::class, 'id_guru_piket', 'id');
+    }
+
+
 
 }

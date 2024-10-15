@@ -8,6 +8,7 @@ use App\Models\GuruPiket;
 use App\Models\Masuk;
 use App\Models\SiswaDispen;
 use App\Models\SiswaMasuk;
+use App\Models\Tamu;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -22,7 +23,7 @@ class HomeController extends Controller
        
         for ($i = 0; $i <= 50; $i++) {
             $date = date('Y-m-d', strtotime('-' . $i . ' days'));
-            $count = Dispen::where('waktu_awal', 'like', '%' . $date . '%')->count();
+            $count = SiswaDispen::where('tanggal', 'like', '%' . $date . '%')->count();
             $dataCount2Minggu[] = [
                 "count"=> $count,
                 "label"=>date('d M', strtotime($date))
@@ -42,6 +43,9 @@ class HomeController extends Controller
         $dataDispen2minggu = DB::table('siswa_dispen')->where('tanggal', '>=', $twoWeeksAgo)->get();
         $dataDispen2minggu_terlambat = DB::table('siswa_masuk')->where('tanggal', '>=', $twoWeeksAgo)->get();
 
+
+
+        $tamu_count = Tamu::all()->count();
         $guru = Guru::all();
 
     
@@ -55,6 +59,7 @@ class HomeController extends Controller
         return Inertia::render("Home", [
             "guru" => $guru,
             "guru_piket" => $piket,
+            "tamu_count"=>$tamu_count,
             "total_dispen" => $dispen_total,
             "total_terlambat" => $masuk_total,
             "two_weeks_count" => $dataDispen2minggu->count(),
