@@ -11,8 +11,10 @@ return new class extends Migration
 
         Schema::create('siswa', function (Blueprint $table) {
             $table->string("nis")->primary()->unique();
+            $table->unsignedBigInteger("id_kelas");
             $table->string("nama")->nullable();
             $table->string("kelas")->nullable();
+            $table->foreign("id_kelas")->references("id_kelas")->on("kelas");
         });
     }
 
