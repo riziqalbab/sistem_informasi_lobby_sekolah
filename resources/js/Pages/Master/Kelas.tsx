@@ -54,7 +54,7 @@ export default function ClassManagement() {
         router.post("/master/kelas", values);
     };
 
-    const handleEdit = (id_kelas: number) => {
+    const handleEdit = (id_kelas: string) => {
         const values = {
             id_kelas: id_kelas,
             nama_edit: inputKelasEdit,

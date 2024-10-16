@@ -13,11 +13,9 @@ return new class extends Migration
             $table->string("nis")->primary()->unique();
             $table->unsignedBigInteger("id_kelas");
             $table->string("nama")->nullable();
-            $table->string("kelas")->nullable();
-            $table->foreign("id_kelas")->references("id_kelas")->on("kelas");
+            $table->foreign("id_kelas")->references("id_kelas")->on("kelas")->onDelete('cascade');
         });
     }
-
     public function down(): void
     {
         Schema::dropIfExists('siswa');

@@ -31,9 +31,12 @@ declare global {
     }
 
     interface object_nis_data {
-        kelas: string;
         nama: string;
         nis: number;
+        kelas: {
+            id_kelas: number
+            nama: string
+        };
     }
     interface object_siswa_masuk {
         kelas: string;
@@ -55,7 +58,7 @@ declare global {
     }
 
     interface object_kelas{
-        id_kelas: number
+        id_kelas: string
         nama: string
     }
 

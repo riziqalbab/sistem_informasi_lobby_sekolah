@@ -13,7 +13,6 @@ return new class extends Migration
             $table->string('nis')->nullable(false);
             $table->unsignedBigInteger('id_kelas')->nullable(false);
             $table->string('nama')->nullable(false);
-            $table->string('kelas')->nullable(false);
             $table->string('tanggal')->nullable(false);
             $table->string('alasan')->nullable(false);
 

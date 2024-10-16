@@ -36,7 +36,7 @@ function Masuk() {
     const guru_piket = props.guru_piket as object_guru_piket;
     const [nis, setNis] = useState<string>();
     const [guruChoice, setGuruChoice] = useState<string>();
-    const [siswa, setSiswa] = useState<Array<any>>([]);
+    const [siswa, setSiswa] = useState<Array<object_nis_data>>([]);
     const [loading, setLoading] = useState(false);
 
     const [valueQr, setValueQr] = useState(
@@ -58,6 +58,7 @@ function Masuk() {
         try {
             const res = await fetch(`/siswa/${nis}`);
             const data = await res.json();
+
             if (data.data.nis) {
                 setSiswa([...siswa, data.data]);
             }
@@ -69,6 +70,8 @@ function Masuk() {
             });
         }
     };
+
+    // console.log(siswa);
 
     const handleHapusSiswa = (nisIndex: number) => {
         const indexHapus = siswa.findIndex((item) => item.nis == nisIndex);
@@ -97,6 +100,7 @@ function Masuk() {
 
         router.post(
             "/masuk/store",
+            // @ts-ignore
             { ...values },
             {
                 onStart: () => {
@@ -118,6 +122,14 @@ function Masuk() {
             <Navbar />
             <main className="w-screen flex items-center justify-center">
                 <Card className="w-full max-w-2xl mx-auto">
+                    {!props.guru_piket && (
+                        <Alert variant="destructive" className="">
+                            <ExclamationTriangleIcon className="h-4 w-4" />
+                            <AlertDescription>
+                                GURU PIKET BELUM DIATUR
+                            </AlertDescription>
+                        </Alert>
+                    )}
                     {props.errors.id_guru_piket && (
                         <Alert variant="destructive">
                             <ExclamationTriangleIcon className="h-4 w-4" />
@@ -155,6 +167,7 @@ function Masuk() {
                                     <Label htmlFor="guru">GURU PENGAJAR</Label>
                                     <Select
                                         onChange={(e) => {
+                                            // @ts-ignore
                                             setGuruChoice(e?.value);
                                         }}
                                         options={optionGuru}
@@ -245,10 +258,14 @@ function Masuk() {
                                     />
                                 )}
                                 <DialogTrigger asChild>
-                                    <Button onClick={()=>{
-                                        setGuruChoice("")
-                                        setSiswa([]);
-                                    }}>SELESAI</Button>
+                                    <Button
+                                        onClick={() => {
+                                            setGuruChoice("");
+                                            setSiswa([]);
+                                        }}
+                                    >
+                                        SELESAI
+                                    </Button>
                                 </DialogTrigger>
                             </DialogContent>
                         </Dialog>

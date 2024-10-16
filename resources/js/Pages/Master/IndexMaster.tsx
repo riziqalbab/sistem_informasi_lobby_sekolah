@@ -47,6 +47,16 @@ function IndexMaster() {
                             </Link>
                         </CardFooter>
                     </Card>
+                    <Card className="w-full max-w-lg">
+                        <CardHeader className="-mb-3">
+                            <CardTitle>SISWA</CardTitle>
+                        </CardHeader>
+                        <CardFooter className="flex justify-between">
+                            <Link href="/master/siswa">
+                                <Button>LIHAT</Button>
+                            </Link>
+                        </CardFooter>
+                    </Card>
                 </div>
             </main>
         </>

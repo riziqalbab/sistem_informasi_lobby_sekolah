@@ -18,14 +18,6 @@ Route::get("/", HomeController::class);
 
 
 
-Route::get("/master/kelas", [MasterController::class, "kelas"]);
-Route::post("/master/kelas", [MasterController::class, "storeKelas"]);
-Route::post("/master/kelas/edit", [MasterController::class, "editKelas"]);
-
-
-Route::get("/siswa/{nis}", [SiswaController::class, "getOne"]);
-Route::get("/siswa", SiswaController::class)->name("Siswa");
-Route::post("/siswa/store", [SiswaController::class, "store"]);
 
 
 Route::get("/keluar", DispensasiController::class);
@@ -49,6 +41,17 @@ Route::get("/buku/{id_tamu}", [TamuController::class, 'detail']);
 Route::get("/tamu/{id_tamu}", [TamuController::class, 'guestDetail']);
 
 
+
+Route::get("/siswa/{nis}", [SiswaController::class, "getOne"]);
+
+// MASTER PAGE
+Route::get("/master/siswa", SiswaController::class)->name("Siswa");
+Route::post("/master/siswa/store", [SiswaController::class, "store"]);
+
+
+Route::get("/master/kelas", [MasterController::class, "kelas"]);
+Route::post("/master/kelas", [MasterController::class, "storeKelas"]);
+Route::post("/master/kelas/edit", [MasterController::class, "editKelas"]);
 
 
 Route::get("/master/guru", [MasterController::class, "guru"]);

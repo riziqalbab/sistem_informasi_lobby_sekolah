@@ -22,11 +22,10 @@ class KeluarController extends Controller
     }
     public function __invoke()
     {
-
         $site_url = url("/");
 
         $table_guru_piket = GuruPiket::query()->with("guru")->whereDate('tanggal', Carbon::today())->get()->toArray();
-        $guru_piket = count($table_guru_piket) > 0 ? $table_guru_piket[0]["guru"] : null;
+        $guru_piket = count($table_guru_piket) > 0 ? $table_guru_piket[0] : null;
 
         $guru = Guru::all();
         return Inertia::render("Keluar/Keluar", [
@@ -39,7 +38,6 @@ class KeluarController extends Controller
     public function store(Request $request)
     {
 
-        
         $date_now = Carbon::now()->toDateString();
         
         $validator = Validator::make($request->all(), [
@@ -85,8 +83,8 @@ class KeluarController extends Controller
             return [
                 "id_dispen" => $id_dispen,
                 "nis" => $item["nis"],
+                "id_kelas"=> $item["kelas"]["id_kelas"],
                 "nama" => $item["nama"],
-                "kelas" => $item["kelas"],
                 "tanggal" => $request->post("waktu_awal"),
                 "alasan" => $request->post("alasan"),
             ];
@@ -110,7 +108,7 @@ Permohonan dispensasi kamu telah berhasil diajukan. Berikut adalah detail pengaj
 \n
 Silakan pantau status pengajuan kamu dengan mengunjungi tautan berikut untuk detail lebih lanjut:
 \n
-Klik link berikut untuk melihat detail dispensasi yang akan diberikan ke gurumu => $site_url/dispensasi/$id_dispen
+Klik link berikut untuk melihat detail dispensasi yang akan diberikan ke gurumu => $site_url/keluar/$id_dispen
 \n
 Terima kasih,
 \n
@@ -128,7 +126,7 @@ Kami informasikan bahwa siswa dengan data sebagai berikut telah diberikan dispen
 foreach ($request->post("siswa") as $key => $value) {
     $message_piket .= "
 *Nama*  : " . $value["nama"] . "\n" .
-"*Kelas* : " . $value["kelas"] . "\n" .
+"*Kelas* : " . $value["kelas"]["nama"] . "\n" .
 "*NIS*   : " . $value["nis"] . "\n\n";
 }
 $message_piket .= "
@@ -157,7 +155,7 @@ Dengan ini kami sampaikan bahwa siswa dengan data sebagai berikut telah melakuka
 foreach ($request->post("siswa") as $key => $value) {
     $message_guru .= "
 *Nama*  : " . $value["nama"] . "\n" .
-"*Kelas* : " . $value["kelas"] . "\n" .
+"*Kelas* : " . $value["kelas"]["nama"] . "\n" .
 "*NIS*   : " . $value["nis"] . "\n\n";
 }
 $message_guru .= "
@@ -181,9 +179,9 @@ $piket = GuruPiket::where('tanggal', $date_now)
 
 
 
-        $result = $this->fonnteService->sendMessage($nomor_guru, $message_guru);
-        $result_siswa = $this->fonnteService->sendMessage($request->post("whatsapp"), $message_siswa);
-        $result_guru_piket = $this->fonnteService->sendMessage($piket["guru"]["whatsapp"], $message_piket);
+        // $result = $this->fonnteService->sendMessage($nomor_guru, $message_guru);
+        // $result_siswa = $this->fonnteService->sendMessage($request->post("whatsapp"), $message_siswa);
+        // $result_guru_piket = $this->fonnteService->sendMessage($piket["guru"]["whatsapp"], $message_piket);
         return redirect()->back()->with([
             "success"=> true,
             "id_dispensasi"=>$id_dispen

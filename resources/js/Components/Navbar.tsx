@@ -45,7 +45,7 @@ function Navbar() {
                         </li>
                     </ul>
                 </div>
-                <Link href="/" className="btn btn-ghost text-xl">
+                <Link href="/" className="btn btn-ghost lg:text-xl">
                     LOBBY | SMK NEGERI 1 KEBUMEN
                 </Link>
             </div>
@@ -60,9 +60,7 @@ function Navbar() {
                     <li>
                         <Link href="/masuk">TERLAMBAT</Link>
                     </li>
-                    <li>
-                        <Link href="/siswa">SISWA</Link>
-                    </li>
+                    
                     <li>
                         <Link href="/master" className="text-red-500">
                             MASTER DATA
