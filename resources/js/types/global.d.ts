@@ -85,7 +85,10 @@ declare global {
     interface siswa_dispen {
         alasan: string;
         id_dispen: string;
-        kelas: string;
+        kelas: {
+            id_kelas: number
+            nama: string
+        };
         nama: string;
         nis: number;
         tanggal: string;

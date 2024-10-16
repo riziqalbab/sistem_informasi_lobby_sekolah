@@ -119,6 +119,7 @@ function Keluar() {
         );
     };
 
+
     return (
         <>
             <Toaster />
@@ -143,7 +144,7 @@ function Keluar() {
                     </form>
 
                     <section className="py-4 w-full max-w-2xl">
-                        {!props.errors.guru_piket && (
+                        {!props.guru_piket && (
                             <Alert variant="destructive" className="mt-2 mb-3">
                                 <ExclamationTriangleIcon className="h-4 w-4" />
                                 <AlertDescription>
