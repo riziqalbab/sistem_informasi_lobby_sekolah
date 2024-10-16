@@ -4,6 +4,7 @@ use App\Http\Controllers\DispensasiController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KeluarController;
+use App\Http\Controllers\MasterController;
 use App\Http\Controllers\MasukController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiswaController;
@@ -14,9 +15,9 @@ use Inertia\Inertia;
 
 Route::get("/", HomeController::class);
 
-Route::get("/siswa/{nis}", [SiswaController::class, "getOne"]);
-Route::get("/siswa", SiswaController::class)->name("Siswa");
-Route::post("/siswa/store", [SiswaController::class, "store"]);
+
+
+
 
 
 Route::get("/keluar", DispensasiController::class);
@@ -41,12 +42,25 @@ Route::get("/tamu/{id_tamu}", [TamuController::class, 'guestDetail']);
 
 
 
+Route::get("/siswa/{nis}", [SiswaController::class, "getOne"]);
 
-Route::delete("/guru/delete/{id_guru}", [GuruController::class, "delete"]);
-Route::get("/guru", GuruController::class);
-Route::post("/guru/store", [GuruController::class, "store"]);
-Route::post("/guru/piket/store", [GuruController::class, "piket"]);
+// MASTER PAGE
+Route::get("/master/siswa", SiswaController::class)->name("Siswa");
+Route::post("/master/siswa/store", [SiswaController::class, "store"]);
 
+
+Route::get("/master/kelas", [MasterController::class, "kelas"]);
+Route::post("/master/kelas", [MasterController::class, "storeKelas"]);
+Route::post("/master/kelas/edit", [MasterController::class, "editKelas"]);
+
+
+Route::get("/master/guru", [MasterController::class, "guru"]);
+Route::post("/master/guru/store", [MasterController::class, "storeGuru"]);
+Route::post("/master/guru/edit", [MasterController::class, "editGuru"]);
+Route::post("/master/guru/piket/store", [MasterController::class, "guruPiket"]);
+Route::delete("/master/guru/delete/{id_guru}", [GuruController::class, "delete"]);
+
+Route::get("/master", MasterController::class);
 
 
 Route::get("/terlambat/{id_masuk}", [TerlambatController::class, "detail"]);

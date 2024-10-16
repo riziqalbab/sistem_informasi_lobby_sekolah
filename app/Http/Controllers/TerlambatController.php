@@ -65,7 +65,6 @@ class TerlambatController extends Controller
 
             $piket = GuruPiket::find($dispensasi["id_guru_piket"])->with('guru')->get()->first();
             $guru = Guru::where("id_guru", $dispensasi["id_guru"])->firstOrFail()->toArray();
-
             $siswa = SiswaMasuk::where("id_masuk", $id_masuk)->get()->toArray();
 
             Log::info($guru);
@@ -82,11 +81,11 @@ class TerlambatController extends Controller
         }
     }
 
-
-
-
     public function store(Request $request)
     {
+
+        Log::info($request);
+        
         $date_now = Carbon::now()->toDateString();
 
         $validator = Validator::make($request->all(), [
@@ -111,26 +110,27 @@ class TerlambatController extends Controller
 
         
         
-        $value_siswa_keluar = array_map(function ($item) use ($id_masuk, $date_now) {
+        $value_siswa_masuk = array_map(function ($item) use ($id_masuk, $date_now) {
             return [
                 "id_masuk" => $id_masuk,
                 "nis" => $item["nis"],
+                "id_kelas" => $item["kelas"]["id_kelas"],
                 "nama" => $item["nama"],
-                "kelas" => $item["kelas"],
                 "alasan" => $item["alasan"] ?? "",
                 "tanggal" => $date_now
             ];
         }, $request->post("siswa"));
-
-
              
         $dispensasi = Masuk::findOrFail($id_masuk)->toArray();
-        
+
+        SiswaMasuk::insert($value_siswa_masuk);
         $piket = GuruPiket::find($dispensasi["id_guru_piket"])->with('guru')->get()->first();
         $guru = Guru::where("id_guru", $dispensasi["id_guru"])->firstOrFail()->toArray();
 
         $whatsapp_piket = $piket->guru->whatsapp;
         $whatsapp_guru = $guru["whatsapp"];
+
+
         $nama_guru = $guru["nama"];
 
 
@@ -142,10 +142,10 @@ KEPADA YTH BPK/IBU {$nama_guru},\n
 \n
 Dengan ini kami sampaikan bahwa siswa dengan data sebagai berikut telah melakan keterlambatan masuk:
 \n";
-foreach ($value_siswa_keluar as $key => $value) {
+foreach ($request->post("siswa") as $key => $value) {
     $message_guru .= "
 *Nama*  : " . $value["nama"] . "\n" .
-"*Kelas* : " . $value["kelas"] . "\n" .
+"*Kelas* : " . $value["kelas"]["nama"] . "\n" .
 "*NIS*   : " . $value["nis"] . "\n\n".
 "*ALASAN*: " . $value["alasan"] . "\n\n";
 
@@ -165,10 +165,10 @@ KEPADA YTH BPK/IBU GURU PIKET LOBBY,\n
 \n
 Kami informasikan bahwa siswa dengan data sebagai berikut telah melakukan keterlambatan:
 \n";
-foreach ($value_siswa_keluar as $key => $value) {
+foreach ($request->post("siswa") as $key => $value) {
     $message_piket .= "
 *Nama*  : " . $value["nama"] . "\n" .
-"*Kelas* : " . $value["kelas"] . "\n" .
+"*Kelas* : " . $value["kelas"]["nama"] . "\n" .
 "*NIS*   : " . $value["nis"] . "\n".
 "*ALASAN*: " . $value["alasan"] . "\n\n";
 }
@@ -182,10 +182,9 @@ SMK Negeri 1 Kebumen
 
 
 
-$result = $this->fonnteService->sendMessage($whatsapp_guru, $message_guru);
-$result = $this->fonnteService->sendMessage($whatsapp_piket, $message_piket);
+// $result = $this->fonnteService->sendMessage($whatsapp_guru, $message_guru);
+// $result = $this->fonnteService->sendMessage($whatsapp_piket, $message_piket);
 
-Log::info($message_guru);
 
 
         return redirect()->back()->with([

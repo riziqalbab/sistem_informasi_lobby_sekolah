@@ -15,10 +15,7 @@ declare global {
         whatsapp: string;
     }
 
-    interface ComponentProps {
-        teachers?: Teacher[];
-        onEdit: (teacher: Teacher) => void;
-    }
+    
 
     interface GuruObject {
         id_guru: number;
@@ -27,16 +24,19 @@ declare global {
         whatsapp: string;
     }
 
-    interface ValuesType {
+    interface guru {
         nama: string;
         mapel: string;
         whatsapp: string;
     }
 
     interface object_nis_data {
-        kelas: string;
         nama: string;
         nis: number;
+        kelas: {
+            id_kelas: number
+            nama: string
+        };
     }
     interface object_siswa_masuk {
         kelas: string;
@@ -51,10 +51,15 @@ declare global {
     }
 
     interface object_guru {
-        id_guru: string;
+        id_guru: number;
         mapel: string;
         nama: string;
         whatsapp: string;
+    }
+
+    interface object_kelas{
+        id_kelas: string
+        nama: string
     }
 
     export interface Paginator<T> {

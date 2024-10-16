@@ -19,35 +19,38 @@ import {
 } from "@/Components/ui/table";
 import { RocketIcon } from "@radix-ui/react-icons";
 import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/Components/ui/alert-dialog";
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/Components/ui/dialog";
 
 import { Button } from "@/Components/ui/button";
 import Navbar from "@/Components/Navbar";
 import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
 
-import { Dialog, DialogContent, DialogTrigger } from "@/Components/ui/dialog";
 import React, { useState } from "react";
 import { router, usePage } from "@inertiajs/react";
 
-export default function Guru({ teachers = [], onEdit }: ComponentProps) {
+export default function Guru() {
     const { props }: any = usePage();
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const { guru } = props;
 
-    const [values, setValues] = useState<ValuesType>({
+    const [values, setValues] = useState<guru>({
         nama: "",
         mapel: "",
         whatsapp: "",
     });
+
+    const [namaEdit, setNamaEdit] = useState<string>();
+    const [mapelEdit, setMapelEdit] = useState<string>();
+    const [whatsappEdit, setWhatsappEdit] = useState<string>();
+    const [idGuruEdit, setIdGuruEdit] = useState(0);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const key = e.target.id;
@@ -60,11 +63,32 @@ export default function Guru({ teachers = [], onEdit }: ComponentProps) {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        router.post("/guru/store", { ...values });
+        router.post("/master/guru/store", { ...values });
     };
 
-    const handleDelete = (id: number) => {
-        router.delete(`/guru/delete/${id}`);
+    const handleSubmitEdit = () => {
+    
+        const values = {
+            id_guru: idGuruEdit,
+            nama_edit: namaEdit,
+            mapel_edit: mapelEdit,
+            whatsapp_edit: whatsappEdit,
+        };
+
+        router.post("/master/guru/edit", values, {
+            onSuccess: ()=>{
+                setIsDialogOpen(!isDialogOpen)
+            }
+        });
+    };
+
+
+
+    const handleClickEdit = (item: object_guru) => {
+        setIdGuruEdit(item.id_guru)
+        setWhatsappEdit(item.whatsapp);
+        setNamaEdit(item.nama);
+        setMapelEdit(item.mapel);
     };
 
     return (
@@ -196,7 +220,8 @@ export default function Guru({ teachers = [], onEdit }: ComponentProps) {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {guru.map((teacher: GuruObject) => (
+                                {guru.map((teacher: object_guru) => (
+
                                     <TableRow key={teacher.id_guru}>
                                         <TableCell>{teacher.nama}</TableCell>
                                         <TableCell>{teacher.mapel}</TableCell>
@@ -204,44 +229,157 @@ export default function Guru({ teachers = [], onEdit }: ComponentProps) {
                                             {teacher.whatsapp}
                                         </TableCell>
                                         <TableCell className="text-right">
-                                            <AlertDialog>
-                                                <AlertDialogTrigger asChild>
-                                                    <Button variant="destructive">
-                                                        HAPUS
+                                            <Dialog
+                                                open={isDialogOpen}
+                                                onOpenChange={setIsDialogOpen}
+                                            >
+                                                <DialogTrigger>
+                                                    <Button
+                                                        variant="outline"
+                                                        onClick={() => {
+                                                            handleClickEdit(
+                                                                teacher
+                                                            );
+                                                        }}
+                                                    >
+                                                        EDIT
                                                     </Button>
-                                                </AlertDialogTrigger>
-                                                <AlertDialogContent>
-                                                    <AlertDialogHeader>
-                                                        <AlertDialogTitle>
-                                                            Are you absolutely
-                                                            sure?
-                                                        </AlertDialogTitle>
-                                                        <AlertDialogDescription>
-                                                            This action cannot
-                                                            be undone. This will
-                                                            permanently delete
-                                                            your account and
-                                                            remove your data
-                                                            from our servers.
-                                                        </AlertDialogDescription>
-                                                    </AlertDialogHeader>
-                                                    <AlertDialogFooter>
-                                                        <AlertDialogCancel>
-                                                            Cancel
-                                                        </AlertDialogCancel>
+                                                </DialogTrigger>
+                                                <DialogContent>
+                                                    <Card className="w-full max-w-md">
+                                                        <form>
+                                                            <CardHeader>
+                                                                <CardTitle>
+                                                                    Edit Guru
+                                                                </CardTitle>
+                                                            </CardHeader>
+                                                            <CardContent className="space-y-4">
+                                                                <div className="space-y-2">
+                                                                    <Label htmlFor="nama">
+                                                                        Nama
+                                                                    </Label>
+                                                                    <Input
+                                                                        name="nama"
+                                                                        value={
+                                                                            namaEdit
+                                                                        }
+                                                                        onChange={(
+                                                                            e
+                                                                        ) => {
+                                                                            setNamaEdit(
+                                                                                e
+                                                                                    .target
+                                                                                    .value
+                                                                            );
+                                                                        }}
+                                                                        id="nama"
+                                                                        placeholder="Masukkan nama guru"
+                                                                    />
+                                                                    {props
+                                                                        .errors
+                                                                        .nama_edit && (
+                                                                        <Alert variant="destructive">
+                                                                            <AlertDescription>
+                                                                                {
+                                                                                    props
+                                                                                        .errors
+                                                                                        .nama_edit
+                                                                                }
+                                                                            </AlertDescription>
+                                                                        </Alert>
+                                                                    )}
+                                                                </div>
+                                                                <div className="space-y-2">
+                                                                    <Label htmlFor="mapel">
+                                                                        Mata
+                                                                        Pelajaran
+                                                                    </Label>
+                                                                    <Input
+                                                                        name="mapel"
+                                                                        value={
+                                                                            mapelEdit
+                                                                        }
+                                                                        onChange={(
+                                                                            e
+                                                                        ) => {
+                                                                            setMapelEdit(
+                                                                                e
+                                                                                    .target
+                                                                                    .value
+                                                                            );
+                                                                        }}
+                                                                        id="mapel"
+                                                                        placeholder="Masukkan mata pelajaran yang diajar"
+                                                                    />
+                                                                    {props
+                                                                        .errors
+                                                                        .mapel_edit && (
+                                                                        <Alert variant="destructive">
+                                                                            <AlertDescription>
+                                                                                {
+                                                                                    props
+                                                                                        .errors
+                                                                                        .mapel
+                                                                                }
+                                                                            </AlertDescription>
+                                                                        </Alert>
+                                                                    )}
+                                                                </div>
 
-                                                        <Button
-                                                            onClick={() => {
-                                                                handleDelete(
-                                                                    teacher.id_guru
-                                                                );
-                                                            }}
-                                                        >
-                                                            HAPUS
-                                                        </Button>
-                                                    </AlertDialogFooter>
-                                                </AlertDialogContent>
-                                            </AlertDialog>
+                                                                <div className="space-y-2">
+                                                                    <Label htmlFor="whatsapp">
+                                                                        Nomor
+                                                                        WhatsApp
+                                                                    </Label>
+                                                                    <Input
+                                                                        name="whatsapp"
+                                                                        value={
+                                                                            whatsappEdit
+                                                                        }
+                                                                        onChange={(
+                                                                            e
+                                                                        ) => {
+                                                                            setWhatsappEdit(
+                                                                                e
+                                                                                    .target
+                                                                                    .value
+                                                                            );
+                                                                        }}
+                                                                        id="whatsapp"
+                                                                        placeholder="Masukkan nomor WhatsApp guru"
+                                                                    />
+                                                                    {props
+                                                                        .errors
+                                                                        .whatsapp_edit && (
+                                                                        <Alert variant="destructive">
+                                                                            <AlertDescription>
+                                                                                {
+                                                                                    props
+                                                                                        .errors
+                                                                                        .whatsapp_edit
+                                                                                }
+                                                                            </AlertDescription>
+                                                                        </Alert>
+                                                                    )}
+                                                                </div>
+                                                            </CardContent>
+                                                            <CardFooter>
+                                                                <Button
+                                                                    className="w-full"
+                                                                    type="button"
+                                                                    onClick={() => {
+                                                                        handleSubmitEdit();
+                                                                        
+                                                                        setIdGuruEdit(teacher.id_guru)
+                                                                    }}
+                                                                >
+                                                                    Simpan
+                                                                </Button>
+                                                            </CardFooter>
+                                                        </form>
+                                                    </Card>
+                                                </DialogContent>
+                                            </Dialog>
                                         </TableCell>
                                     </TableRow>
                                 ))}

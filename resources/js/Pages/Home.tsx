@@ -40,20 +40,20 @@ function Home() {
         };
     });
     const handleSubmitGuruPiket = (e: React.FormEvent<HTMLFormElement>) => {
-        router.post("/guru/piket/store", {
+        router.post("/master/guru/piket/store", {
             id_guru: guruChoice,
         });
     };
 
-    console.log(props);
+    console.log(optionGuru);
     
     
     return (
         <>
             <Navbar />
             <main className="w-screen ">
-            <div className="w-full h-96 object-cover rounded-lg bg-[url(https://raw.githubusercontent.com/Eathen0/Web-Pilkosis/refs/heads/main/frontend_refractor/pilkosis/src/assets/images/login-bg.png)] bg-left bg-cover flex items-center justify-center">
-                <h1 className="font-black text-slate-900 text-3xl">LOBBY SMK NEGERI 1 KEBUMEN</h1>
+            <div className="w-full h-96 object-cover rounded-lg bg-[url(https://github-production-user-asset-6210df.s3.amazonaws.com/108043896/376852115-a3f9abff-1d3a-4ffc-b1bf-077ffa740d50.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20241016%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241016T012650Z&X-Amz-Expires=300&X-Amz-Signature=6119a241071bc6c653cf772fc0de5873556cdaf18a4ef43990741ddc47b2e986&X-Amz-SignedHeaders=host)] bg-left bg-cover flex items-center justify-center">
+                <h1 className="font-black text-slate-900 text-3xl text-center">LOBBY SMK NEGERI 1 KEBUMEN</h1>
             </div>
                 <div className="w-full p-5 relative mt-16 z-50">
                     {guru_piket == null ? (

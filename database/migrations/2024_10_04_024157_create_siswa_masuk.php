@@ -16,12 +16,12 @@ return new class extends Migration
             $table->string('nis');
             $table->unsignedBigInteger("id_kelas");
             $table->string('nama');
-            $table->string('kelas');
             $table->date('tanggal'); 
             $table->string('alasan');
         
             $table->primary(['id_masuk', 'nis']);
             $table->foreign('id_masuk')->references('id_masuk')->on('masuk')->onDelete('cascade');
+            $table->foreign('id_kelas')->references('id_kelas')->on('kelas')->onDelete('cascade');
             $table->foreign('nis')->references('nis')->on('siswa')->onDelete('cascade');
         
         });

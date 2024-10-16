@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import Navbar from "@/Components/Navbar";
 import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
@@ -39,11 +37,11 @@ function Keluar() {
 
     const [alasan, setAlasan] = useState<string>();
     const [deskripsi, setDeskripsi] = useState<string>();
-    const [guruChoice, setGuruChoice] = useState<string>();
+    const [guruChoice, setGuruChoice] = useState<number | undefined>(undefined);
     const [whatsapp, setWhatsapp] = useState<string>();
     const [mulai, setMulai] = useState<string>();
     const [sampai, setSampai] = useState<string>();
-    const [success, setSuccess] = useState<boolean>(false);
+    const [success, setSuccess] = useState();
     const { toast } = useToast();
     const [disableButton, setDisableButton] = useState(true);
     const [successDispen, setSuccessDispen] = useState(false);
@@ -52,14 +50,9 @@ function Keluar() {
     const { props } = usePage();
     const valueQr = `${props.site_url}/keluar/${props.id_dispensasi}`;
 
-    
-    
-
     const guru_piket = props.guru_piket as object_guru_piket;
-    const nama_guru_piket: string = guru_piket?.nama;
-    const guru: object_guru[] = props.guru as object_guru[];
-    const id_guru_piket = guru_piket.guru
 
+    const guru: object_guru[] = props.guru as object_guru[];
     const handleHapusSiswa = (nis: number) => {
         const indexHapus = siswa.findIndex((item, i) => {
             return item.nis == nis;
@@ -93,8 +86,8 @@ function Keluar() {
             label: e.nama,
         };
     });
-
     const handleSubmitDispen = (e: React.FormEvent<HTMLFormElement>) => {
+        // @ts-ignore
         setSuccess(props.success);
         e.preventDefault();
 
@@ -109,9 +102,9 @@ function Keluar() {
             waktu_akhir: sampai,
         };
 
-
         const post = router.post(
             "/keluar/store",
+            // @ts-ignore
             { ...values },
             {
                 onSuccess: () => {
@@ -125,9 +118,6 @@ function Keluar() {
             }
         );
     };
-
-    
-
 
     return (
         <>
@@ -147,14 +137,20 @@ function Keluar() {
                                 setNis(e.target.valueAsNumber);
                             }}
                         />
-                        <Button>TAMBAH</Button>
+                        <div>
+                            <Button>TAMBAH</Button>
+                        </div>
                     </form>
 
                     <section className="py-4 w-full max-w-2xl">
-                        {/* 
-                        
-                        */}
-
+                        {!props.errors.guru_piket && (
+                            <Alert variant="destructive" className="mt-2 mb-3">
+                                <ExclamationTriangleIcon className="h-4 w-4" />
+                                <AlertDescription>
+                                    GURU PIKET BELUM DIATUR
+                                </AlertDescription>
+                            </Alert>
+                        )}
                         <Dialog>
                             <DialogTrigger asChild>
                                 <Button
@@ -186,9 +182,14 @@ function Keluar() {
                                             value={valueQr}
                                             viewBox={`0 0 256 256`}
                                         />
-                                        <Button className="w-full mt-10" onClick={()=>{
-                                            location.reload();
-                                        }}>SELESAI</Button>
+                                        <Button
+                                            className="w-full mt-10"
+                                            onClick={() => {
+                                                location.reload();
+                                            }}
+                                        >
+                                            SELESAI
+                                        </Button>
                                     </div>
                                 ) : (
                                     <>
@@ -423,7 +424,7 @@ function Keluar() {
                                 </div>
                                 <AlertTitle>{item.nama}</AlertTitle>
                                 <AlertDescription>
-                                    {item.kelas}
+                                    {item.kelas.nama}
                                 </AlertDescription>
                             </Alert>
                         ))}
