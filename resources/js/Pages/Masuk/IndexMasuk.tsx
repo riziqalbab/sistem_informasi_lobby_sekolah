@@ -69,7 +69,7 @@ export default function IndexMasuk() {
                                 <TableRow>
                                     <TableCell>{dispensi.nis}</TableCell>
                                     <TableCell>{dispensi.nama}</TableCell>
-                                    <TableCell>{dispensi.kelas}</TableCell>
+                                    <TableCell>{dispensi.kelas.nama}</TableCell>
                                     <TableCell>{dispensi.tanggal}</TableCell>
                                     <TableCell>
                                         <Link

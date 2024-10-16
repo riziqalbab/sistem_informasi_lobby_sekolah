@@ -195,6 +195,7 @@ export default function CreateTamu() {
                                     Staf Tujuan [Opsional]
                                 </Label>
                                 <Select
+                                // @ts-ignore
                                     onChange={(e) => setStafTujuan(e?.value)}
                                     id="guru"
                                     placeholder="Guru"
