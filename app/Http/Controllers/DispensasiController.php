@@ -8,7 +8,7 @@ use App\Models\SiswaDispen;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class DispensasiController extends Controller
@@ -19,10 +19,10 @@ class DispensasiController extends Controller
 
         $site_url = url("/");
         $date = $request->get("date") != null ? $request->get("date") : Carbon::now()->toDateString();
-        return Inertia::render("Dispensasi/AllDispensasi", [
-            "dispen" =>  SiswaDispen::with("kelas")->whereDate("tanggal", $date)->get()->toArray(),
+        return Inertia::render("Dispensasi/IndexDispensasi", [
+            "dispen" => SiswaDispen::with("kelas")->with("dispen")->whereDate("tanggal", $date)->get()->toArray(),
             "site_url" => $site_url,
-            "date"=>$date
+            "date" => $date
         ]);
     }
 
@@ -42,6 +42,7 @@ class DispensasiController extends Controller
 
             return Inertia::render("Dispensasi/Dispensasi", [
                 "dispensasi" => [
+                    "id_dispen" => $id_dispen,
                     "guruPiket" => $nama_guru_piket,
                     "guruPengajar" => $nama_guru,
                     "nomorWhatsapp" => $dispensasi["whatsapp"],
@@ -50,10 +51,39 @@ class DispensasiController extends Controller
                     "alasan" => $dispensasi["alasan"],
                     "deskripsi" => $dispensasi["deskripsi"],
                     "siswa" => $siswa,
+                    "status" => $dispensasi["status"]
                 ]
             ]);
         } catch (ModelNotFoundException $e) {
             return Inertia::render("NotFoundDispen");
         }
+    }
+
+    public function confirm(Request $request)
+    {
+        $id_dispen = $request->post("id_dispen");
+        $status = $request->post("status");
+
+
+        try {
+
+            $dispen = Dispen::findOrFail($id_dispen)->toArray();
+            
+            if($status){
+                Dispen::where("id_dispen", $id_dispen)->update([
+                    "status"=> "accepted"
+                ]);
+            } else{
+                $alasan = $request->post("alasan");
+                Dispen::where("id_dispen", $id_dispen)->update([
+                    "status"=> "rejected"
+                ]);
+            }
+
+        } catch (ModelNotFoundException $e) {
+            return Inertia::render("NotFoundDispen");
+        }
+
+
     }
 }

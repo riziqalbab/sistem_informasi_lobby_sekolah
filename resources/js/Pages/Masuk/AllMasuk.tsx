@@ -25,11 +25,11 @@ export default function AllDispensasi() {
     const { props } = usePage();
     const [dateDispen, setDateDispen] = useState<string>(props.date as string);
 
-    console.log(props);
     
     // const paginator: Paginator<siswa_dispen> = props.dispens as Paginator<siswa_dispen>;
     const dataTerlambat: Array<siswa_dispen> = (props.terlambat as { data: Array<siswa_dispen> }).data
     const site_url: string = props.site_url as string;
+    console.log(dataTerlambat);
 
 
     
@@ -69,7 +69,7 @@ export default function AllDispensasi() {
                                 <TableRow>
                                     <TableCell>{dispensi.nis}</TableCell>
                                     <TableCell>{dispensi.nama}</TableCell>
-                                    <TableCell>{dispensi.kelas.nama}</TableCell>
+                                    <TableCell>{dispensi.kelas}</TableCell>
                                     <TableCell>{dispensi.tanggal}</TableCell>
                                     <TableCell>
                                         <Link
