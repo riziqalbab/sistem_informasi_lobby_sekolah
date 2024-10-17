@@ -8,11 +8,30 @@ import {
 import { Badge } from "@/Components/ui/badge";
 import { ScrollArea } from "@/Components/ui/scroll-area";
 import { Clock, Phone } from "lucide-react";
-import { usePage } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
+import { Button } from "@/Components/ui/button";
 
+import {
+    Dialog,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/Components/ui/dialog";
+import { Label } from "@/Components/ui/label";
+import { Input } from "@/Components/ui/input";
+import { Textarea } from "@/Components/ui/textarea";
+import { useState } from "react";
 // Tipe data untuk informasi dispensasi
 interface DispensasiInfo {
-    guruPiket: string;
+    guruPiket: {
+        id: number
+        guru:{
+            id: number
+            nama: string
+        }
+    }
     guruPengajar: string;
     nomorWhatsapp: string;
     waktuDispen: string;
@@ -25,14 +44,33 @@ interface DispensasiInfo {
     }[];
 }
 
+
 // Data contoh, Anda bisa menggantinya dengan data yang sebenarnya dari API atau database
 
 export default function DetailDispensasi() {
     const { props } = usePage();
-
+    const [alasan, setAlasan] = useState("")
     const dispensasiInfo: DispensasiInfo = props.dispensasi as DispensasiInfo;
-
+    
     console.log(props);
+
+    const handleAccept = ()=>{
+        router.post(`/keluar/confirm`, {
+            status: 1,
+            // @ts-ignore
+            id_guru_piket: dispensasiInfo.guruPiket.id,
+            // @ts-ignore
+            id_dispen: props.dispensasi.id_dispen 
+        })
+    }
+    const handleRejected = ()=>{
+        router.post(`/keluar/confirm`, {
+            status: 0,
+            // @ts-ignore
+            id_dispen: props.dispensasi.id_dispen,
+            alasan: alasan
+        })
+    }
 
     return (
         <div className="container mx-auto p-4">
@@ -45,9 +83,11 @@ export default function DetailDispensasi() {
                         <CardTitle>Informasi Umum</CardTitle>
                     </CardHeader>
                     <CardContent>
+                        {/* @ts-ignore */}
+                    <Badge variant={props.dispensasi.status == "accepted" ? "default": props.dispensasi.status == "pending" ? "outline" : "destructive"} className={props.dispensasi.status == "accepted" ? "bg-green-600" : ""}>{props.dispensasi.status}</Badge>
                         <dl className="grid grid-cols-2 gap-2">
                             <dt className="font-semibold">Guru Piket:</dt>
-                            <dd>{dispensasiInfo.guruPiket}</dd>
+                            <dd>{dispensasiInfo.guruPiket.guru.nama}</dd>
                             <dt className="font-semibold">Guru Pengajar:</dt>
                             <dd>{dispensasiInfo.guruPengajar}</dd>
                             <dt className="font-semibold">Nomor WhatsApp:</dt>
@@ -68,6 +108,51 @@ export default function DetailDispensasi() {
                                 <Clock className="mr-1 h-4 w-4" />
                                 {dispensasiInfo.waktuDispen}
                             </dd>
+                            {/* @ts-ignore */}
+                            {/* (props.dispensasi.status !== "pending" ? "hidden" : "flex") */}
+                            <div className={"w-full items-center gap-3 "}>
+                                <Button onClick={handleAccept} className="bg-green-600 hover:bg-green-800">
+                                    IZINKAN
+                                </Button>
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <Button variant="destructive" >
+                                            TOLAK
+                                        </Button>
+                                    </DialogTrigger>
+                                    <DialogContent className="sm:max-w-[425px]">
+                                        <DialogHeader>
+                                            <DialogTitle>
+                                                TULISKAN ALASAN
+                                            </DialogTitle>
+                                        </DialogHeader>
+                                        <div className="grid gap-4 py-4">
+                                            <div className="">
+                                                <Label
+                                                    htmlFor="alasan"
+                                                    className="text-right"
+                                                >
+                                                    Alasan
+                                                </Label>
+                                                
+                                                <Textarea
+                                                    id="Alasan"
+                                                    onChange={e=>{
+                                                        setAlasan(e.target.value)
+                                                    }}
+                                                    className="col-span-3"
+                                                />
+                                            </div>
+                                           
+                                        </div>
+                                        <DialogFooter>
+                                            <Button type="submit" variant="destructive" onClick={handleRejected}>
+                                                TOLAK
+                                            </Button>
+                                        </DialogFooter>
+                                    </DialogContent>
+                                </Dialog>
+                            </div>
                         </dl>
                     </CardContent>
                 </Card>

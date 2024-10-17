@@ -24,10 +24,12 @@ Route::get("/keluar", DispensasiController::class);
 Route::get("/keluar/tambah", KeluarController::class);
 Route::post("/keluar/store", [KeluarController::class, "store"]);
 Route::get("/keluar/{id_dispen}", [DispensasiController::class, "dispensasi"]);
+Route::post("/keluar/confirm", [DispensasiController::class, "confirm"]);
 
 Route::get("/masuk", TerlambatController::class);
 Route::get("/masuk/tambah", [TerlambatController::class, "tambah"]);
 Route::post("/masuk/store", [TerlambatController::class, "store"]);
+Route::get("/masuk/{id_masuk}", [TerlambatController::class, "detail"]);
 
 
 

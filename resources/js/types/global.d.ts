@@ -15,8 +15,6 @@ declare global {
         whatsapp: string;
     }
 
-    
-
     interface GuruObject {
         id_guru: number;
         mapel: string;
@@ -34,8 +32,8 @@ declare global {
         nama: string;
         nis: number;
         kelas: {
-            id_kelas: number
-            nama: string
+            id_kelas: number;
+            nama: string;
         };
     }
     interface object_siswa_masuk {
@@ -57,9 +55,9 @@ declare global {
         whatsapp: string;
     }
 
-    interface object_kelas{
-        id_kelas: string
-        nama: string
+    interface object_kelas {
+        id_kelas: string;
+        nama: string;
     }
 
     export interface Paginator<T> {
@@ -82,16 +80,34 @@ declare global {
         }>;
     }
 
-    interface siswa_dispen {
+    interface siswa_terlambat {
+        id_masuk: string;
         alasan: string;
-        id_dispen: string;
         kelas: {
-            id_kelas: number
-            nama: string
+            id_kelas: number;
+            nama: string;
         };
         nama: string;
         nis: number;
         tanggal: string;
+    }
+
+    interface siswa_dispen {
+        alasan: string;
+        id_dispen: string;
+        kelas: {
+            id_kelas: number;
+            nama: string;
+        };
+        dispen:{
+            id_dispen: number
+            status: string
+            whatsapp: string
+        }
+        nama: string;
+        nis: number;
+        tanggal: string;
+        status: string;
     }
 
     interface tamu {
@@ -126,6 +142,7 @@ declare global {
         id_dispen: string;
         waktu_awal: string;
         waktu_akhir: string;
+        status: string;
     }
 
     interface object_guru_piket {

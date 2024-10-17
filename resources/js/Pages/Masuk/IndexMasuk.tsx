@@ -8,7 +8,7 @@ import {
     TableRow,
 } from "@/Components/ui/table";
 import { Button } from "@/Components/ui/button";
-import { Eye } from "lucide-react";
+
 import Navbar from "@/Components/Navbar";
 import { Link, usePage } from "@inertiajs/react";
 import {
@@ -20,18 +20,33 @@ import {
 } from "@/Components/ui/pagination";
 import { Input } from "@/Components/ui/input";
 import { useState } from "react";
+import { Import, Upload } from "lucide-react";
+import ExcelExport from "@/utils/exportExcel";
 
 export default function IndexMasuk() {
     const { props } = usePage();
     const [dateDispen, setDateDispen] = useState<string>(props.date as string);
-
-    console.log(props);
-    
-    // const paginator: Paginator<siswa_dispen> = props.dispens as Paginator<siswa_dispen>;
-    const dataTerlambat: Array<siswa_dispen> = (props.terlambat as { data: Array<siswa_dispen> }).data
+    const dataTerlambat: Array<siswa_terlambat> = props.terlambat as Array<siswa_terlambat>
     const site_url: string = props.site_url as string;
 
+    const terlambat = dataTerlambat.map((item) => {
+        return {
+            id_masuk: item.id_masuk,
+            nis: item.nis,
+            nama: item.nama,
+            kelas: item.kelas.nama,
+            alasan: item.alasan,
+            tanggal: new Date(item.tanggal).toLocaleDateString("id-ID", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+            }),
+        };
 
+    });
+    
+
+    
     
     return (
         <div className="overflow-x-hidden">
@@ -51,6 +66,10 @@ export default function IndexMasuk() {
                         />
                         <Button>KIRIM</Button>
                     </form>
+
+                    <Button className="float-right bg-green-600 flex gap-2" onClick={()=>{
+                        ExcelExport(terlambat, `Terlambat-${dateDispen}`)
+                    }}><Upload/> EXPORT EXCEL</Button>
                     <Table>
                         <TableCaption>Daftar Detail Dispensasi</TableCaption>
                         <TableHeader>
@@ -58,6 +77,7 @@ export default function IndexMasuk() {
                                 <TableHead>NIS</TableHead>
                                 <TableHead>NAMA</TableHead>
                                 <TableHead>KELAS</TableHead>
+                                <TableHead>ALASAN</TableHead>
                                 <TableHead>WAKTU</TableHead>
                                 <TableHead className="text-right">
                                     Aksi
@@ -65,15 +85,17 @@ export default function IndexMasuk() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {dataTerlambat.map((dispensi) => (
+                        
+                            {terlambat.map((i) => (
                                 <TableRow>
-                                    <TableCell>{dispensi.nis}</TableCell>
-                                    <TableCell>{dispensi.nama}</TableCell>
-                                    <TableCell>{dispensi.kelas}</TableCell>
-                                    <TableCell>{dispensi.tanggal}</TableCell>
+                                    <TableCell>{i.nis}</TableCell>
+                                    <TableCell>{i.nama}</TableCell>
+                                    <TableCell>{i.kelas}</TableCell>
+                                    <TableCell>{i.alasan}</TableCell>
+                                    <TableCell>{i.tanggal}</TableCell>
                                     <TableCell>
                                         <Link
-                                            href={`${site_url}/keluar/${dispensi.id_dispen}`}
+                                            href={`${site_url}/masuk/${i.id_masuk}`}
 
                                         >
                                             <Button>
@@ -87,24 +109,7 @@ export default function IndexMasuk() {
                             ))}
                         </TableBody>
                     </Table>
-                    <Pagination>
-                        {/* <PaginationContent>
-                            {paginator.next_page_url != null && (
-                                <PaginationItem>
-                                    <PaginationPrevious
-                                        href={`${paginator.prev_page_url}&date=${dateDispen}`}
-                                    />
-                                </PaginationItem>
-                            )}
-                            {paginator.next_page_url != null && (
-                                <PaginationItem>
-                                    <PaginationNext
-                                        href={`${paginator.next_page_url}&date=${dateDispen}`}
-                                    />
-                                </PaginationItem>
-                            )}
-                        </PaginationContent> */}
-                    </Pagination>
+                   
                 </div>
             </main>
         </div>

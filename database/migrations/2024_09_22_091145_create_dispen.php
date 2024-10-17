@@ -18,6 +18,7 @@ return new class extends Migration
             $table->dateTime('waktu_awal');
             $table->dateTime('waktu_akhir')->nullable();
             $table->boolean('is_sampai_pulang')->default(true);
+            $table->enum("status", ["pending", "accepted", "rejected"])->default("pending");
 
             $table->foreign('id_guru')->references('id_guru')->on('guru');
         });

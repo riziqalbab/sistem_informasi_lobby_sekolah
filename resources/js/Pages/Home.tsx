@@ -28,7 +28,8 @@ import { Chart } from "@/Components/Chart";
 function Home() {
     const [guruChoice, setGuruChoice] = useState<number>();
     const { props } = usePage();
-    const two_weeks: Array<any> = props.two_weeks as unknown as Array<any>
+    const oneMonth: Array<any> = props.oneMonth as unknown as Array<any>
+    const oneMonthTerlambat: Array<any> = props.oneMonthTerlambat as unknown as Array<any>
     const guru: object_guru[] = props.guru as object_guru[];
     const guru_piket = props.guru_piket as object_guru_piket;
 
@@ -170,9 +171,10 @@ function Home() {
                         </Card>
                     </div>
                 </div>
-                <div className="container p-5">
+                <div className=" p-5 ">
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2 mb-8">
-                        <Chart data={two_weeks } description="Grafik dispensasi 2 minggu terkahir" keyX="label" keyY="count" title="2 MINGGU DISPENSASI" />
+                        <Chart data={oneMonth } description="Grafik dispensasi 1 bulan terkahir" keyX="label" keyY="count" title="1 BULAN DISPENSASI" />
+                        <Chart data={oneMonthTerlambat} description="Grafik siswa terlambat 1 bulan terkahir" keyX="label" keyY="count" title="1 BULAN TERLAMBAT" />
                     </div>
                    
                 </div>

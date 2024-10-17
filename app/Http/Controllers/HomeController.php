@@ -18,13 +18,13 @@ class HomeController extends Controller
     public function __invoke()
     {
         $date_now = Carbon::now()->toDateString();
-        $dataCount2Minggu = [];
-        $dataCountTerlambat = [];
+        $dataCount30day = [];
+        $oneMonthTerlambat = [];
        
-        for ($i = 0; $i <= 50; $i++) {
+        for ($i = 0; $i <= 30; $i++) {
             $date = date('Y-m-d', strtotime('-' . $i . ' days'));
             $count = SiswaDispen::where('tanggal', 'like', '%' . $date . '%')->count();
-            $dataCount2Minggu[] = [
+            $dataCount30day[] = [
                 "count"=> $count,
                 "label"=>date('d M', strtotime($date))
             ];
@@ -32,7 +32,7 @@ class HomeController extends Controller
         for ($i = 0; $i <= 50; $i++) {
             $date = date('Y-m-d', strtotime('-' . $i . ' days'));
             $count = Masuk::where('tanggal', 'like', '%operator: ' . $date . '%')->count();
-            $dataCountTerlambat[] = [
+            $oneMonthTerlambat[] = [
                 "count"=> $count,
                 "label"=>date('d M', strtotime($date))
             ];
@@ -64,8 +64,8 @@ class HomeController extends Controller
             "total_terlambat" => $masuk_total,
             "two_weeks_count" => $dataDispen2minggu->count(),
             "two_weeks_count_terlambat" => $dataDispen2minggu_terlambat->count(),
-            "two_weeks" => array_reverse($dataCount2Minggu),
-            "two_weeks_terlambat" => array_reverse($dataCountTerlambat)
+            "oneMonth" => array_reverse($dataCount30day),
+            "oneMonthTerlambat" => array_reverse($oneMonthTerlambat)
             
         ]);
     }

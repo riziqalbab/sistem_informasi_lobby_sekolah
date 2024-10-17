@@ -18,9 +18,7 @@ use App\Services\FonnteService;
 
 class TerlambatController extends Controller
 {
-
     protected $fonnteService;
-
     public function __construct(FonnteService $fonnteService)
     {
         $this->fonnteService = $fonnteService;
@@ -34,7 +32,7 @@ class TerlambatController extends Controller
         $date = $request->get("date") != null ? $request->get("date") : Carbon::now()->toDateString();
         $siswa_terlambat = SiswaMasuk::all();
 
-        $terlambat = DB::table("siswa_masuk")->whereDate("tanggal", $date)->paginate(10);
+        $terlambat = SiswaMasuk::whereDate("tanggal", $date)->with("kelas")->get()->toArray();
         return Inertia::render("Masuk/IndexMasuk", [
             "terlambat" => $terlambat,
             "date" => $date,
@@ -43,13 +41,10 @@ class TerlambatController extends Controller
     }
     public function tambah()
     {
-
         $site_url = url("/");
         $guru = Guru::all();
         $table_guru_piket = GuruPiket::query()->with("guru")->whereDate('tanggal', Carbon::today())->get()->toArray();
         $guru_piket = count($table_guru_piket) > 0 ? $table_guru_piket[0] : null;
-
-
 
         return Inertia::render("Masuk/Masuk", [
             "guru" => $guru,

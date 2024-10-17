@@ -25,11 +25,11 @@ export default function AllDispensasi() {
     const { props } = usePage();
     const [dateDispen, setDateDispen] = useState<string>(props.date as string);
 
-    console.log(props);
     
     // const paginator: Paginator<siswa_dispen> = props.dispens as Paginator<siswa_dispen>;
     const dataTerlambat: Array<siswa_dispen> = (props.terlambat as { data: Array<siswa_dispen> }).data
     const site_url: string = props.site_url as string;
+    console.log(dataTerlambat);
 
 
     
