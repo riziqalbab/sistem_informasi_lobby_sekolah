@@ -14,7 +14,6 @@ import { Button } from "@/Components/ui/button";
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
@@ -26,7 +25,13 @@ import { Textarea } from "@/Components/ui/textarea";
 import { useState } from "react";
 // Tipe data untuk informasi dispensasi
 interface DispensasiInfo {
-    guruPiket: string;
+    guruPiket: {
+        id: number
+        guru:{
+            id: number
+            nama: string
+        }
+    }
     guruPengajar: string;
     nomorWhatsapp: string;
     waktuDispen: string;
@@ -39,17 +44,21 @@ interface DispensasiInfo {
     }[];
 }
 
+
 // Data contoh, Anda bisa menggantinya dengan data yang sebenarnya dari API atau database
 
 export default function DetailDispensasi() {
     const { props } = usePage();
     const [alasan, setAlasan] = useState("")
     const dispensasiInfo: DispensasiInfo = props.dispensasi as DispensasiInfo;
-
+    
+    console.log(props);
 
     const handleAccept = ()=>{
         router.post(`/keluar/confirm`, {
             status: 1,
+            // @ts-ignore
+            id_guru_piket: dispensasiInfo.guruPiket.id,
             // @ts-ignore
             id_dispen: props.dispensasi.id_dispen 
         })
@@ -78,7 +87,7 @@ export default function DetailDispensasi() {
                     <Badge variant={props.dispensasi.status == "accepted" ? "default": props.dispensasi.status == "pending" ? "outline" : "destructive"} className={props.dispensasi.status == "accepted" ? "bg-green-600" : ""}>{props.dispensasi.status}</Badge>
                         <dl className="grid grid-cols-2 gap-2">
                             <dt className="font-semibold">Guru Piket:</dt>
-                            <dd>{dispensasiInfo.guruPiket}</dd>
+                            <dd>{dispensasiInfo.guruPiket.guru.nama}</dd>
                             <dt className="font-semibold">Guru Pengajar:</dt>
                             <dd>{dispensasiInfo.guruPengajar}</dd>
                             <dt className="font-semibold">Nomor WhatsApp:</dt>
@@ -100,7 +109,8 @@ export default function DetailDispensasi() {
                                 {dispensasiInfo.waktuDispen}
                             </dd>
                             {/* @ts-ignore */}
-                            <div className={"w-full items-center gap-3 " + (props.dispensasi.status !== "pending" ? "hidden" : "flex")}>
+                            {/* (props.dispensasi.status !== "pending" ? "hidden" : "flex") */}
+                            <div className={"w-full items-center gap-3 "}>
                                 <Button onClick={handleAccept} className="bg-green-600 hover:bg-green-800">
                                     IZINKAN
                                 </Button>

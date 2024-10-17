@@ -4,16 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Dispen;
 use App\Models\Guru;
+use App\Models\GuruPiket;
 use App\Models\SiswaDispen;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
+use App\Services\FonnteService;
 
 class DispensasiController extends Controller
 {
 
+    public function __construct(FonnteService $fonnteService)
+    {
+        $this->fonnteService = $fonnteService;
+    }
     public function __invoke(Request $request)
     {
 
@@ -36,14 +42,15 @@ class DispensasiController extends Controller
 
             $guru = Guru::where("id_guru", $dispensasi["id_guru"])->firstOrFail()->toArray();
             $guru_piket = Guru::where("id_guru", $dispensasi["id_guru_piket"])->firstOrFail()->toArray();
-
+            $id_guru_piket = $dispensasi["id_guru_piket"];
             $nama_guru = $guru["nama"];
-            $nama_guru_piket = $guru_piket["nama"];
+            $guru_piket = GuruPiket::with("guru")->find($id_guru_piket);
+
 
             return Inertia::render("Dispensasi/Dispensasi", [
                 "dispensasi" => [
                     "id_dispen" => $id_dispen,
-                    "guruPiket" => $nama_guru_piket,
+                    "guruPiket" => $guru_piket,
                     "guruPengajar" => $nama_guru,
                     "nomorWhatsapp" => $dispensasi["whatsapp"],
                     "waktuDispen" => $dispensasi["waktu_awal"],
@@ -63,21 +70,54 @@ class DispensasiController extends Controller
     {
         $id_dispen = $request->post("id_dispen");
         $status = $request->post("status");
-
+        $id_guru_piket = $request->post("id_guru_piket");
 
         try {
-
             $dispen = Dispen::findOrFail($id_dispen)->toArray();
-            
-            if($status){
+            if ($status) {
                 Dispen::where("id_dispen", $id_dispen)->update([
-                    "status"=> "accepted"
+                    "status" => "accepted"
                 ]);
-            } else{
+                $whatsapp_guru_piket = GuruPiket::find($id_guru_piket)->guru->whatsapp;
+                $whatsapp_siswa = $dispen["whatsapp"];
+
+$message_accept_siswa = "
+*PERMOHONAN DISPENSASI DIGITAL SMK NEGERI 1 KEBUMEN*
+\n
+Hai,
+\n
+Kami informasikan bahwa permohonan dispensasi Anda telah *diterima* oleh guru pengajar.
+\n
+Anda mendapatkan izin dispensasi sesuai dengan ketentuan yang telah disetujui. Pastikan untuk memanfaatkan waktu ini dengan baik dan tetap memperhatikan aturan yang berlaku.
+\n
+Terima kasih.
+";
+
+
+
+            } else {
+
+                
+
                 $alasan = $request->post("alasan");
                 Dispen::where("id_dispen", $id_dispen)->update([
-                    "status"=> "rejected"
+                    "status" => "rejected"
                 ]);
+                $message_reject_siswa = "
+*PERMOHONAN DISPENSASI DIGITAL SMK NEGERI 1 KEBUMEN*
+\n
+Hai,
+\n
+Kami informasikan bahwa permohonan dispensasi Anda telah *ditolak* oleh guru pengajar, dengan alasan : 
+\n
+{$alasan}
+\n
+\n
+Mohon untuk memperhatikan kehadiran Anda dan segera menghubungi pihak terkait jika ada keperluan lebih lanjut.
+\n
+Terima kasih.
+";
+
             }
 
         } catch (ModelNotFoundException $e) {
