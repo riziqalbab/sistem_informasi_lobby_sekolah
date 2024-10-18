@@ -39,6 +39,9 @@ function Navbar() {
                             <Link href="/masuk">TERLAMBAT</Link>
                         </li>
                         <li>
+                            <Link href="/statistik">STATISTIK</Link>
+                        </li>
+                        <li>
                             <Link href="/master" className="text-red-500">
                                 MASTER DATA
                             </Link>
@@ -59,6 +62,9 @@ function Navbar() {
                     </li>
                     <li>
                         <Link href="/masuk">TERLAMBAT</Link>
+                    </li>
+                    <li>
+                        <Link href="/statistik">STATISTIK</Link>
                     </li>
                     
                     <li>

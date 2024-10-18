@@ -108,9 +108,11 @@ export default function DetailDispensasi() {
                                 <Clock className="mr-1 h-4 w-4" />
                                 {dispensasiInfo.waktuDispen}
                             </dd>
-                            {/* @ts-ignore */}
                             {/* (props.dispensasi.status !== "pending" ? "hidden" : "flex") */}
-                            <div className={"w-full items-center gap-3 "}>
+                            {/* <div className={"w-full items-center gap-3 "}> */}
+
+                            {/* @ts-ignore */}
+                            <div className={"w-full items-center gap-3 " + (props.dispensasi.status !== "pending" ? "hidden" : "flex")}>
                                 <Button onClick={handleAccept} className="bg-green-600 hover:bg-green-800">
                                     IZINKAN
                                 </Button>

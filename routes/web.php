@@ -8,6 +8,7 @@ use App\Http\Controllers\MasterController;
 use App\Http\Controllers\MasukController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\StatController;
 use App\Http\Controllers\TamuController;
 use App\Http\Controllers\TerlambatController;
 use Illuminate\Support\Facades\Route;
@@ -56,6 +57,7 @@ Route::post("/master/kelas", [MasterController::class, "storeKelas"]);
 Route::post("/master/kelas/edit", [MasterController::class, "editKelas"]);
 
 
+
 Route::get("/master/guru", [MasterController::class, "guru"]);
 Route::post("/master/guru/store", [MasterController::class, "storeGuru"]);
 Route::post("/master/guru/edit", [MasterController::class, "editGuru"]);
@@ -66,6 +68,15 @@ Route::get("/master", MasterController::class);
 
 
 Route::get("/terlambat/{id_masuk}", [TerlambatController::class, "detail"]);
+
+Route::get("/statistik", StatController::class);
+
+
+
+
+
+
+
 
 
 Route::get('/dashboard', function () {

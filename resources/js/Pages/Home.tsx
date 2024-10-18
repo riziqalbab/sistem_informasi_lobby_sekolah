@@ -22,7 +22,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
 import { StatCard } from "@/Components/StatCard";
 import Select from "react-select";
 import { ReactNode, useState } from "react";
-import { router, usePage } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import { Chart } from "@/Components/Chart";
 
 function Home() {
@@ -46,15 +46,14 @@ function Home() {
         });
     };
 
-    console.log(optionGuru);
     
     
     return (
         <>
             <Navbar />
             <main className="w-screen ">
-            <div className="w-full h-96 object-cover rounded-lg bg-[url(https://github-production-user-asset-6210df.s3.amazonaws.com/108043896/376852115-a3f9abff-1d3a-4ffc-b1bf-077ffa740d50.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20241016%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241016T012650Z&X-Amz-Expires=300&X-Amz-Signature=6119a241071bc6c653cf772fc0de5873556cdaf18a4ef43990741ddc47b2e986&X-Amz-SignedHeaders=host)] bg-left bg-cover flex items-center justify-center">
-                <h1 className="font-black text-slate-900 text-3xl text-center">LOBBY SMK NEGERI 1 KEBUMEN</h1>
+            <div className="w-full h-96 object-cover rounded-lg  bg-[url(https://github.com/user-attachments/assets/4aa4ff5b-bb47-45dc-bfc8-a2c952e81db3)] bg-left bg-cover flex items-center justify-center">
+                <h1 className="font-black text-slate-200 text-3xl text-center bg-slate-900 p-3 px-5 rounded-lg">LOBBY SMK NEGERI 1 KEBUMEN</h1>
             </div>
                 <div className="w-full p-5 relative mt-16 z-50">
                     {guru_piket == null ? (
@@ -171,12 +170,15 @@ function Home() {
                         </Card>
                     </div>
                 </div>
-                <div className=" p-5 ">
+                <div className=" p-5 text-center">
+                    <h1 className="font-bold text-2xl mb-5 ">GRAFIK PERBANDINGAN DISPENSASI</h1>
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2 mb-8">
-                        <Chart data={oneMonth } description="Grafik dispensasi 1 bulan terkahir" keyX="label" keyY="count" title="1 BULAN DISPENSASI" />
-                        <Chart data={oneMonthTerlambat} description="Grafik siswa terlambat 1 bulan terkahir" keyX="label" keyY="count" title="1 BULAN TERLAMBAT" />
+                        <Chart data={oneMonth } description="Grafik dispensasi 1 bulan terkahir" keyX="tanggal" keyY="count" title="1 BULAN DISPENSASI" />
+                        <Chart data={oneMonthTerlambat } description="Grafik siswa terlambat 1 bulan terakhir" keyX="tanggal" keyY="count" title="1 BULAN SISWA TERLAMBAT" />
                     </div>
-                   
+                    <Button variant='outline' className="border-green-600">
+                        <Link href="/statistik">GRAFIK LAINNYA</Link>
+                    </Button>
                 </div>
             </main>
         </>
