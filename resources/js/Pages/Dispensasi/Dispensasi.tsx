@@ -51,6 +51,7 @@ export default function DetailDispensasi() {
     const { props } = usePage();
     const [alasan, setAlasan] = useState("")
     const dispensasiInfo: DispensasiInfo = props.dispensasi as DispensasiInfo;
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
     
     console.log(props);
 
@@ -66,9 +67,14 @@ export default function DetailDispensasi() {
     const handleRejected = ()=>{
         router.post(`/keluar/confirm`, {
             status: 0,
+            id_guru_piket: dispensasiInfo.guruPiket.id,
             // @ts-ignore
             id_dispen: props.dispensasi.id_dispen,
             alasan: alasan
+        }, {
+            onSuccess:()=>{
+                setIsDialogOpen(!isDialogOpen);
+            }
         })
     }
 
@@ -116,7 +122,7 @@ export default function DetailDispensasi() {
                                 <Button onClick={handleAccept} className="bg-green-600 hover:bg-green-800">
                                     IZINKAN
                                 </Button>
-                                <Dialog>
+                                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                                     <DialogTrigger asChild>
                                         <Button variant="destructive" >
                                             TOLAK

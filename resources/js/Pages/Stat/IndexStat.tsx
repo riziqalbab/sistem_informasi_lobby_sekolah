@@ -5,7 +5,6 @@ import { usePage } from "@inertiajs/react";
 function IndexStat() {
     const { props } = usePage();
 
-    console.log(props);
     const kelas_dispensasi: Array<any> = props.count_kelas_dispensasi as Array<any>
     const perbandingan_dispen_terlambat: Array<any> = props.perbandingan_dispen_terlambat as Array<any>
 

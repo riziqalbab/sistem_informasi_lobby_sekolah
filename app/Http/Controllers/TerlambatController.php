@@ -177,8 +177,8 @@ SMK Negeri 1 Kebumen
 
 
 
-// $result = $this->fonnteService->sendMessage($whatsapp_guru, $message_guru);
-// $result = $this->fonnteService->sendMessage($whatsapp_piket, $message_piket);
+$result = $this->fonnteService->sendMessage($whatsapp_guru, $message_guru);
+$result = $this->fonnteService->sendMessage($whatsapp_piket, $message_piket);
 
 
 

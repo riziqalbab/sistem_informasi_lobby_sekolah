@@ -69,8 +69,8 @@ class DispensasiController extends Controller
     public function confirm(Request $request)
     {
 
-        
-        
+
+
         $id_dispen = $request->post("id_dispen");
         $siswa = SiswaDispen::with("kelas")->where("id_dispen", $id_dispen)->get()->toArray();
         $status = $request->post("status");
@@ -78,15 +78,18 @@ class DispensasiController extends Controller
 
         try {
             $dispen = Dispen::findOrFail($id_dispen)->toArray();
+
+            $whatsapp_guru_piket = GuruPiket::find($id_guru_piket)->guru->whatsapp;
+            $whatsapp_siswa = $dispen["whatsapp"];
+
             if ($status) {
                 Dispen::where("id_dispen", $id_dispen)->update([
                     "status" => "accepted"
                 ]);
-                $whatsapp_guru_piket = GuruPiket::find($id_guru_piket)->guru->whatsapp;
-                $whatsapp_siswa = $dispen["whatsapp"];
 
 
-$message_accept_siswa = "
+
+                $message_accept_siswa = "
 *PERMOHONAN DISPENSASI DIGITAL SMK NEGERI 1 KEBUMEN*
 \n
 Hai,
@@ -100,32 +103,35 @@ Terima kasih.
 
 
 
-$message_piket = "
+                $message_piket = "
 *DISPENSASI DIGITAL SMK NEGERI 1 KEBUMEN*
 \n
 KEPADA YTH BPK/IBU GURU PIKET LOBBY,\n
 \n
 Kami informasikan bahwa siswa dengan data sebagai berikut telah diberikan dispensasi:
 \n";
-foreach ($siswa as $key => $value) {
-    $message_piket .= "
+                foreach ($siswa as $key => $value) {
+                    $message_piket .= "
 *Nama*  : " . $value["nama"] . "\n" .
-"*Kelas* : " . $value["kelas"]["nama"] . "\n" .
-"*NIS*   : " . $value["nis"] . "\n\n";
-}
-$message_piket .= "
+                        "*Kelas* : " . $value["kelas"]["nama"] . "\n" .
+                        "*NIS*   : " . $value["nis"] . "\n\n";
+                }
+                $message_piket .= "
 Siswa tersebut telah diberikan dispensasi dengan alasan sebagai berikut:\n
 *Alasan* : {$dispen['alasan']}\n
 *Deskripsi* : {$dispen['deskripsi']}\n
 *Nomor Whatsapp* : {$dispen['whatsapp']}\n
 \n
-Mohon izin untuk memberikan akses kepada siswa yang bersangkutan. Terima kasih atas perhatian dan kerja samanya.
+Mohon izin untuk memberikan akses kepada siswa yang bersangkutan. Terima kasih atas perhatian dan kerja samany
 \n
 Salam hormat,\n
 SMK Negeri 1 Kebumen
 ";
 
-Log::info($message_piket);
+                $this->fonnteService->sendMessage($whatsapp_siswa, $message_accept_siswa);
+                $this->fonnteService->sendMessage($whatsapp_guru_piket, $message_piket);
+
+
             } else {
                 $alasan = $request->post("alasan");
                 Dispen::where("id_dispen", $id_dispen)->update([
@@ -133,20 +139,22 @@ Log::info($message_piket);
                 ]);
                 $message_reject_siswa = "
 *PERMOHONAN DISPENSASI DIGITAL SMK NEGERI 1 KEBUMEN*
-\n
+
 Hai,
-\n
+
 Kami informasikan bahwa permohonan dispensasi Anda telah *ditolak* oleh guru pengajar, dengan alasan : 
-\n
-'{$alasan}'
-\n
+
+_'{$alasan}'_
 \n
 Mohon untuk memperhatikan kehadiran Anda dan segera menghubungi pihak terkait jika ada keperluan lebih lanjut.
 \n
 Terima kasih.
 ";
 
+                $this->fonnteService->sendMessage($whatsapp_siswa, $message_reject_siswa);
             }
+
+
 
         } catch (ModelNotFoundException $e) {
             return Inertia::render("NotFoundDispen");

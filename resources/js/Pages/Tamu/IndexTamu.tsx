@@ -20,14 +20,11 @@ import {
 } from "@/Components/ui/pagination";
 import { Input } from "@/Components/ui/input";
 import { useState } from "react";
+import { Badge } from "@/Components/ui/badge";
 
 export default function IndexTamu() {
     const { props } = usePage();
     const [dateDispen, setDateDispen] = useState<string>(props.date as string);
-
-    console.log(props);
-
-
     const dataTamu: Array<tamu> = (props.tamu as { data: Array<tamu> }).data
     const site_url: string = props.site_url as string;
 
@@ -61,6 +58,7 @@ export default function IndexTamu() {
                                 <TableHead>NAMA</TableHead>
                                 <TableHead>INSTANSI</TableHead>
                                 <TableHead>TUJUAN</TableHead>
+                                <TableHead>STATUS</TableHead>
                                 <TableHead>NO WHATSAPP</TableHead>
                                 <TableHead>WAKTU</TableHead>
                                 <TableHead className="text-right">
@@ -76,10 +74,20 @@ export default function IndexTamu() {
                                     <TableCell>{tamu.instansi}</TableCell>
                                     <TableCell>{tamu.tujuan}</TableCell>
                                     <TableCell>{tamu.whatsapp}</TableCell>
+                                    <TableCell>
+                                        {
+                                            tamu.isActive ? (
+                                                <Badge>AKTIF</Badge>
+                                            ): (
+                                                
+                                                <Badge>SELESAI</Badge>
+                                            )
+                                        }
+                                    </TableCell>
                                     <TableCell>{tamu.created_at}</TableCell>
                                     <TableCell>
                                         <Link
-                                            href={`${site_url}/tamu/${tamu.id_tamu}`}
+                                            href={`/buku/${tamu.id_tamu}`}
 
                                         >
                                             <Button>

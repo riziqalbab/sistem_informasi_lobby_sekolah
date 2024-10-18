@@ -37,6 +37,7 @@ Route::get("/masuk/{id_masuk}", [TerlambatController::class, "detail"]);
 
 
 
+Route::post("/tamu/confirm", [TamuController::class, 'confirm']);
 Route::get("/tamu", [TamuController::class, 'tamu']);
 Route::get("/tamu/tambah", [TamuController::class, 'tambah']);
 Route::post("/tamu/store", [TamuController::class, 'store']);

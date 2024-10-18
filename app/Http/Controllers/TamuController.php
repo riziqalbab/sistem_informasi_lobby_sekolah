@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Guru;
 use App\Models\GuruPiket;
 use App\Models\Tamu;
+use App\Services\FonnteService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -16,6 +17,10 @@ use Inertia\Inertia;
 class TamuController extends Controller
 {
 
+    public function __construct(FonnteService $fonnteService)
+    {
+        $this->fonnteService = $fonnteService;
+    }
 
     public function tambah()
     {
@@ -31,7 +36,7 @@ class TamuController extends Controller
         return Inertia::render("Tamu/CreateTamu", [
             "guru" => $guru,
             "guru_piket" => $piket,
-            "site_url"=> $site_url
+            "site_url" => $site_url
         ]);
     }
 
@@ -52,7 +57,8 @@ class TamuController extends Controller
         try {
             $tamu = Tamu::findOrFail($id_tamu);
             return Inertia::render("Tamu/DetailTamu", [
-                "tamu"=> $tamu
+                "tamu" => $tamu,
+                "id_tamu" => $id_tamu
             ]);
         } catch (ModelNotFoundException $e) {
             return Inertia::render("NotFoundDispen");
@@ -63,11 +69,49 @@ class TamuController extends Controller
         try {
             $tamu = Tamu::findOrFail($id_tamu);
             return Inertia::render("Tamu/GuestDetail", [
-                "tamu"=> $tamu
+                "tamu" => $tamu
             ]);
         } catch (ModelNotFoundException $e) {
             return Inertia::render("NotFoundDispen");
         }
+    }
+
+    public function confirm(Request $request)
+    {
+        $id_tamu = $request->post("id_tamu");
+        $status = $request->post("status");
+        $message = $request->post("message");
+
+
+        try {
+            $tamu = Tamu::findOrFail($id_tamu);
+            $whatsapp_tamu = $tamu->whatsapp;
+
+
+            $message_tamu = "
+Halo, {$tamu->nama}!
+
+Terima kasih telah mengunjungi SMK NEGERI 1 KEBUMEN. Pencatatan kunjungan Anda telah selesai
+
+Jika ada hal lain yang perlu dibantu, jangan ragu untuk menghubungi kami.
+
+Salam hormat
+";
+
+
+// Log::info($whatsapp_tamu);
+
+
+            $this->fonnteService->sendMessage($whatsapp_tamu, $message_tamu);
+
+
+            Tamu::where("id_tamu", $id_tamu)->update([
+                "isActive" => 0
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return Inertia::render("NotFoundDispen");
+        }
+
     }
 
 
@@ -105,30 +149,5 @@ class TamuController extends Controller
             "id_tamu" => $id_tamu_created
         ]);
     }
-    public function dispensasi(string $id_dispen)
-    {
 
-        try {
-            $dispensasi = Tamu::findOrFail($id_dispen)->toArray();
-            $guru = Guru::where("id_guru", $dispensasi["id_guru"])->firstOrFail()->toArray();
-            $guru_piket = Guru::where("id_guru", $dispensasi["id_guru_piket"])->firstOrFail()->toArray();
-
-            $nama_guru = $guru["nama"];
-            $nama_guru_piket = $guru_piket["nama"];
-
-            return Inertia::render("Dispensasi/Dispensasi", [
-                "dispensasi" => [
-                    "guruPiket" => $nama_guru_piket,
-                    "guruPengajar" => $nama_guru,
-                    "nomorWhatsapp" => $dispensasi["whatsapp"],
-                    "waktuDispen" => $dispensasi["waktu_awal"],
-                    "waktuDispenAkhir" => $dispensasi["waktu_akhir"],
-                    "alasan" => $dispensasi["alasan"],
-                    "deskripsi" => $dispensasi["deskripsi"],
-                ]
-            ]);
-        } catch (ModelNotFoundException $e) {
-            return Inertia::render("NotFoundDispen");
-        }
-    }
 }

@@ -196,7 +196,7 @@ function Masuk() {
                                                 <CardTitle className="text-base">
                                                     {data.nama}
                                                 </CardTitle>
-                                                <CardDescription>{`${data.nis} | ${data.kelas}`}</CardDescription>
+                                                <CardDescription>{`${data.nis} | ${data.kelas.nama}`}</CardDescription>
                                             </div>
                                             <Button
                                                 variant="destructive"
