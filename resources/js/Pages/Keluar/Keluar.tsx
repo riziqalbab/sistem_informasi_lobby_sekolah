@@ -3,7 +3,7 @@ import Navbar from "@/Components/Navbar";
 import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
 import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 import { Toaster } from "@/Components/ui/toaster";
 import { useToast } from "@/hooks/use-toast";
 
@@ -45,6 +45,7 @@ function Keluar() {
     const { toast } = useToast();
     const [disableButton, setDisableButton] = useState(true);
     const [successDispen, setSuccessDispen] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     // const [valueQr, setValueQr] = useState(null);
     const { props } = usePage();
@@ -102,7 +103,7 @@ function Keluar() {
             waktu_akhir: sampai,
         };
 
-        const post = router.post(
+        router.post(
             "/keluar/store",
             // @ts-ignore
             { ...values },
@@ -119,16 +120,19 @@ function Keluar() {
         );
     };
 
+    useEffect(() => {
+        console.log(isDialogOpen);
+    }, [isDialogOpen]);
 
     return (
         <>
             <Toaster />
             <Navbar />
+
             <main className="flex w-screen items-center justify-center">
                 <div className="container  px-5 flex flex-col items-center ">
                     <form
                         className="flex gap-4 py-4 w-full max-w-2xl"
-                        action=""
                         onSubmit={handleSearch}
                     >
                         <Input
@@ -152,13 +156,24 @@ function Keluar() {
                                 </AlertDescription>
                             </Alert>
                         )}
-                        <Dialog>
-                            <DialogTrigger asChild>
+                        <Dialog
+                            open={isDialogOpen}
+                            onOpenChange={setIsDialogOpen}
+                        >
+                            <DialogTrigger>
                                 <Button
                                     variant="default"
                                     className="w-full"
                                     onClick={() => {
-                                        setDisableButton(true);
+                                        if (siswa.length < 1) {
+                                            setIsDialogOpen(false);
+                                            toast({
+                                                title: "Dispensasi Gagal",
+                                                description:
+                                                    "Minimal dispensasi memiliki 1 siswa",
+                                                variant: "destructive",
+                                            });
+                                        }
                                     }}
                                 >
                                     DISPENSASI
@@ -194,211 +209,249 @@ function Keluar() {
                                     </div>
                                 ) : (
                                     <>
-                                        <DialogHeader>
-                                            <DialogTitle>
-                                                DISPENSASI SISWA
-                                            </DialogTitle>
-                                            <DialogDescription>
-                                                Isi data berikut
-                                            </DialogDescription>
-                                        </DialogHeader>
-
-                                        {props.errors.nis && (
+                                        {siswa.length < 1 ? (
                                             <Alert variant="destructive">
                                                 <ExclamationTriangleIcon className="h-4 w-4" />
-                                                <AlertTitle>
-                                                    {props.errors.nis}
-                                                </AlertTitle>
+                                                <AlertTitle>DISPENSASI MINIMAL DILAKUKAN OLEH SATU SISWA</AlertTitle>
+                                                <AlertDescription>
+                                                    Ulangi dan masukan nis siswa
+                                                </AlertDescription>
                                             </Alert>
+                                        ) : (
+                                            <>
+                                                <DialogHeader>
+                                                    <DialogTitle>
+                                                        DISPENSASI SISWA
+                                                    </DialogTitle>
+                                                    <DialogDescription>
+                                                        Isi data berikut
+                                                    </DialogDescription>
+                                                </DialogHeader>
+
+                                                <form
+                                                    onSubmit={
+                                                        handleSubmitDispen
+                                                    }
+                                                >
+                                                    <div className="grid gap-4 py-4">
+                                                        <div className="">
+                                                            <Label
+                                                                htmlFor="name"
+                                                                className="text-right"
+                                                            >
+                                                                ALASAN
+                                                            </Label>
+
+                                                            <Creatable
+                                                                onChange={(
+                                                                    e
+                                                                ) => {
+                                                                    setAlasan(
+                                                                        e?.value
+                                                                    );
+                                                                }}
+                                                                id="name"
+                                                                options={
+                                                                    optionsAlasan
+                                                                }
+                                                                placeholder="Alasan"
+                                                                className="col-span-3"
+                                                            />
+                                                            {props.errors
+                                                                .alasan && (
+                                                                <Alert
+                                                                    variant="destructive"
+                                                                    className="mt-2"
+                                                                >
+                                                                    <ExclamationTriangleIcon className="h-4 w-4" />
+                                                                    <AlertTitle>
+                                                                        {
+                                                                            props
+                                                                                .errors
+                                                                                .alasan
+                                                                        }
+                                                                    </AlertTitle>
+                                                                </Alert>
+                                                            )}
+                                                        </div>
+                                                        <div className="">
+                                                            <Label
+                                                                htmlFor="deskripsi"
+                                                                className="text-right"
+                                                            >
+                                                                Deskripsi
+                                                            </Label>
+                                                            <Textarea
+                                                                onChange={(
+                                                                    e
+                                                                ) => {
+                                                                    setDeskripsi(
+                                                                        e.target
+                                                                            .value
+                                                                    );
+                                                                }}
+                                                                id="deskripsi"
+                                                                placeholder="Deskripsi"
+                                                                className="col-span-3"
+                                                            />
+                                                        </div>
+                                                        <div className="">
+                                                            <Label
+                                                                htmlFor="deskripsi"
+                                                                className="text-right"
+                                                            >
+                                                                Guru
+                                                            </Label>
+                                                            <Select
+                                                                id="guru"
+                                                                onChange={(
+                                                                    e
+                                                                ) => {
+                                                                    setGuruChoice(
+                                                                        e?.value
+                                                                    );
+                                                                }}
+                                                                placeholder="Guru"
+                                                                options={
+                                                                    optionGuru
+                                                                }
+                                                                className="col-span-3"
+                                                            />
+                                                            {props.errors
+                                                                .guru && (
+                                                                <Alert
+                                                                    variant="destructive"
+                                                                    className="mt-2"
+                                                                >
+                                                                    <ExclamationTriangleIcon className="h-4 w-4" />
+                                                                    <AlertTitle>
+                                                                        {
+                                                                            props
+                                                                                .errors
+                                                                                .guru
+                                                                        }
+                                                                    </AlertTitle>
+                                                                </Alert>
+                                                            )}
+                                                        </div>
+                                                        <div className="">
+                                                            <Label
+                                                                htmlFor="deskripsi"
+                                                                className="text-right"
+                                                            >
+                                                                Whatsapp
+                                                                [082+++]
+                                                            </Label>
+                                                            <Input
+                                                                onChange={(
+                                                                    e
+                                                                ) => {
+                                                                    setWhatsapp(
+                                                                        e.target
+                                                                            .value
+                                                                    );
+                                                                }}
+                                                                id="whatsapp"
+                                                                placeholder="Whatsapp"
+                                                                className="col-span-3"
+                                                            />
+                                                            {props.errors
+                                                                .whatsapp && (
+                                                                <Alert
+                                                                    variant="destructive"
+                                                                    className="mt-2"
+                                                                >
+                                                                    <ExclamationTriangleIcon className="h-4 w-4" />
+                                                                    <AlertTitle>
+                                                                        {
+                                                                            props
+                                                                                .errors
+                                                                                .whatsapp
+                                                                        }
+                                                                    </AlertTitle>
+                                                                </Alert>
+                                                            )}
+                                                        </div>
+                                                        <div className="">
+                                                            <Label
+                                                                htmlFor="deskripsi"
+                                                                className="text-right"
+                                                            >
+                                                                Mulai
+                                                            </Label>
+                                                            <Input
+                                                                onChange={(
+                                                                    e
+                                                                ) => {
+                                                                    setMulai(
+                                                                        e.target
+                                                                            .value
+                                                                    );
+                                                                }}
+                                                                id="guru"
+                                                                type="datetime-local"
+                                                                placeholder="Guru"
+                                                                className="col-span-3"
+                                                            />
+                                                            {props.errors
+                                                                .waktu_awal && (
+                                                                <Alert
+                                                                    variant="destructive"
+                                                                    className="mt-2"
+                                                                >
+                                                                    <ExclamationTriangleIcon className="h-4 w-4" />
+                                                                    <AlertTitle>
+                                                                        {
+                                                                            props
+                                                                                .errors
+                                                                                .waktu_awal
+                                                                        }
+                                                                    </AlertTitle>
+                                                                </Alert>
+                                                            )}
+                                                        </div>
+                                                        <div className="">
+                                                            <Label
+                                                                htmlFor="deskripsi"
+                                                                className="text-right"
+                                                            >
+                                                                Sampai{" "}
+                                                                <span className="text-red-500">
+                                                                    [Abaikan
+                                                                    jika sampai
+                                                                    kbm selesai]
+                                                                </span>
+                                                            </Label>
+                                                            <Input
+                                                                onChange={(
+                                                                    e
+                                                                ) => {
+                                                                    setSampai(
+                                                                        e.target
+                                                                            .value
+                                                                    );
+                                                                }}
+                                                                id="guru"
+                                                                type="datetime-local"
+                                                                placeholder="Guru"
+                                                                className="col-span-3"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <DialogFooter>
+                                                        {disableButton ? (
+                                                            <Button type="submit">
+                                                                KIRIM
+                                                            </Button>
+                                                        ) : (
+                                                            <Button type="submit">
+                                                                KIRIM
+                                                            </Button>
+                                                        )}
+                                                    </DialogFooter>
+                                                </form>
+                                            </>
                                         )}
-
-                                        <form onSubmit={handleSubmitDispen}>
-                                            <div className="grid gap-4 py-4">
-                                                <div className="">
-                                                    <Label
-                                                        htmlFor="name"
-                                                        className="text-right"
-                                                    >
-                                                        ALASAN
-                                                    </Label>
-
-                                                    <Creatable
-                                                        onChange={(e) => {
-                                                            setAlasan(e?.value);
-                                                        }}
-                                                        id="name"
-                                                        options={optionsAlasan}
-                                                        placeholder="Alasan"
-                                                        className="col-span-3"
-                                                    />
-                                                    {props.errors.alasan && (
-                                                        <Alert
-                                                            variant="destructive"
-                                                            className="mt-2"
-                                                        >
-                                                            <ExclamationTriangleIcon className="h-4 w-4" />
-                                                            <AlertTitle>
-                                                                {
-                                                                    props.errors
-                                                                        .alasan
-                                                                }
-                                                            </AlertTitle>
-                                                        </Alert>
-                                                    )}
-                                                </div>
-                                                <div className="">
-                                                    <Label
-                                                        htmlFor="deskripsi"
-                                                        className="text-right"
-                                                    >
-                                                        Deskripsi
-                                                    </Label>
-                                                    <Textarea
-                                                        onChange={(e) => {
-                                                            setDeskripsi(
-                                                                e.target.value
-                                                            );
-                                                        }}
-                                                        id="deskripsi"
-                                                        placeholder="Deskripsi"
-                                                        className="col-span-3"
-                                                    />
-                                                </div>
-                                                <div className="">
-                                                    <Label
-                                                        htmlFor="deskripsi"
-                                                        className="text-right"
-                                                    >
-                                                        Guru
-                                                    </Label>
-                                                    <Select
-                                                        id="guru"
-                                                        onChange={(e) => {
-                                                            setGuruChoice(
-                                                                e?.value
-                                                            );
-                                                        }}
-                                                        placeholder="Guru"
-                                                        options={optionGuru}
-                                                        className="col-span-3"
-                                                    />
-                                                    {props.errors.guru && (
-                                                        <Alert
-                                                            variant="destructive"
-                                                            className="mt-2"
-                                                        >
-                                                            <ExclamationTriangleIcon className="h-4 w-4" />
-                                                            <AlertTitle>
-                                                                {
-                                                                    props.errors
-                                                                        .guru
-                                                                }
-                                                            </AlertTitle>
-                                                        </Alert>
-                                                    )}
-                                                </div>
-                                                <div className="">
-                                                    <Label
-                                                        htmlFor="deskripsi"
-                                                        className="text-right"
-                                                    >
-                                                        Whatsapp [082+++]
-                                                    </Label>
-                                                    <Input
-                                                        onChange={(e) => {
-                                                            setWhatsapp(
-                                                                e.target.value
-                                                            );
-                                                        }}
-                                                        id="whatsapp"
-                                                        placeholder="Whatsapp"
-                                                        className="col-span-3"
-                                                    />
-                                                    {props.errors.whatsapp && (
-                                                        <Alert
-                                                            variant="destructive"
-                                                            className="mt-2"
-                                                        >
-                                                            <ExclamationTriangleIcon className="h-4 w-4" />
-                                                            <AlertTitle>
-                                                                {
-                                                                    props.errors
-                                                                        .whatsapp
-                                                                }
-                                                            </AlertTitle>
-                                                        </Alert>
-                                                    )}
-                                                </div>
-                                                <div className="">
-                                                    <Label
-                                                        htmlFor="deskripsi"
-                                                        className="text-right"
-                                                    >
-                                                        Mulai
-                                                    </Label>
-                                                    <Input
-                                                        onChange={(e) => {
-                                                            setMulai(
-                                                                e.target.value
-                                                            );
-                                                        }}
-                                                        id="guru"
-                                                        type="datetime-local"
-                                                        placeholder="Guru"
-                                                        className="col-span-3"
-                                                    />
-                                                    {props.errors
-                                                        .waktu_awal && (
-                                                        <Alert
-                                                            variant="destructive"
-                                                            className="mt-2"
-                                                        >
-                                                            <ExclamationTriangleIcon className="h-4 w-4" />
-                                                            <AlertTitle>
-                                                                {
-                                                                    props.errors
-                                                                        .waktu_awal
-                                                                }
-                                                            </AlertTitle>
-                                                        </Alert>
-                                                    )}
-                                                </div>
-                                                <div className="">
-                                                    <Label
-                                                        htmlFor="deskripsi"
-                                                        className="text-right"
-                                                    >
-                                                        Sampai{" "}
-                                                        <span className="text-red-500">
-                                                            [Abaikan jika sampai
-                                                            kbm selesai]
-                                                        </span>
-                                                    </Label>
-                                                    <Input
-                                                        onChange={(e) => {
-                                                            setSampai(
-                                                                e.target.value
-                                                            );
-                                                        }}
-                                                        id="guru"
-                                                        type="datetime-local"
-                                                        placeholder="Guru"
-                                                        className="col-span-3"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <DialogFooter>
-                                                {disableButton ? (
-                                                    <Button type="submit">
-                                                        KIRIM
-                                                    </Button>
-                                                ) : (
-                                                    <Button type="submit">
-                                                        KIRIM
-                                                    </Button>
-                                                )}
-                                            </DialogFooter>
-                                        </form>
                                     </>
                                 )}
                             </DialogContent>

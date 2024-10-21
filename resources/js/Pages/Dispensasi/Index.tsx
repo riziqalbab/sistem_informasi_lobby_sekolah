@@ -24,7 +24,7 @@ import { useState } from "react";
 import * as XLSX from "xlsx";
 import ExcelExport from "@/utils/exportExcel";
 
-export default function AllDispensasi() {
+export default function Index() {
     const { props } = usePage();
     const [dateDispen, setDateDispen] = useState<string>(props.date as string);
 

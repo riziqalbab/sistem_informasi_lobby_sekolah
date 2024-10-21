@@ -141,9 +141,8 @@ foreach ($request->post("siswa") as $key => $value) {
     $message_guru .= "
 *Nama*  : " . $value["nama"] . "\n" .
 "*Kelas* : " . $value["kelas"]["nama"] . "\n" .
-"*NIS*   : " . $value["nis"] . "\n\n".
-"*ALASAN*: " . $value["alasan"] . "\n\n";
-
+"*NIS*   : " . $value["nis"] . "\n\n" .
+"*ALASAN*: " . ($value["alasan"] ?? '') . "\n\n";
 }
 $message_guru .= "
 Terima kasih atas perhatiannya.
@@ -165,7 +164,7 @@ foreach ($request->post("siswa") as $key => $value) {
 *Nama*  : " . $value["nama"] . "\n" .
 "*Kelas* : " . $value["kelas"]["nama"] . "\n" .
 "*NIS*   : " . $value["nis"] . "\n".
-"*ALASAN*: " . $value["alasan"] . "\n\n";
+"*ALASAN*: " . ($value["alasan"] ?? '') . "\n\n";
 }
 $message_piket .= "
 Mohon izin untuk memberikan akses kepada siswa yang bersangkutan. Terima kasih atas perhatian dan kerja samanya.

@@ -69,6 +69,7 @@ export default function AllDispensasi() {
                                 <TableRow>
                                     <TableCell>{dispensi.nis}</TableCell>
                                     <TableCell>{dispensi.nama}</TableCell>
+                                    {/* @ts-ignore */}
                                     <TableCell>{dispensi.kelas}</TableCell>
                                     <TableCell>{dispensi.tanggal}</TableCell>
                                     <TableCell>

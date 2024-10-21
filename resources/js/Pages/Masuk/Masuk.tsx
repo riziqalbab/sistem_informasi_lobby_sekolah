@@ -98,20 +98,22 @@ function Masuk() {
             siswa,
         };
 
-        router.post(
-            "/masuk/store",
-            // @ts-ignore
-            { ...values },
-            {
-                onStart: () => {
-                    setLoading(true);
-                },
+        if (siswa.length > 1) {
+            router.post(
+                "/masuk/store",
+                // @ts-ignore
+                { ...values },
+                {
+                    onStart: () => {
+                        setLoading(true);
+                    },
 
-                onSuccess: () => {
-                    setLoading(false);
-                },
-            }
-        );
+                    onSuccess: () => {
+                        setLoading(false);
+                    },
+                }
+            );
+        }
     };
 
     console.log(props);
@@ -229,44 +231,58 @@ function Masuk() {
                             </DialogTrigger>
 
                             <DialogContent className="sm:max-w-[425px]">
-                                <DialogHeader>
-                                    <DialogTitle className="text-center">
-                                        SIMPAN KODE QR BERIKUT
-                                    </DialogTitle>
-                                    <DialogDescription className="text-center"></DialogDescription>
-                                    <br />
-                                </DialogHeader>
-                                {loading ? (
+                                {siswa.length < 1 ? (
                                     <>
-                                        <div className="space-y-2">
-                                            <Skeleton className="h-10 w-full" />
-                                            <Skeleton className="h-10 w-full" />
-                                            <Skeleton className="h-10 w-full" />
-                                            <Skeleton className="h-10 w-full" />
-                                        </div>
+                                        <Alert variant="destructive">
+                                            <ExclamationTriangleIcon className="h-4 w-4" />
+                                            <AlertTitle>DISPENSASI MASUK MINIMAL DILAKUKAN OLEH 1 SISWA</AlertTitle>
+                                            <AlertDescription>
+                                                Ulangi dan masukan nis siswa lagi
+                                            </AlertDescription>
+                                        </Alert>
                                     </>
                                 ) : (
-                                    <QRCode
-                                        size={256}
-                                        style={{
-                                            height: "auto",
-                                            maxWidth: "100%",
-                                            width: "100%",
-                                        }}
-                                        value={valueQr}
-                                        viewBox={`0 0 256 256`}
-                                    />
+                                    <>
+                                        <DialogHeader>
+                                            <DialogTitle className="text-center">
+                                                SIMPAN KODE QR BERIKUT
+                                            </DialogTitle>
+                                            <DialogDescription className="text-center"></DialogDescription>
+                                            <br />
+                                        </DialogHeader>
+                                        {loading ? (
+                                            <>
+                                                <div className="space-y-2">
+                                                    <Skeleton className="h-10 w-full" />
+                                                    <Skeleton className="h-10 w-full" />
+                                                    <Skeleton className="h-10 w-full" />
+                                                    <Skeleton className="h-10 w-full" />
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <QRCode
+                                                size={256}
+                                                style={{
+                                                    height: "auto",
+                                                    maxWidth: "100%",
+                                                    width: "100%",
+                                                }}
+                                                value={valueQr}
+                                                viewBox={`0 0 256 256`}
+                                            />
+                                        )}
+                                        <DialogTrigger asChild>
+                                            <Button
+                                                onClick={() => {
+                                                    setGuruChoice("");
+                                                    setSiswa([]);
+                                                }}
+                                            >
+                                                SELESAI
+                                            </Button>
+                                        </DialogTrigger>
+                                    </>
                                 )}
-                                <DialogTrigger asChild>
-                                    <Button
-                                        onClick={() => {
-                                            setGuruChoice("");
-                                            setSiswa([]);
-                                        }}
-                                    >
-                                        SELESAI
-                                    </Button>
-                                </DialogTrigger>
                             </DialogContent>
                         </Dialog>
                     </CardFooter>
