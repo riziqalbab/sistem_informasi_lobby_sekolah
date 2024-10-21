@@ -94,7 +94,7 @@ function Keluar() {
 
         const values = {
             siswa,
-            id_guru_piket: guru_piket.id_guru,
+            id_guru_piket: guru_piket.id,
             alasan,
             deskripsi,
             id_guru: guruChoice,

@@ -98,7 +98,7 @@ function Masuk() {
             siswa,
         };
 
-        if (siswa.length > 1) {
+        if (siswa.length > 0) {
             router.post(
                 "/masuk/store",
                 // @ts-ignore
@@ -235,9 +235,13 @@ function Masuk() {
                                     <>
                                         <Alert variant="destructive">
                                             <ExclamationTriangleIcon className="h-4 w-4" />
-                                            <AlertTitle>DISPENSASI MASUK MINIMAL DILAKUKAN OLEH 1 SISWA</AlertTitle>
+                                            <AlertTitle>
+                                                DISPENSASI MASUK MINIMAL
+                                                DILAKUKAN OLEH 1 SISWA
+                                            </AlertTitle>
                                             <AlertDescription>
-                                                Ulangi dan masukan nis siswa lagi
+                                                Ulangi dan masukan nis siswa
+                                                lagi
                                             </AlertDescription>
                                         </Alert>
                                     </>

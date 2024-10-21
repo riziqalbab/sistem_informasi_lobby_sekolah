@@ -47,6 +47,8 @@ class DispensasiController extends Controller
             $guru_piket = GuruPiket::with("guru")->find($id_guru_piket);
 
 
+
+
             return Inertia::render("Dispensasi/Dispensasi", [
                 "dispensasi" => [
                     "id_dispen" => $id_dispen,
@@ -80,6 +82,9 @@ class DispensasiController extends Controller
             $dispen = Dispen::findOrFail($id_dispen)->toArray();
 
             $whatsapp_guru_piket = GuruPiket::find($id_guru_piket)->guru->whatsapp;
+
+
+
             $whatsapp_siswa = $dispen["whatsapp"];
 
             if ($status) {

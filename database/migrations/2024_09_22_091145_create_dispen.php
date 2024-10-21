@@ -21,6 +21,8 @@ return new class extends Migration
             $table->enum("status", ["pending", "accepted", "rejected"])->default("pending");
 
             $table->foreign('id_guru')->references('id_guru')->on('guru');
+            $table->foreign('id_guru_piket')->references('id')->on('guru_piket');
+     
         });
     }
 

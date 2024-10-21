@@ -23,15 +23,14 @@ import { Label } from "@/Components/ui/label";
 import { Input } from "@/Components/ui/input";
 import { Textarea } from "@/Components/ui/textarea";
 import { useState } from "react";
-// Tipe data untuk informasi dispensasi
 interface DispensasiInfo {
     guruPiket: {
-        id: number
-        guru:{
-            id: number
-            nama: string
-        }
-    }
+        id: number;
+        guru: {
+            id_guru: number;
+            nama: string;
+        };
+    };
     guruPengajar: string;
     nomorWhatsapp: string;
     waktuDispen: string;
@@ -44,39 +43,41 @@ interface DispensasiInfo {
     }[];
 }
 
-
 // Data contoh, Anda bisa menggantinya dengan data yang sebenarnya dari API atau database
 
 export default function DetailDispensasi() {
-    const { props } = usePage();
-    const [alasan, setAlasan] = useState("")
+    const { props }: { props: any } = usePage();
+    const [alasan, setAlasan] = useState("");
     const dispensasiInfo: DispensasiInfo = props.dispensasi as DispensasiInfo;
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    
+
     console.log(props);
 
-    const handleAccept = ()=>{
+    const handleAccept = () => {
         router.post(`/keluar/confirm`, {
             status: 1,
-            // @ts-ignore
             id_guru_piket: dispensasiInfo.guruPiket.id,
-            // @ts-ignore
-            id_dispen: props.dispensasi.id_dispen 
-        })
-    }
-    const handleRejected = ()=>{
-        router.post(`/keluar/confirm`, {
-            status: 0,
-            id_guru_piket: dispensasiInfo.guruPiket.id,
-            // @ts-ignore
+
             id_dispen: props.dispensasi.id_dispen,
-            alasan: alasan
-        }, {
-            onSuccess:()=>{
-                setIsDialogOpen(!isDialogOpen);
+        });
+    };
+    const handleRejected = () => {
+        router.post(
+            `/keluar/confirm`,
+            {
+                status: 0,
+                id_guru_piket: dispensasiInfo.guruPiket.id,
+
+                id_dispen: props.dispensasi.id_dispen,
+                alasan: alasan,
+            },
+            {
+                onSuccess: () => {
+                    setIsDialogOpen(!isDialogOpen);
+                },
             }
-        })
-    }
+        );
+    };
 
     return (
         <div className="container mx-auto p-4">
@@ -89,8 +90,22 @@ export default function DetailDispensasi() {
                         <CardTitle>Informasi Umum</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        {/* @ts-ignore */}
-                    <Badge variant={props.dispensasi.status == "accepted" ? "default": props.dispensasi.status == "pending" ? "outline" : "destructive"} className={props.dispensasi.status == "accepted" ? "bg-green-600" : ""}>{props.dispensasi.status}</Badge>
+                        <Badge
+                            variant={
+                                props.dispensasi.status == "accepted"
+                                    ? "default"
+                                    : props.dispensasi.status == "pending"
+                                    ? "outline"
+                                    : "destructive"
+                            }
+                            className={
+                                props.dispensasi.status == "accepted"
+                                    ? "bg-green-600"
+                                    : ""
+                            }
+                        >
+                            {props.dispensasi.status}
+                        </Badge>
                         <dl className="grid grid-cols-2 gap-2">
                             <dt className="font-semibold">Guru Piket:</dt>
                             <dd>{dispensasiInfo.guruPiket.guru.nama}</dd>
@@ -118,13 +133,26 @@ export default function DetailDispensasi() {
                             {/* <div className={"w-full items-center gap-3 "}> */}
 
                             {/* @ts-ignore */}
-                            <div className={"w-full items-center gap-3 " + (props.dispensasi.status !== "pending" ? "hidden" : "flex")}>
-                                <Button onClick={handleAccept} className="bg-green-600 hover:bg-green-800">
+                            <div
+                                className={
+                                    "w-full items-center gap-3 " +
+                                    (props.dispensasi.status !== "pending"
+                                        ? "hidden"
+                                        : "flex")
+                                }
+                            >
+                                <Button
+                                    onClick={handleAccept}
+                                    className="bg-green-600 hover:bg-green-800"
+                                >
                                     IZINKAN
                                 </Button>
-                                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                                <Dialog
+                                    open={isDialogOpen}
+                                    onOpenChange={setIsDialogOpen}
+                                >
                                     <DialogTrigger asChild>
-                                        <Button variant="destructive" >
+                                        <Button variant="destructive">
                                             TOLAK
                                         </Button>
                                     </DialogTrigger>
@@ -142,19 +170,24 @@ export default function DetailDispensasi() {
                                                 >
                                                     Alasan
                                                 </Label>
-                                                
+
                                                 <Textarea
                                                     id="Alasan"
-                                                    onChange={e=>{
-                                                        setAlasan(e.target.value)
+                                                    onChange={(e) => {
+                                                        setAlasan(
+                                                            e.target.value
+                                                        );
                                                     }}
                                                     className="col-span-3"
                                                 />
                                             </div>
-                                           
                                         </div>
                                         <DialogFooter>
-                                            <Button type="submit" variant="destructive" onClick={handleRejected}>
+                                            <Button
+                                                type="submit"
+                                                variant="destructive"
+                                                onClick={handleRejected}
+                                            >
                                                 TOLAK
                                             </Button>
                                         </DialogFooter>
