@@ -19,7 +19,7 @@ import {
     CollapsibleTrigger,
 } from "@/Components/ui/collapsible";
 import { cn } from "@/lib/utils";
-
+import { Separator } from "./ui/separator";
 export function AppSidebar() {
     const [collapsed, setCollapsed] = useState(false);
 
@@ -50,13 +50,43 @@ export function AppSidebar() {
                 },
             ],
         },
+        {
+            title: "MASTER",
+            children: [
+                {
+                    title: "GURU",
+                    url: "/master/guru",
+                },
+                {
+                    title: "SISWA",
+                    url: "/master/siswa",
+                },
+                {
+                    title: "KELAS",
+                    url: "/master/kelas",
+                },
+            ],
+        },
     ];
 
     return (
         <Sidebar className="h-screen border-r" variant="inset">
             <SidebarHeader>
-                <h1 className="font-bold">ADMINISTRATOR</h1>
+                <Link
+                    href="/"
+                    className="w-full flex gap-3 items-center justify-center "
+                >
+                    <img
+                        className="w-12"
+                        src="https://github.com/user-attachments/assets/fcd299ec-0a77-4631-972e-53c47f982d3c"
+                        alt=""
+                    />
+
+                    <Separator orientation="vertical" color="black" />
+                    <h1 className="font-bold">ADMINISTRATOR</h1>
+                </Link>
             </SidebarHeader>
+            <Separator color="black" />
             <SidebarContent>
                 <SidebarMenu>
                     <SidebarMenuItem>

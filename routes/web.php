@@ -11,29 +11,29 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\StatController;
 use App\Http\Controllers\TamuController;
 use App\Http\Controllers\TerlambatController;
+use App\Http\Middleware\PermissionMiddleware;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get("/", HomeController::class);
+
+
+Route::middleware([PermissionMiddleware::class])->group(function(){
+    Route::get("/", HomeController::class);
+    
+    Route::get("/keluar", DispensasiController::class);
+    Route::get("/keluar/tambah", KeluarController::class);
+    Route::post("/keluar/store", [KeluarController::class, "store"]);
+    Route::get("/keluar/{id_dispen}", [DispensasiController::class, "dispensasi"]);
+    Route::post("/keluar/confirm", [DispensasiController::class, "confirm"]);
+});
 
 
 
-
-
-
-Route::get("/keluar", DispensasiController::class);
-Route::get("/keluar/tambah", KeluarController::class);
-Route::post("/keluar/store", [KeluarController::class, "store"]);
-Route::get("/keluar/{id_dispen}", [DispensasiController::class, "dispensasi"]);
-Route::post("/keluar/confirm", [DispensasiController::class, "confirm"]);
 
 Route::get("/masuk", TerlambatController::class);
 Route::get("/masuk/tambah", [TerlambatController::class, "tambah"]);
 Route::post("/masuk/store", [TerlambatController::class, "store"]);
 Route::get("/masuk/{id_masuk}", [TerlambatController::class, "detail"]);
-
-
-
 
 
 
@@ -66,10 +66,7 @@ Route::post("/master/guru/piket/store", [MasterController::class, "guruPiket"]);
 Route::delete("/master/guru/delete/{id_guru}", [GuruController::class, "delete"]);
 
 Route::get("/master", MasterController::class);
-
-
 Route::get("/terlambat/{id_masuk}", [TerlambatController::class, "detail"]);
-
 Route::get("/statistik", StatController::class);
 
 
