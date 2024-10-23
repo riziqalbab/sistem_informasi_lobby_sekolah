@@ -56,7 +56,7 @@ export default function Index() {
             <h1 className="font-bold text-center text-lg">
                 DAFTAR SISWA MELAKUKAN DISPENSASI
             </h1>
-            <main className="w-screen flex pt-5 items-center justify-center ">
+            <main className=" flex pt-5 items-center justify-center ">
                 <div className="container ">
                     <form action="" method="get" className="flex gap-2">
                         <Input

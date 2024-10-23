@@ -11,6 +11,7 @@ use App\Models\SiswaMasuk;
 use App\Models\Tamu;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class HomeController extends Controller
@@ -53,16 +54,43 @@ class HomeController extends Controller
             ->with('guru')
             ->get()->first();
 
-        $stat_one_month_dispen = DB::select("SELECT DATE(tanggal) AS tanggal, COUNT(*) AS count FROM siswa_dispen
-WHERE tanggal >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
-GROUP BY DATE(tanggal)
-ORDER BY DATE(tanggal) DESC");
+        //         $stat_one_month_dispen = DB::select("SELECT DATE(tanggal) AS tanggal, COUNT(*) AS count FROM siswa_dispen
+// WHERE tanggal >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+// GROUP BY DATE(tanggal)
+// ORDER BY DATE(tanggal) DESC");
+        $stat_one_month_dispen = DB::select("WITH RECURSIVE date_range AS (
+    SELECT CURDATE() - INTERVAL 30 DAY AS tanggal
+    UNION ALL
+    SELECT tanggal + INTERVAL 1 DAY FROM date_range
+    WHERE tanggal + INTERVAL 1 DAY <= CURDATE()
+)
+SELECT dr.tanggal, COALESCE(sd.jumlah_dispensasi, 0) AS jumlah_dispensasi
+FROM date_range dr
+LEFT JOIN (
+    SELECT DATE(tanggal) AS tanggal, COUNT(*) AS jumlah_dispensasi
+    FROM siswa_dispen
+    WHERE tanggal >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+    GROUP BY DATE(tanggal)
+) sd ON dr.tanggal = sd.tanggal
+ORDER BY dr.tanggal ASC");
 
 
-        $stat_one_month_terlambat = DB::select("SELECT DATE(tanggal) AS tanggal, COUNT(*) AS count FROM siswa_masuk
-WHERE tanggal >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
-GROUP BY DATE(tanggal)
-ORDER BY DATE(tanggal) DESC");
+        $stat_one_month_terlambat = DB::select("WITH RECURSIVE date_range AS (
+    SELECT CURDATE() - INTERVAL 30 DAY AS tanggal
+    UNION ALL
+    SELECT tanggal + INTERVAL 1 DAY FROM date_range
+    WHERE tanggal + INTERVAL 1 DAY <= CURDATE()
+)
+SELECT dr.tanggal, COALESCE(sm.count, 0) AS count
+FROM date_range dr
+LEFT JOIN (
+    SELECT DATE(tanggal) AS tanggal, COUNT(*) AS count
+    FROM siswa_masuk
+    WHERE tanggal >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+    GROUP BY DATE(tanggal)
+) sm ON dr.tanggal = sm.tanggal
+ORDER BY dr.tanggal ASC");
+
 
         $dispen_total = SiswaDispen::all()->count();
         $masuk_total = SiswaMasuk::all()->count();

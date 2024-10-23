@@ -38,9 +38,9 @@ import { router, usePage } from "@inertiajs/react";
 export default function Guru() {
     const { props }: any = usePage();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-
     const { guru } = props;
 
+    
     const [values, setValues] = useState<guru>({
         nama: "",
         mapel: "",
@@ -67,7 +67,6 @@ export default function Guru() {
     };
 
     const handleSubmitEdit = () => {
-    
         const values = {
             id_guru: idGuruEdit,
             nama_edit: namaEdit,
@@ -82,8 +81,6 @@ export default function Guru() {
         });
     };
 
-
-
     const handleClickEdit = (item: object_guru) => {
         setIdGuruEdit(item.id_guru)
         setWhatsappEdit(item.whatsapp);
@@ -94,8 +91,8 @@ export default function Guru() {
     return (
         <>
             <Navbar />
-            <div className="w-screen h-screen flex items-start justify-center">
-                <main className="w-screen flex items-center justify-center flex-col ">
+            <div className=" h-screen flex items-start justify-center">
+                <main className=" flex items-center justify-center flex-col ">
                     <div className="w-full container p-3">
                         <div className="flex items-center mb-10">
                             <Dialog>

@@ -62,7 +62,7 @@ function Siswa() {
     return (
         <>
             <Navbar />
-            <main className="w-screen flex items-center justify-center">
+            <main className=" flex items-center justify-center">
                 <Card className="w-full max-w-md mx-auto">
                     <form onSubmit={handleSubmit}>
                         <CardHeader>

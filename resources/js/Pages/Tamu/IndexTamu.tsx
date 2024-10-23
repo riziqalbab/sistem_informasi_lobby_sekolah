@@ -34,7 +34,7 @@ export default function IndexTamu() {
     return (
         <div className="overflow-x-hidden">
             <Navbar />
-            <main className="w-screen flex pt-5 items-center justify-center ">
+            <main className=" flex pt-5 items-center justify-center ">
                 <div className="container">
                 <h1 className="text-center font-bold text-xl">DATA BUKU TAMU</h1>
                 <br /><br />

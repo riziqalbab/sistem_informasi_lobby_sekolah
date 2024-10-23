@@ -94,9 +94,6 @@ export default function CreateTamu() {
             },
         });
     };
-
-    console.log(props);
-    
     return (
         <>
             <Toaster />
@@ -109,172 +106,183 @@ export default function CreateTamu() {
                     </Alert>
                 </div>
             )}
-            <Card className="w-full max-w-md mx-auto">
-                <CardHeader>
-                    <CardTitle>Buku Tamu</CardTitle>
-                    <CardDescription>
-                        Silakan isi form buku tamu sekolah kami
-                    </CardDescription>
-                </CardHeader>
+            <main className="flex items-center justify-center  p-5">
+                <Card className="w-full max-w-md mx-auto">
+                    <CardHeader>
+                        <CardTitle>Buku Tamu</CardTitle>
+                        <CardDescription>
+                            Silakan isi form buku tamu sekolah kami
+                        </CardDescription>
+                    </CardHeader>
 
-                <CardContent>
-                    <form onSubmit={handleSubmit}>
-                        <div className="grid w-full items-center gap-4">
-                            <div className="flex flex-col space-y-1.5">
-                                <Label htmlFor="nama">Nama Lengkap</Label>
-                                <Input
-                                    id="nama"
-                                    name="nama"
-                                    required
-                                    onChange={(e) => {
-                                        setNama(e.target.value);
-                                    }}
-                                />
-                                {props.errors.nama && (
-                                    <Alert variant="destructive">
-                                        <ExclamationTriangleIcon className="h-4 w-4" />
-                                        <AlertTitle>
-                                            {props.errors.nama}
-                                        </AlertTitle>
-                                    </Alert>
-                                )}
-                            </div>
-                            <div className="flex flex-col space-y-1.5">
-                                <Label htmlFor="instansi">
-                                    Instansi [Opsional]
-                                </Label>
-                                <Input
-                                    id="instansi"
-                                    name="instansi"
-                                    onChange={(e) => {
-                                        setInstansi(e.target.value);
-                                    }}
-                                />
-                            </div>
-                            <div className="flex flex-col space-y-1.5">
-                                <Label htmlFor="whatsapp">
-                                    Nomor Whatsapp [08xxxx]
-                                </Label>
-                                <Input
-                                    id="whatsapp"
-                                    name="whatsapp"
-                                    type="tel"
-                                    required
-                                    onChange={(e) => {
-                                        setWhatsapp(e.target.value);
-                                    }}
-                                />
-                                {props.errors.whatsapp && (
-                                    <Alert variant="destructive">
-                                        <ExclamationTriangleIcon className="h-4 w-4" />
-                                        <AlertTitle>
-                                            {props.errors.whatsapp}
-                                        </AlertTitle>
-                                    </Alert>
-                                )}
-                            </div>
-                            <div className="flex flex-col space-y-1.5">
-                                <Label htmlFor="tujuan">Tujuan Kunjungan</Label>
-                                <Input
-                                    onChange={(e) => setTujuan(e?.target.value)}
-                                    id="tujuan"
-                                    placeholder="Tujuan"
-                                    className="col-span-3"
-                                />
-                                {props.errors.tujuan && (
-                                    <Alert variant="destructive">
-                                        <ExclamationTriangleIcon className="h-4 w-4" />
-                                        <AlertTitle>
-                                            {props.errors.tujuan}
-                                        </AlertTitle>
-                                    </Alert>
-                                )}
-                            </div>
-                            <div className="flex flex-col space-y-1.5">
-                                <Label htmlFor="tujuan">
-                                    Staf Tujuan [Opsional]
-                                </Label>
-                                <Select
-                                // @ts-ignore
-                                    onChange={(e) => setStafTujuan(e?.value)}
-                                    id="guru"
-                                    placeholder="Guru"
-                                    options={optionGuru}
-                                    className="col-span-3"
-                                />
-                            </div>
-                            <div className="flex flex-col space-y-1.5">
-                                <Label htmlFor="keterangan">
-                                    Keterangan Tambahan
-                                </Label>
-                                <Textarea
-                                    id="keterangan"
-                                    name="keterangan"
-                                    onChange={(e) => {
-                                        setKetTambahan(e.target.value);
-                                    }}
-                                />
-                                {props.errors.keterangan && (
-                                    <Alert variant="destructive">
-                                        <ExclamationTriangleIcon className="h-4 w-4" />
-                                        <AlertTitle>
-                                            {props.errors.keterangan}
-                                        </AlertTitle>
-                                    </Alert>
-                                )}
-                            </div>
-                        </div>
-                    </form>
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button onClick={handleSubmit}>KIRIM</Button>
-                        </DialogTrigger>
-
-                        <DialogContent className="sm:max-w-[425px]">
-                            <DialogHeader>
-                                <DialogTitle className="text-center">
-                                    SIMPAN KODE QR BERIKUT
-                                </DialogTitle>
-                                <DialogDescription className="text-center"></DialogDescription>
-                                <br />
-                            </DialogHeader>
-                            {loading ? (
-                                <>
-                                    {props.errors && (
+                    <CardContent>
+                        <form onSubmit={handleSubmit}>
+                            <div className="grid w-full items-center gap-4">
+                                <div className="flex flex-col space-y-1.5">
+                                    <Label htmlFor="nama">Nama Lengkap</Label>
+                                    <Input
+                                        id="nama"
+                                        name="nama"
+                                        required
+                                        onChange={(e) => {
+                                            setNama(e.target.value);
+                                        }}
+                                    />
+                                    {props.errors.nama && (
                                         <Alert variant="destructive">
                                             <ExclamationTriangleIcon className="h-4 w-4" />
-                                            <AlertTitle>DATA BELUM LENGKAP</AlertTitle>
-                                            <AlertDescription>
-                                                Lengkapi data yang wajib diisi
-                                            </AlertDescription>
+                                            <AlertTitle>
+                                                {props.errors.nama}
+                                            </AlertTitle>
                                         </Alert>
                                     )}
+                                </div>
+                                <div className="flex flex-col space-y-1.5">
+                                    <Label htmlFor="instansi">
+                                        Instansi [Opsional]
+                                    </Label>
+                                    <Input
+                                        id="instansi"
+                                        name="instansi"
+                                        onChange={(e) => {
+                                            setInstansi(e.target.value);
+                                        }}
+                                    />
+                                </div>
+                                <div className="flex flex-col space-y-1.5">
+                                    <Label htmlFor="whatsapp">
+                                        Nomor Whatsapp [08xxxx]
+                                    </Label>
+                                    <Input
+                                        id="whatsapp"
+                                        name="whatsapp"
+                                        type="tel"
+                                        required
+                                        onChange={(e) => {
+                                            setWhatsapp(e.target.value);
+                                        }}
+                                    />
+                                    {props.errors.whatsapp && (
+                                        <Alert variant="destructive">
+                                            <ExclamationTriangleIcon className="h-4 w-4" />
+                                            <AlertTitle>
+                                                {props.errors.whatsapp}
+                                            </AlertTitle>
+                                        </Alert>
+                                    )}
+                                </div>
+                                <div className="flex flex-col space-y-1.5">
+                                    <Label htmlFor="tujuan">
+                                        Tujuan Kunjungan
+                                    </Label>
+                                    <Input
+                                        onChange={(e) =>
+                                            setTujuan(e?.target.value)
+                                        }
+                                        id="tujuan"
+                                        placeholder="Tujuan"
+                                        className="col-span-3"
+                                    />
+                                    {props.errors.tujuan && (
+                                        <Alert variant="destructive">
+                                            <ExclamationTriangleIcon className="h-4 w-4" />
+                                            <AlertTitle>
+                                                {props.errors.tujuan}
+                                            </AlertTitle>
+                                        </Alert>
+                                    )}
+                                </div>
+                                <div className="flex flex-col space-y-1.5">
+                                    <Label htmlFor="tujuan">
+                                        Staf Tujuan [Opsional]
+                                    </Label>
+                                    <Select
+                                        // @ts-ignore
+                                        onChange={(e) =>
+                                            setStafTujuan(e?.value)
+                                        }
+                                        id="guru"
+                                        placeholder="Guru"
+                                        options={optionGuru}
+                                        className="col-span-3"
+                                    />
+                                </div>
+                                <div className="flex flex-col space-y-1.5">
+                                    <Label htmlFor="keterangan">
+                                        Keterangan Tambahan
+                                    </Label>
+                                    <Textarea
+                                        id="keterangan"
+                                        name="keterangan"
+                                        onChange={(e) => {
+                                            setKetTambahan(e.target.value);
+                                        }}
+                                    />
+                                    {props.errors.keterangan && (
+                                        <Alert variant="destructive">
+                                            <ExclamationTriangleIcon className="h-4 w-4" />
+                                            <AlertTitle>
+                                                {props.errors.keterangan}
+                                            </AlertTitle>
+                                        </Alert>
+                                    )}
+                                </div>
+                            </div>
+                        </form>
+                    </CardContent>
+                    <CardFooter className="flex justify-between">
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button onClick={handleSubmit}>KIRIM</Button>
+                            </DialogTrigger>
 
-                                    <div className="space-y-2">
-                                        <Skeleton className="h-10 w-full" />
-                                        <Skeleton className="h-10 w-full" />
-                                        <Skeleton className="h-10 w-full" />
-                                        <Skeleton className="h-10 w-full" />
-                                    </div>
-                                </>
-                            ) : (
-                                <QRCode
-                                    size={256}
-                                    style={{
-                                        height: "auto",
-                                        maxWidth: "100%",
-                                        width: "100%",
-                                    }}
-                                    value={valueQr}
-                                    viewBox={`0 0 256 256`}
-                                />
-                            )}
-                        </DialogContent>
-                    </Dialog>
-                </CardFooter>
-            </Card>
+                            <DialogContent className="sm:max-w-[425px]">
+                                <DialogHeader>
+                                    <DialogTitle className="text-center">
+                                        SIMPAN KODE QR BERIKUT
+                                    </DialogTitle>
+                                    <DialogDescription className="text-center"></DialogDescription>
+                                    <br />
+                                </DialogHeader>
+                                {loading ? (
+                                    <>
+                                        {props.errors && (
+                                            <Alert variant="destructive">
+                                                <ExclamationTriangleIcon className="h-4 w-4" />
+                                                <AlertTitle>
+                                                    DATA BELUM LENGKAP
+                                                </AlertTitle>
+                                                <AlertDescription>
+                                                    Lengkapi data yang wajib
+                                                    diisi
+                                                </AlertDescription>
+                                            </Alert>
+                                        )}
+
+                                        <div className="space-y-2">
+                                            <Skeleton className="h-10 w-full" />
+                                            <Skeleton className="h-10 w-full" />
+                                            <Skeleton className="h-10 w-full" />
+                                            <Skeleton className="h-10 w-full" />
+                                        </div>
+                                    </>
+                                ) : (
+                                    <QRCode
+                                        size={256}
+                                        style={{
+                                            height: "auto",
+                                            maxWidth: "100%",
+                                            width: "100%",
+                                        }}
+                                        value={valueQr}
+                                        viewBox={`0 0 256 256`}
+                                    />
+                                )}
+                            </DialogContent>
+                        </Dialog>
+                    </CardFooter>
+                </Card>
+            </main>
         </>
     );
 }

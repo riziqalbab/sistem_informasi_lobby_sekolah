@@ -16,7 +16,7 @@ function IndexMaster() {
         <>
             <Navbar />
 
-            <main className="w-screen flex items-center justify-center flex-col">
+            <main className=" flex items-center justify-center flex-col">
                 <div className="container">
                     <Alert variant="destructive" className="my-5">
                         <ExclamationTriangleIcon className="h-4 w-4" />

@@ -129,7 +129,7 @@ function Keluar() {
             <Toaster />
             <Navbar />
 
-            <main className="flex w-screen items-center justify-center">
+            <main className="flex  items-center justify-center">
                 <div className="container  px-5 flex flex-col items-center ">
                     <form
                         className="flex gap-4 py-4 w-full max-w-2xl"

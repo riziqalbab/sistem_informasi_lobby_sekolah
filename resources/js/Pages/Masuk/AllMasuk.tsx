@@ -36,7 +36,7 @@ export default function AllDispensasi() {
     return (
         <div className="overflow-x-hidden">
             <Navbar />
-            <main className="w-screen flex pt-5 items-center justify-center ">
+            <main className=" flex pt-5 items-center justify-center ">
                 <div className="container">
                 <h1 className="text-center font-bold text-xl">DATA SISWA TERLAMBAT</h1>
                     <form action="" method="get" className="flex gap-2">

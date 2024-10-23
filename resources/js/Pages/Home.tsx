@@ -28,8 +28,9 @@ import { Chart } from "@/Components/Chart";
 function Home() {
     const [guruChoice, setGuruChoice] = useState<number>();
     const { props } = usePage();
-    const oneMonth: Array<any> = props.oneMonth as unknown as Array<any>
-    const oneMonthTerlambat: Array<any> = props.oneMonthTerlambat as unknown as Array<any>
+    const oneMonth: Array<any> = props.oneMonth as unknown as Array<any>;
+    const oneMonthTerlambat: Array<any> =
+        props.oneMonthTerlambat as unknown as Array<any>;
     const guru: object_guru[] = props.guru as object_guru[];
     const guru_piket = props.guru_piket as object_guru_piket;
 
@@ -46,15 +47,17 @@ function Home() {
         });
     };
 
-    
-    
+    console.log(props);
+
     return (
         <>
             <Navbar />
-            <main className="w-screen ">
-            <div className="w-full h-96 object-cover rounded-lg  bg-[url(https://github.com/user-attachments/assets/4aa4ff5b-bb47-45dc-bfc8-a2c952e81db3)] bg-left bg-cover flex items-center justify-center">
-                <h1 className="font-black text-slate-200 text-3xl text-center bg-slate-900 p-3 px-5 rounded-lg">LOBBY SMK NEGERI 1 KEBUMEN</h1>
-            </div>
+            <main>
+                <div className="w-full h-96 object-cover rounded-lg  bg-[url(https://github.com/user-attachments/assets/4aa4ff5b-bb47-45dc-bfc8-a2c952e81db3)] bg-left bg-cover flex items-center justify-center">
+                    <h1 className="font-black text-slate-200 text-3xl text-center bg-slate-900 p-3 px-5 rounded-lg">
+                        LOBBY SMK NEGERI 1 KEBUMEN
+                    </h1>
+                </div>
                 <div className="w-full p-5 relative mt-16 z-50">
                     {guru_piket == null ? (
                         <Alert variant="destructive" className="my-5">
@@ -99,7 +102,7 @@ function Home() {
                                                         id="guru"
                                                         onChange={(e) => {
                                                             setGuruChoice(
-                                                                e?.value 
+                                                                e?.value
                                                             );
                                                         }}
                                                         placeholder="Guru"
@@ -159,10 +162,16 @@ function Home() {
                         </Card> */}
                         <Card className="w-full max-w-lg">
                             <CardHeader className="-mb-3">
-                                <CardTitle>Total 2 Minggu Siswa Terlambat</CardTitle>
+                                <CardTitle>
+                                    Total 2 Minggu Siswa Terlambat
+                                </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">{props.two_weeks_count_terlambat as ReactNode}</div>
+                                <div className="text-2xl font-bold">
+                                    {
+                                        props.two_weeks_count_terlambat as ReactNode
+                                    }
+                                </div>
                                 <p className="text-xs text-muted-foreground">
                                     Data 2 minggu kebelakang
                                 </p>
@@ -171,12 +180,26 @@ function Home() {
                     </div>
                 </div>
                 <div className=" p-5 text-center">
-                    <h1 className="font-bold text-2xl mb-5 ">GRAFIK PERBANDINGAN DISPENSASI</h1>
+                    <h1 className="font-bold text-2xl mb-5 ">
+                        GRAFIK PERBANDINGAN DISPENSASI
+                    </h1>
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2 mb-8">
-                        <Chart data={oneMonth } description="Grafik dispensasi 1 bulan terkahir" keyX="tanggal" keyY="count" title="1 BULAN DISPENSASI" />
-                        <Chart data={oneMonthTerlambat } description="Grafik siswa terlambat 1 bulan terakhir" keyX="tanggal" keyY="count" title="1 BULAN SISWA TERLAMBAT" />
+                        <Chart
+                            data={oneMonth}
+                            description="Grafik dispensasi 1 bulan terkahir"
+                            keyX="tanggal"
+                            keyY="jumlah_dispensasi"
+                            title="1 BULAN DISPENSASI"
+                        />
+                        <Chart
+                            data={oneMonthTerlambat}
+                            description="Grafik siswa terlambat 1 bulan terakhir"
+                            keyX="tanggal"
+                            keyY="count"
+                            title="1 BULAN SISWA TERLAMBAT"
+                        />
                     </div>
-                    <Button variant='outline' className="border-green-600">
+                    <Button variant="outline" className="border-green-600">
                         <Link href="/statistik">GRAFIK LAINNYA</Link>
                     </Button>
                 </div>
