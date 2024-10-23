@@ -2,64 +2,56 @@ import {
     Sidebar,
     SidebarContent,
     SidebarFooter,
-    SidebarGroup,
-    SidebarGroupContent,
-    SidebarGroupLabel,
     SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
     SidebarRail,
 } from "@/Components/ui/sidebar";
-import {
-    ChevronLeft,
-    Icon,
-    LayoutDashboard,
-    LucideGitPullRequestCreate,
-    Menu,
-    Settings,
-} from "lucide-react";
+import { ChevronLeft, LayoutDashboard } from "lucide-react";
+
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Link } from "@inertiajs/react";
-
-const items = [
-    {
-        title: "Home",
-        url: "#",
-    },
-    {
-        title: "Inbox",
-        url: "#",
-    },
-    {
-        title: "Calendar",
-        url: "#",
-    },
-    {
-        title: "Search",
-        url: "#",
-    },
-    {
-        title: "Settings",
-        url: "#",
-    },
-];
-
-// <li>
-//                             <Link href="/tamu">TAMU</Link>
-//                         </li>
-//                         <li>
-//                             <Link href="/keluar">DISPENSASI</Link>
-//                         </li>
-//                         <li>
-//                             <Link href="/masuk">TERLAMBAT</Link>
-//                         </li>
-//                         <li>
-//                             <Link href="/statistik">STATISTIK</Link>
-//                         </li>
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from "@/Components/ui/collapsible";
+import { cn } from "@/lib/utils";
 
 export function AppSidebar() {
+    const [collapsed, setCollapsed] = useState(false);
+
+    const menu = [
+        {
+            title: "TAMU",
+            children: [
+                {
+                    title: "SEMUA TAMU",
+                    url: "/tamu",
+                },
+                {
+                    title: "TAMBAH TAMU",
+                    url: "/tamu/tambah",
+                },
+            ],
+        },
+        {
+            title: "DISPENSASI KELUAR",
+            children: [
+                {
+                    title: "SEMUA DISPENSASI",
+                    url: "/keluar",
+                },
+                {
+                    title: "TAMBAH DISPENSASI",
+                    url: "/keluar/tambah",
+                },
+            ],
+        },
+    ];
+
     return (
         <Sidebar className="h-screen border-r" variant="inset">
             <SidebarHeader>
@@ -78,18 +70,53 @@ export function AppSidebar() {
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
-                    <SidebarMenuItem></SidebarMenuItem>
-                    <SidebarMenuItem>
-                        <SidebarMenuButton>
-                            <Link href="/tamu">TAMU</Link>
-                        </SidebarMenuButton>
-                        <SidebarMenuButton>
-                            <Link href="/keluar">DISPENSASI</Link>
-                        </SidebarMenuButton>
-                        <SidebarMenuButton>
-                            <Link href="/masuk">TERLAMBAT</Link>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
+
+                    {menu.map((item, index) => (
+                        <SidebarMenuItem>
+                            <Collapsible>
+                                <CollapsibleTrigger asChild>
+                                    <SidebarMenuButton className="w-full justify-between">
+                                        <div className="flex items-center">
+                                            <span
+                                                className={cn(
+                                                    "ml-2",
+                                                    collapsed && "hidden"
+                                                )}
+                                            >
+                                                {item.title}
+                                            </span>
+                                        </div>
+                                        <ChevronLeft
+                                            className={cn(
+                                                "h-4 w-4 transition-transform"
+                                            )}
+                                        />
+                                    </SidebarMenuButton>
+                                </CollapsibleTrigger>
+                                <CollapsibleContent className="pl-6 pt-1">
+                                    {item.children.map((child) => (
+                                        <SidebarMenuButton
+                                            asChild
+                                            className="w-full justify-start py-1"
+                                        >
+                                            <Link
+                                                href={child.url}
+                                                className="w-full justify-start"
+                                            >
+                                                <span
+                                                    className={cn(
+                                                        collapsed && "hidden"
+                                                    )}
+                                                >
+                                                    {child.title}
+                                                </span>
+                                            </Link>
+                                        </SidebarMenuButton>
+                                    ))}
+                                </CollapsibleContent>
+                            </Collapsible>
+                        </SidebarMenuItem>
+                    ))}
                 </SidebarMenu>
             </SidebarContent>
             <SidebarFooter></SidebarFooter>
