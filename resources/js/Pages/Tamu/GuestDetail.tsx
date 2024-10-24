@@ -1,32 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import { Button } from "@/Components/ui/button";
-import { Input } from "@/Components/ui/input";
-import { Label } from "@/Components/ui/label";
-import { Textarea } from "@/Components/ui/textarea";
 import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/Components/ui/card";
-import { Badge } from "@/Components/ui/badge";
 import { Calendar, Clock, Building, Phone, MessageSquare } from "lucide-react";
 import { usePage } from "@inertiajs/react";
 
 export default function DetailTamu() {
+    // @ts-ignore
     const { props } = usePage();
-
     const tamu: tamu = props.tamu as tamu;
-    const [pesan, setPesan] = useState("");
-
-    const handlePesanChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setPesan(e.target.value);
-    };
-
     return (
         <div className="max-w-2xl mx-auto p-4">
             <div className="flex flex-col items-center justify-center gap-3 mb-10">
