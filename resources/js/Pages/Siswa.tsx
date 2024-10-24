@@ -16,6 +16,7 @@ import { router, usePage } from "@inertiajs/react";
 import { RocketIcon } from "@radix-ui/react-icons";
 
 import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
+import AppLayout from "@/Layouts/AppLayout";
 
 
 
@@ -60,8 +61,7 @@ function Siswa() {
     }
 
     return (
-        <>
-            <Navbar />
+        <AppLayout>
             <main className=" flex items-center justify-center">
                 <Card className="w-full max-w-md mx-auto">
                     <form onSubmit={handleSubmit}>
@@ -141,7 +141,7 @@ function Siswa() {
                     </form>
                 </Card>
             </main>
-        </>
+        </AppLayout>
     );
 }
 

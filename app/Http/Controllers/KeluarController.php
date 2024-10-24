@@ -179,9 +179,9 @@ $piket = GuruPiket::where('tanggal', $date_now)
 
 
 
-        // $result = $this->fonnteService->sendMessage($nomor_guru, $message_guru);
-        // $result_siswa = $this->fonnteService->sendMessage($request->post("whatsapp"), $message_siswa);
-        // $result_guru_piket = $this->fonnteService->sendMessage($piket["guru"]["whatsapp"], $message_piket);
+        $result = $this->fonnteService->sendMessage($nomor_guru, $message_guru);
+        $result_siswa = $this->fonnteService->sendMessage($request->post("whatsapp"), $message_siswa);
+        $result_guru_piket = $this->fonnteService->sendMessage($piket["guru"]["whatsapp"], $message_piket);
         return redirect()->back()->with([
             "success"=> true,
             "id_dispensasi"=>$id_dispen

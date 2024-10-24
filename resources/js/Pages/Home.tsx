@@ -24,6 +24,7 @@ import Select from "react-select";
 import { ReactNode, useState } from "react";
 import { Link, router, usePage } from "@inertiajs/react";
 import { Chart } from "@/Components/Chart";
+import AppLayout from "@/Layouts/AppLayout";
 
 function Home() {
     const [guruChoice, setGuruChoice] = useState<number>();
@@ -50,8 +51,7 @@ function Home() {
     console.log(props);
 
     return (
-        <>
-            <Navbar />
+        <AppLayout>
             <main>
                 <div className="w-full h-96 object-cover rounded-lg  bg-[url(https://github.com/user-attachments/assets/4aa4ff5b-bb47-45dc-bfc8-a2c952e81db3)] bg-left bg-cover flex items-center justify-center">
                     <h1 className="font-black text-slate-200 text-3xl text-center bg-slate-900 p-3 px-5 rounded-lg">
@@ -204,7 +204,7 @@ function Home() {
                     </Button>
                 </div>
             </main>
-        </>
+        </AppLayout>
     );
 }
 

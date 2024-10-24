@@ -29,6 +29,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/Components/ui/card";
 import Navbar from "@/Components/Navbar";
 import { router, usePage } from "@inertiajs/react";
 import Edit from "../Profile/Edit";
+import AppLayout from "@/Layouts/AppLayout";
 
 export default function ClassManagement() {
     const [inputKelas, setInputKelas] = useState<string>();
@@ -67,8 +68,8 @@ export default function ClassManagement() {
     };
 
     return (
-        <>
-            <Navbar />
+        <AppLayout>
+            
             <div className="container mx-auto p-4">
                 <h1 className="text-2xl font-bold mb-4">
                     KELAS | <span className="text-red-500">MASTER DATA</span>
@@ -213,6 +214,6 @@ export default function ClassManagement() {
                     </CardContent>
                 </Card>
             </div>
-        </>
+        </AppLayout>
     );
 }

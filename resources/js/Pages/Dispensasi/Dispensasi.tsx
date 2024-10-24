@@ -10,7 +10,6 @@ import { ScrollArea } from "@/Components/ui/scroll-area";
 import { Clock, Phone } from "lucide-react";
 import { router, usePage } from "@inertiajs/react";
 import { Button } from "@/Components/ui/button";
-
 import {
     Dialog,
     DialogContent,
@@ -38,7 +37,10 @@ interface DispensasiInfo {
     deskripsi: string;
     siswa: {
         nama: string;
-        kelas: string;
+        kelas: {
+            id_number: number;
+            nama: string;
+        };
         nis: number;
     }[];
 }
@@ -81,13 +83,18 @@ export default function DetailDispensasi() {
 
     return (
         <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4">
-                Detail Informasi Dispensasi
-            </h1>
+            <div className="flex flex-col items-center justify-center gap-3 mb-10">
+                <img
+                    className="w-24"
+                    src="https://github.com/user-attachments/assets/fcd299ec-0a77-4631-972e-53c47f982d3c"
+                    alt=""
+                />
+                <h1 className="font-black text-xl">SMK NEGERI 1 KEBUMEN</h1>
+            </div>
             <div className="grid gap-4 md:grid-cols-2">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Informasi Umum</CardTitle>
+                        <CardTitle>Detail Informasi Dispensasi</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <Badge
@@ -230,7 +237,7 @@ export default function DetailDispensasi() {
                                                 {siswa.nama}
                                             </p>
                                             <p className="text-sm text-muted-foreground">
-                                                {siswa.kelas}
+                                                {siswa.kelas.nama}
                                             </p>
                                         </div>
                                     </div>

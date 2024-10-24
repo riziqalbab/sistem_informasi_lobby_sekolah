@@ -34,6 +34,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
 
 import React, { useState } from "react";
 import { router, usePage } from "@inertiajs/react";
+import AppLayout from "@/Layouts/AppLayout";
 
 export default function Guru() {
     const { props }: any = usePage();
@@ -89,8 +90,7 @@ export default function Guru() {
     };
 
     return (
-        <>
-            <Navbar />
+        <AppLayout>
             <div className=" h-screen flex items-start justify-center">
                 <main className=" flex items-center justify-center flex-col ">
                     <div className="w-full container p-3">
@@ -385,6 +385,6 @@ export default function Guru() {
                     </div>
                 </main>
             </div>
-        </>
+        </AppLayout>
     );
 }

@@ -38,7 +38,7 @@ class DispensasiController extends Controller
         try {
             $dispensasi = Dispen::findOrFail($id_dispen)->toArray();
 
-            $siswa = SiswaDispen::where("id_dispen", $id_dispen)->get()->toArray();
+            $siswa = SiswaDispen::with("kelas")->where("id_dispen", $id_dispen)->get()->toArray();
 
             $guru = Guru::where("id_guru", $dispensasi["id_guru"])->firstOrFail()->toArray();
             $guru_piket = Guru::where("id_guru", $dispensasi["id_guru_piket"])->firstOrFail()->toArray();

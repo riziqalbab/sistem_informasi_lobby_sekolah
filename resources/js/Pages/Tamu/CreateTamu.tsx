@@ -33,6 +33,7 @@ import { router, usePage } from "@inertiajs/react";
 import { Toaster } from "@/Components/ui/toaster";
 import { useToast } from "@/hooks/use-toast";
 import QRCode from "react-qr-code";
+import AppLayout from "@/Layouts/AppLayout";
 
 export default function CreateTamu() {
     const { props } = usePage();
@@ -95,9 +96,8 @@ export default function CreateTamu() {
         });
     };
     return (
-        <>
+        <AppLayout>
             <Toaster />
-            <Navbar />
             {props.errors.id_guru_piket && (
                 <div className="p-5">
                     <Alert variant="destructive">
@@ -197,8 +197,8 @@ export default function CreateTamu() {
                                         Staf Tujuan [Opsional]
                                     </Label>
                                     <Select
-                                        // @ts-ignore
                                         onChange={(e) =>
+                                            // @ts-ignore
                                             setStafTujuan(e?.value)
                                         }
                                         id="guru"
@@ -283,6 +283,6 @@ export default function CreateTamu() {
                     </CardFooter>
                 </Card>
             </main>
-        </>
+        </AppLayout>
     );
 }

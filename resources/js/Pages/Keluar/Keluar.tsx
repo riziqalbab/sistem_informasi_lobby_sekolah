@@ -23,6 +23,7 @@ import { router, usePage } from "@inertiajs/react";
 import Select from "react-select";
 
 import QRCode from "react-qr-code";
+import AppLayout from "@/Layouts/AppLayout";
 
 const optionsAlasan: Array<object_option_alasan> = [
     { value: "organisasi", label: "Organisasi" },
@@ -125,7 +126,7 @@ function Keluar() {
     }, [isDialogOpen]);
 
     return (
-        <>
+        <AppLayout>
             <Toaster />
             <Navbar />
 
@@ -485,7 +486,7 @@ function Keluar() {
                     </section>
                 </div>
             </main>
-        </>
+        </AppLayout>
     );
 }
 

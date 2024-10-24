@@ -30,6 +30,7 @@ import { toast, useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/Components/ui/toaster";
 import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
 import QRCode from "react-qr-code";
+import AppLayout from "@/Layouts/AppLayout";
 
 function Masuk() {
     const { props } = usePage();
@@ -119,7 +120,7 @@ function Masuk() {
     console.log(props);
 
     return (
-        <>
+        <AppLayout>
             <Toaster />
             <Navbar />
             <main className=" flex items-center justify-center">
@@ -292,7 +293,7 @@ function Masuk() {
                     </CardFooter>
                 </Card>
             </main>
-        </>
+        </AppLayout>
     );
 }
 

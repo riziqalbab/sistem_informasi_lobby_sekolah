@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DispensasiController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
@@ -16,16 +17,16 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 
+Route::get("/", HomeController::class);
 
-Route::middleware([PermissionMiddleware::class])->group(function(){
-    Route::get("/", HomeController::class);
-    
-    Route::get("/keluar", DispensasiController::class);
-    Route::get("/keluar/tambah", KeluarController::class);
-    Route::post("/keluar/store", [KeluarController::class, "store"]);
-    Route::get("/keluar/{id_dispen}", [DispensasiController::class, "dispensasi"]);
-    Route::post("/keluar/confirm", [DispensasiController::class, "confirm"]);
-});
+Route::get("/keluar", DispensasiController::class);
+Route::get("/keluar/tambah", KeluarController::class);
+Route::post("/keluar/store", [KeluarController::class, "store"]);
+Route::get("/keluar/{id_dispen}", [DispensasiController::class, "dispensasi"]);
+Route::post("/keluar/confirm", [DispensasiController::class, "confirm"]);
+
+// Route::middleware([PermissionMiddleware::class])->group(function(){
+// });
 
 
 
@@ -72,7 +73,9 @@ Route::get("/statistik", StatController::class);
 
 
 
-
+Route::middleware(PermissionMiddleware::class)->group(function () {
+    Route::get("/admin", AdminController::class);
+});
 
 
 

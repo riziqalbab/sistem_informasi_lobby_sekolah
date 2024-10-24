@@ -34,25 +34,6 @@ export default function DetailTamu() {
     const { props } = usePage();
 
     const tamu: tamu = props.tamu as tamu;
-    const [bukuTamu, setBukuTamu] = useState(bukuTamuData);
-    const [pesan, setPesan] = useState("");
-
-    const handleStatusChange = () => {
-        setBukuTamu((prevState) => ({
-            ...prevState,
-            status: prevState.status === "Aktif" ? "Selesai" : "Aktif",
-        }));
-    };
-
-    const handlePesanChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setPesan(e.target.value);
-    };
-
-    const handleKirimPesan = () => {
-        console.log("Pesan terkirim:", pesan);
-        alert("Pesan telah terkirim ke tamu!");
-        setPesan("");
-    };
 
     const handleAccept = () => {
         const values = {
@@ -68,6 +49,14 @@ export default function DetailTamu() {
         <>
             <Navbar />
             <main className="max-w-2xl mx-auto p-4">
+                <div className="flex flex-col items-center justify-center gap-3 mb-10">
+                    <img
+                        className="w-24"
+                        src="https://github.com/user-attachments/assets/fcd299ec-0a77-4631-972e-53c47f982d3c"
+                        alt=""
+                    />
+                    <h1 className="font-black text-xl">SMK NEGERI 1 KEBUMEN</h1>
+                </div>
                 <Card>
                     <CardHeader>
                         <CardTitle className="text-2xl">

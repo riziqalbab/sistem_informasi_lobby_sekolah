@@ -1,5 +1,6 @@
 import { Chart } from "@/Components/Chart";
 import Navbar from "@/Components/Navbar";
+import AppLayout from "@/Layouts/AppLayout";
 import { usePage } from "@inertiajs/react";
 
 function IndexStat() {
@@ -9,8 +10,7 @@ function IndexStat() {
     const perbandingan_dispen_terlambat: Array<any> = props.perbandingan_dispen_terlambat as Array<any>
 
     return (
-        <>
-            <Navbar />
+        <AppLayout>
             <main>
                 <h1 className="text-center text-3xl font-black">GRAFIK STATISTIK</h1>
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-8 p-5">
@@ -38,7 +38,7 @@ function IndexStat() {
                     />
                 </div>
             </main>
-        </>
+        </AppLayout>
     );
 }
 

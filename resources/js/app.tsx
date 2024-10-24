@@ -24,14 +24,7 @@ createInertiaApp({
         root.render(
             <>
                 <SidebarProvider>
-                    <AppSidebar />
-
-                    <SidebarInset>
-
-                    <main>
-                        <App {...props} />
-                    </main>
-                    </SidebarInset>
+                    <App {...props} />
                 </SidebarProvider>
             </>
         );

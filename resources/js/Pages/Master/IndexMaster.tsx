@@ -10,12 +10,12 @@ import { Alert, AlertDescription, AlertTitle } from "@/Components/ui/alert";
 import Navbar from "@/Components/Navbar";
 import { Link } from "@inertiajs/react";
 import { Button } from "@/Components/ui/button";
+import AppLayout from "@/Layouts/AppLayout";
 
 function IndexMaster() {
     return (
-        <>
-            <Navbar />
-
+        <AppLayout>
+          
             <main className=" flex items-center justify-center flex-col">
                 <div className="container">
                     <Alert variant="destructive" className="my-5">
@@ -59,7 +59,7 @@ function IndexMaster() {
                     </Card>
                 </div>
             </main>
-        </>
+        </AppLayout>
     );
 }
 

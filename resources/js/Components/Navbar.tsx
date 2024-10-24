@@ -4,8 +4,8 @@ import { SidebarTrigger } from "./ui/sidebar";
 function Navbar() {
     return (
         <>
-            <nav className="navbar bg-base-100">
-                <div className="navbar-start">
+            <nav className="navbar bg-white">
+                <div className="navbar-start ">
                     <SidebarTrigger />
                     <Link href="/" className="btn btn-ghost lg:text-xl">
                         LOBBY | SMK NEGERI 1 KEBUMEN
