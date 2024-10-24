@@ -128,7 +128,6 @@ function Keluar() {
     return (
         <AppLayout>
             <Toaster />
-            <Navbar />
 
             <main className="flex  items-center justify-center">
                 <div className="container  px-5 flex flex-col items-center ">

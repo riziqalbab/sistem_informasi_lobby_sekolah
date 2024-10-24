@@ -14,13 +14,21 @@ class UsersRoleSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::create([
-            "nama" => "admin"
+        Role::insert([
+            [
+                "nama"=> "root"
+            ],
+            [
+                "nama"=> "admin"
+            ],
+            [
+                "nama"=> "piket"
+            ],
         ]);
 
         Permission::create([
             "id_role" => 1,
-            "nama" => "admin"
+            "nama" => "/admin"
         ]);
     }
 }

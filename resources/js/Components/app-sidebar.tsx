@@ -11,8 +11,8 @@ import {
 import { ChevronLeft, LayoutDashboard } from "lucide-react";
 
 import { useState } from "react";
-import { Button } from "./ui/button";
-import { Link } from "@inertiajs/react";
+
+import { Link, usePage } from "@inertiajs/react";
 import {
     Collapsible,
     CollapsibleContent,
@@ -69,6 +69,8 @@ export function AppSidebar() {
         },
     ];
 
+    const { props } = usePage();
+
     return (
         <Sidebar className="h-screen border-r" variant="inset">
             <SidebarHeader>
@@ -83,7 +85,7 @@ export function AppSidebar() {
                     />
 
                     <Separator orientation="vertical" color="black" />
-                    <h1 className="font-bold">ADMINISTRATOR</h1>
+                    <h1 className="font-bold">{props.auth.user.name }</h1>
                 </Link>
             </SidebarHeader>
             <Separator color="black" />

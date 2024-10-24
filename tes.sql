@@ -79,3 +79,15 @@ LEFT JOIN (
     GROUP BY DATE(tanggal)
 ) siswa_masuk ON date_range.tanggal = siswa_masuk.tanggal
 ORDER BY date_range.tanggal DESC;
+
+
+
+
+-- 
+
+SELECT roles.nama AS nama_role 
+FROM permission 
+INNER JOIN roles ON permission.id_role = roles.id_role;
+
+
+SELECT permission.nama AS nama_permission FROM permission INNER JOIN roles ON permission.id_role = roles.id_role WHERE roles.nama='admin'

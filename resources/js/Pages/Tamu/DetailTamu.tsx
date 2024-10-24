@@ -17,6 +17,7 @@ import { Badge } from "@/Components/ui/badge";
 import { Calendar, Clock, Building, Phone, MessageSquare } from "lucide-react";
 import { router, usePage } from "@inertiajs/react";
 import Navbar from "@/Components/Navbar";
+import AppLayout from "@/Layouts/AppLayout";
 
 const bukuTamuData = {
     id: "BT001",
@@ -46,8 +47,7 @@ export default function DetailTamu() {
     };
 
     return (
-        <>
-            <Navbar />
+        <AppLayout>
             <main className="max-w-2xl mx-auto p-4">
                 <div className="flex flex-col items-center justify-center gap-3 mb-10">
                     <img
@@ -125,6 +125,6 @@ export default function DetailTamu() {
                     </CardFooter>
                 </Card>
             </main>
-        </>
+        </AppLayout>
     );
 }
