@@ -91,3 +91,6 @@ INNER JOIN roles ON permission.id_role = roles.id_role;
 
 
 SELECT permission.nama AS nama_permission FROM permission INNER JOIN roles ON permission.id_role = roles.id_role WHERE roles.nama='admin'
+-- 
+
+SELECT permission.id_permission, permission.nama AS path, roles.nama AS nama_role FROM permission JOIN roles ON permission.id_role = roles.id_role

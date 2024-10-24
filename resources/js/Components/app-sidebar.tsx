@@ -9,7 +9,7 @@ import {
     SidebarRail,
 } from "@/Components/ui/sidebar";
 import { ChevronLeft, LayoutDashboard } from "lucide-react";
-
+import Dropdown from "@/Components/Dropdown";
 import { useState } from "react";
 
 import { Link, usePage } from "@inertiajs/react";
@@ -51,6 +51,19 @@ export function AppSidebar() {
             ],
         },
         {
+            title: "TERLAMBAT",
+            children: [
+                {
+                    title: "SEMUA TERLAMBAT",
+                    url: "/masuk",
+                },
+                {
+                    title: "TAMBAH TERLAMBAT",
+                    url: "/masuk/tambah",
+                },
+            ],
+        },
+        {
             title: "MASTER",
             children: [
                 {
@@ -65,6 +78,16 @@ export function AppSidebar() {
                     title: "KELAS",
                     url: "/master/kelas",
                 },
+            ],
+        },
+        {
+            title: "ADMIN",
+            children: [
+                {
+                    title: "PERMISSION",
+                    url: "/admin/path",
+                },
+                
             ],
         },
     ];
@@ -85,7 +108,7 @@ export function AppSidebar() {
                     />
 
                     <Separator orientation="vertical" color="black" />
-                    <h1 className="font-bold">{props.auth.user.name }</h1>
+                    <h1 className="font-bold">{props.auth.user.name}</h1>
                 </Link>
             </SidebarHeader>
             <Separator color="black" />
@@ -151,7 +174,12 @@ export function AppSidebar() {
                     ))}
                 </SidebarMenu>
             </SidebarContent>
-            <SidebarFooter></SidebarFooter>
+
+            <SidebarFooter>
+                <Dropdown.Link href={route("logout")} method="post" as="button">
+                    Log Out
+                </Dropdown.Link>
+            </SidebarFooter>
             <SidebarRail />
         </Sidebar>
     );

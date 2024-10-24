@@ -36,7 +36,7 @@ export default function AllDispensasi() {
     return (
         <AppLayout>
             <div className="overflow-x-hidden">
-                <Navbar />
+                
                 <main className=" flex pt-5 items-center justify-center ">
                     <div className="container">
                         <h1 className="text-center font-bold text-xl">

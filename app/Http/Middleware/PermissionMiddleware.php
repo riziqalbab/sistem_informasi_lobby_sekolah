@@ -16,11 +16,12 @@ class PermissionMiddleware
     {
 
         $id_role = $request->user()->id_role;
-        $role = Role::find($id_role)->permission;
+        $role = Role::find($id_role);
         $path = $request->path();
         $permission = DB::select("SELECT permission.nama AS nama_permission FROM permission INNER JOIN roles ON permission.id_role = $id_role WHERE roles.nama='$path'");
 
-        if ($permission) {
+        Log::info($role->nama);
+        if ($permission || $role->nama == "root") {
             return $next($request);
         }
 

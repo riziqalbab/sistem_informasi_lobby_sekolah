@@ -122,7 +122,6 @@ function Masuk() {
     return (
         <AppLayout>
             <Toaster />
-            <Navbar />
             <main className=" flex items-center justify-center">
                 <Card className="w-full max-w-2xl mx-auto">
                     {!props.guru_piket && (

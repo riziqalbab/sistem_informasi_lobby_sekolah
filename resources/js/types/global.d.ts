@@ -14,6 +14,15 @@ declare global {
         subject: string;
         whatsapp: string;
     }
+    interface roles {
+        id_role: number;
+        nama: string;
+    }
+    interface RoutePermission {
+        id_permission: number;
+        path: string;
+        nama_role: string;
+    }
 
     interface GuruObject {
         id_guru: number;
@@ -99,11 +108,11 @@ declare global {
             id_kelas: number;
             nama: string;
         };
-        dispen:{
-            id_dispen: number
-            status: string
-            whatsapp: string
-        }
+        dispen: {
+            id_dispen: number;
+            status: string;
+            whatsapp: string;
+        };
         nama: string;
         nis: number;
         tanggal: string;
